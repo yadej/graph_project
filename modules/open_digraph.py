@@ -31,6 +31,19 @@ class node:
     def get_children_id(self):
         return self.children
 
+        # setters node
+        def set_id(self, id2):
+            self.id = id2
+
+        def set_label(self, label2):
+            self.label = label2
+
+        def set_parents_ids(self, par2):
+            self.parents = par2
+
+        def set_children_ids(self, ch2):
+            self.children = ch2
+
 
 class open_digraph:  # for open directed graph
 
