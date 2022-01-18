@@ -37,6 +37,12 @@ class open_digraph:  # for open directed graph
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
+
+        def get_input_ids(self):
+            return self.inputs
+
+        def get_output_ids(self):
+            return self.outputs
         
     def __str__(self):
         return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes}'
