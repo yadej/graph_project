@@ -1,4 +1,5 @@
 class node:
+    
     def __init__(self, identity, label, parents, children):
         '''
         identity: int; its unique id in the graph
@@ -12,6 +13,7 @@ class node:
         self.children = children
 
 class open_digraph: # for open directed graph
+    
     def __init__(self, inputs, outputs, nodes):
         '''
         inputs: int list; the ids of the input nodes
@@ -21,4 +23,6 @@ class open_digraph: # for open directed graph
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
-    def __str__(self, ...)
+        
+    def __str__(self):
+        print('inputs: ' + self.inputs + 'outputs' + self.outputs + 'nodes' + self.nodes)
