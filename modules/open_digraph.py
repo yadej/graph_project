@@ -28,4 +28,4 @@ class open_digraph: # for open directed graph
         self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
         
     def __str__(self):
-        return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes}'
+        return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes.__str__}'
