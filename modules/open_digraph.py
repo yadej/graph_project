@@ -11,6 +11,9 @@ class node:
         self.label = label
         self.parents = parents
         self.children = children
+        
+    def __str__(self):
+        return f'identity: {self.id}, label: {self.label}, children: {self.children}'
 
 class open_digraph: # for open directed graph
     
