@@ -14,6 +14,9 @@ class node:
         
     def __str__(self):
         return f'identity: {self.id}, label: {self.label}, children: {self.children}'
+        
+    def __repr__(self):
+        
 
     # getters node
     def get_id(self):
@@ -41,12 +44,15 @@ class open_digraph:  # for open directed graph
         self.outputs = outputs
         self.nodes = {node.id: node for node in nodes}  # self.nodes: <int,node> dict
 
-        # getters open_digraph
-        def get_input_ids(self):
-            return self.inputs
-
-        def get_output_ids(self):
-            return self.outputs
-
     def __str__(self):
         return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes.__str__}'
+
+    def __repr__(self):
+        
+
+    # getters open_digraph
+    def get_input_ids(self):
+        return self.inputs
+
+    def get_output_ids(self):
+        return self.outputs
