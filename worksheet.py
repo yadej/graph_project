@@ -1,1 +1,1 @@
-print('hello world')
+from modules.open_digraph import *
