@@ -20,10 +20,10 @@ class node:
             return self.label
 
         def get_parents_id(self):
-            return self.parents.id
+            return self.parents
 
         def get_children_id(self):
-            return self.children.id
+            return self.children
 
 
 class open_digraph:  # for open directed graph
@@ -36,11 +36,7 @@ class open_digraph:  # for open directed graph
         '''
         self.inputs = inputs
         self.outputs = outputs
-<<<<<<< HEAD
-        self.nodes = {node.id: node for node in nodes}  # self.nodes: <int,node> dict
-=======
         self.nodes = {node.id:node for node in nodes} # self.nodes: <int,node> dict
         
     def __str__(self):
-        print('inputs: ' + self.inputs + 'outputs' + self.outputs + 'nodes' + self.nodes)
->>>>>>> 2c45d01fb0c208dfcaed035f0a4647b0d45578ff
+        return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes}'
