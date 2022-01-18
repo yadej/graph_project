@@ -15,8 +15,22 @@ class node:
     def __str__(self):
         return f'identity: {self.id}, label: {self.label}, children: {self.children}'
 
-class open_digraph: # for open directed graph
-    
+
+        def get_id(self):
+            return self.id
+
+        def get_label(self):
+            return self.label
+
+        def get_parents_id(self):
+            return self.parents
+
+        def get_children_id(self):
+            return self.children
+
+
+class open_digraph:  # for open directed graph
+
     def __init__(self, inputs, outputs, nodes):
         '''
         inputs: int list; the ids of the input nodes
