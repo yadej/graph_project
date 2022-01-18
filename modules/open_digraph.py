@@ -15,18 +15,18 @@ class node:
     def __str__(self):
         return f'identity: {self.id}, label: {self.label}, children: {self.children}'
 
-        # getters node
-        def get_id(self):
-            return self.id
+    # getters node
+    def get_id(self):
+        return self.id
 
-        def get_label(self):
-            return self.label
+    def get_label(self):
+        return self.label
 
-        def get_parents_id(self):
-            return self.parents
+    def get_parents_id(self):
+        return self.parents
 
-        def get_children_id(self):
-            return self.children
+    def get_children_id(self):
+        return self.children
 
 
 class open_digraph:  # for open directed graph
