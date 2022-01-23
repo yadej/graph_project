@@ -16,14 +16,11 @@ class InitTest(unittest.TestCase):
         self.assertEqual(n0.parents, {})
         self.assertEqual(n0.children, {1: 1})
         self.assertIsInstance(n0, node)
-
-
-if __name__ == '__main__':  # the following code is called only when
-    unittest.main()  # precisely this file is run
+        self.assertIsNot(n0.copy(),n0)
 
 
 class NodeTest(unittest.TestCase):
-    def SetUp(self):
+    def setUp(self):
         self.n0 = node(0, 'a', [], [1])
 
     def test_get_id(self):
@@ -32,3 +29,6 @@ class NodeTest(unittest.TestCase):
 
     def test_get_label(self):
         self.assertEqual(self.n0.get_label(), 'a')
+
+if __name__ == '__main__':  # the following code is called only when
+    unittest.main()  # precisely this file is run
