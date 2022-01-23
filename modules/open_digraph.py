@@ -88,7 +88,7 @@ class open_digraph:  # for open directed graph
         return self.nodes.values()
     
     def get_node_ids(self):
-        return self.nodes.values().get_id()
+        return [i.get_id for i in self.nodes.values() ]
     
     #setters open_diagraph
     def set_input_ids(self,id2):
@@ -105,6 +105,21 @@ class open_digraph:  # for open directed graph
     
     def copy(self):
         self = copy.copy(self)
+        
+    def new_id(self):
+        k = self.get_node_ids().sorted()
+        p = 1
+        m = 0
+        while true:
+            if k[m] == p:
+                m,p = m + 1, p + 1
+            else:
+                break
+        return p
+    
+    def add_edge(self, src, tgt):
+        pass
+        
     @classmethod
     def empty(cls):
         return cls(0,0, {})
