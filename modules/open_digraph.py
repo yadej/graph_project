@@ -142,5 +142,18 @@ class open_digraph:  # for open directed graph
     def add_edge(self, src, tgt):
         pass
         
+
     def add_node(self, label='', parents=, children=):
         pass
+    #TD2exo2
+    def remove_edge(self, src, tgt):
+        self.pop(tgt, src)
+        return self
+
+    def remove_parallel_edges(self, src, tgt):
+        while True:
+            self.remove_edge(src, tgt)
+
+    def remove_node_by_id(self):
+        pass
+
