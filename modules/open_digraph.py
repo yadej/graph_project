@@ -54,6 +54,18 @@ class node:
     # copy function
     def copy(self):
         return copy.copy(self)
+    #TD2exo1
+    def remove_parent_once(self, i):
+        self.get_parent_ids.pop(i)
+    
+    def remove_child_once(self, i):
+        self.get_children_ids.pop(i)
+    
+    def remove_parent_id(self, i):
+        pass
+    
+    def remove_child_id(self, i):
+        pass
 
 
 class open_digraph:  # for open directed graph
@@ -73,6 +85,10 @@ class open_digraph:  # for open directed graph
 
     def __repr__(self):
          return str(self)
+         
+    @classmethod
+    def empty(cls):
+        return cls(0,0, {})
 
     # getters open_digraph
     def get_input_ids(self):
@@ -150,6 +166,18 @@ class open_digraph:  # for open directed graph
         for i in children.keys():
             self.nodes[i].add_parent_id(k)
         
-    @classmethod
-    def empty(cls):
-        return cls(0,0, {})
+
+    def add_node(self, label='', parents=, children=):
+        pass
+    #TD2exo2
+    def remove_edge(self, src, tgt):
+        self.pop(tgt, src)
+        return self
+
+    def remove_parallel_edges(self, src, tgt):
+        while True:
+            self.remove_edge(src, tgt)
+
+    def remove_node_by_id(self):
+        pass
+
