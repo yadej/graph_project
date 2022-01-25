@@ -47,25 +47,32 @@ class node:
             self.children = c
             
     def add_child_id(self,i):
-            self.children.append(i)
+            self.children[i] = self.children.get(i,0)+ 1 
         
     def add_parent_id(self,i):
-            self.parents.append(i)
+            self.parents[i] = self.parents.get(i,0)+ 1 
     # copy function
     def copy(self):
         return copy.copy(self)
     #TD2exo1
     def remove_parent_once(self, i):
-        self.get_parent_ids.pop(i)
+        
+        self.parents[i] = self.parents.get(i,0) - 1
+        if(self.parents[i] <=  0):
+            self.parents.pop(i)
     
     def remove_child_once(self, i):
-        self.get_children_ids.pop(i)
+        self.children[i] = self.children.get(i,0) - 1
+        if(self.children[i] <=  0):
+            self.children.pop(i)
     
     def remove_parent_id(self, i):
-        pass
+        self.parents[i] = 0
+        self.parents.pop(i)
     
     def remove_child_id(self, i):
-        pass
+        self.children[i] = 0
+        self.children.pop(i)
 
 
 class open_digraph:  # for open directed graph
@@ -141,22 +148,10 @@ class open_digraph:  # for open directed graph
         return p
     
     def add_edge(self, src, tgt):
-        k1 = self.get_node_by_id(src).get_children_ids().keys()
-        k2 = self.get_node_by_id(tgt).get_parent_ids().keys()
-        p = True
-        for i in k1:
-            if i == tgt:
-                p = False
-                break
-        if p :
-            self.get_node_by_id(src).add_child_id(tgt)
-        p = True
-        for i in k2:
-            if i == src:
-                p = False
-                break
-        if p :
-            self.get_node_by_id(tgt).add_child_id(src)
+        
+      
+        self.get_node_by_id(src).add_child_id(tgt)
+        self.get_node_by_id(tgt).add_child_id(src)
             
     def add_node(self, label='', parents={},children={}):
         k = self.new_id()
@@ -168,22 +163,8 @@ class open_digraph:  # for open directed graph
         
     #TD2exo2
     def remove_edge(self, src, tgt):
-        k1 = self.get_node_by_id(src).get_children_ids().keys()
-        k2 = self.get_node_by_id(tgt).get_parent_ids().keys()
-        p = False
-        for i in k1:
-            if i == tgt:
-                p = True
-                break
-        if p :
-            self.get_node_by_id(src).children.pop(tgt)
-        p = False
-        for i in k2:
-            if i == src:
-                p = True
-                break
-        if p :
-            self.get_node_by_id(tgt).parents.pop(src)
+        self.get_node_by_id(src).remove_child_id(tgt)
+        self.get_node_by_id(tgt).remove_parent_once(src)
 
     def remove_parallel_edges(self, src, tgt):
         for i,j in src,tgt:
