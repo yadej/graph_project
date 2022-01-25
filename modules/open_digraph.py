@@ -193,19 +193,23 @@ class open_digraph:  # for open directed graph
         pass
     #TD2exo3
     def is_well_formed(self):
-        for i in self.get_output_ids:
-            if not self.get_nodes().contains(i)
-            or self.get_node_by_id(i).get_children_ids() != []
-            or self.get_node_by_id(i).get_parent_ids().size() != 1:
+        
+        for i, o in self.get_input_ids(), self.get_output_ids():
+            # chaque noeud d’inputs et d’outputs doit etre dans le graphe (i.e. son id comme cĺef dans nodes)
+            if not self.get_nodes().contains(i) or not self.get_nodes().contains(o):
                 return False
-        for i in self.get_input_ids:
-            if not self.get_nodes().contains(i)
-            or self.get_node_by_id(i).get_parent_ids() != []
-            or self.get_node_by_id(i).get_children_ids().size() != 1:
+            # chaque noeud input doit avoir un unique fils (de multiplicite 1) et pas de parent
+            if self.get_node_by_id(i).get_parent_ids() != [] or self.get_node_by_id(i).get_children_ids().size() != 1:
                 return False
-        for clef in self.get_nodes():
-            if not clef.get_parent_ids().contains(clef)
-            or not 
+            # chaque noeud output doit avoir un unique parent (de multiplicit ́e 1) et pas de fils
+            if self.get_node_by_id(o).get_children_ids() != [] or self.get_node_by_id(o).get_parent_ids().size() != 1:
                 return False
-        return True
+            # chaque cĺe de nodes pointe vers un noeud d’id la clef
+            if not clef.get_children_ids().contains(clef)
+                return False
+            # si j a pour fils i avec multiplicite m, alors i doit avoir pour parent j avec multiplicite m, et vice-versa
+        
+        def add_input_node(self):
+            pass
+            
         
