@@ -50,7 +50,7 @@ class node:
             self.children.append(i)
         
     def add_parent_id(self,i):
-            self.children.append(i)
+            self.parents.append(i)
     # copy function
     def copy(self):
         self = copy.copy(self)
