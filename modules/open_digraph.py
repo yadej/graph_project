@@ -129,6 +129,7 @@ class open_digraph:  # for open directed graph
         return copy.copy(self)
         
     def new_id(self):
+        # On suppose que l'id 0 n'existe pas
         k = self.get_node_ids().sorted()
         p = 1
         m = 0
@@ -140,19 +141,53 @@ class open_digraph:  # for open directed graph
         return p
     
     def add_edge(self, src, tgt):
-        pass
+        k1 = self.get_node_by_id(src).get_children_ids().keys()
+        k2 = self.get_node_by_id(tgt).get_parent_ids().keys()
+        p = True
+        for i in k1:
+            if i == tgt:
+                p = False
+                break
+        if p :
+            self.get_node_by_id(src).add_child_id(tgt)
+        p = True
+        for i in k2:
+            if i == src:
+                p = False
+                break
+        if p :
+            self.get_node_by_id(tgt).add_child_id(src)
+            
+    def add_node(self, label='', parents={},children={}):
+        k = self.new_id()
+        self.nodes[k] = node(k,label,parents,children)
+        for i in parents.keys():
+            self.nodes[i].add_child_id(k)
+        for i in children.keys():
+            self.nodes[i].add_parent_id(k)
         
-
-    def add_node(self, label='', parents=, children=):
-        pass
     #TD2exo2
     def remove_edge(self, src, tgt):
-        self.pop(tgt, src)
-        return self
+        k1 = self.get_node_by_id(src).get_children_ids().keys()
+        k2 = self.get_node_by_id(tgt).get_parent_ids().keys()
+        p = False
+        for i in k1:
+            if i == tgt:
+                p = True
+                break
+        if p :
+            self.get_node_by_id(src).children.pop(tgt)
+        p = False
+        for i in k2:
+            if i == src:
+                p = True
+                break
+        if p :
+            self.get_node_by_id(tgt).parents.pop(src)
 
     def remove_parallel_edges(self, src, tgt):
-        while True:
-            self.remove_edge(src, tgt)
+        for i,j in src,tgt:
+            self.remove_edge(i, j)
 
     def remove_node_by_id(self):
         pass
