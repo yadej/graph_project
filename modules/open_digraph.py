@@ -27,30 +27,30 @@ class node:
     def get_label(self):
         return self.label
 
-    def get_parents_id(self):
+    def get_parent_ids(self):
         return self.parents
 
-    def get_children_id(self):
+    def get_children_ids(self):
         return self.children
 
     # setters node
-    def set_id(self, id2):
-            self.id = id2
+    def set_id(self, i):
+            self.id = i
 
-    def set_label(self, label2):
-            self.label = label2
+    def set_label(self, label):
+            self.label = label
 
-    def set_parents_ids(self, par2):
-            self.parents = par2
+    def set_parent_ids(self, p):
+            self.parents = p
 
-    def set_children_ids(self, ch2):
-            self.children = ch2
+    def set_children_ids(self, c):
+            self.children = c
             
-    def add_child_id(self,id2):
-            self.children.append(id2)
+    def add_child_id(self,i):
+            self.children.append(i)
         
-    def add_parent_id(self,id2):
-            self.children.append(id2)
+    def add_parent_id(self,i):
+            self.children.append(i)
     # copy function
     def copy(self):
         self = copy.copy(self)
@@ -88,20 +88,26 @@ class open_digraph:  # for open directed graph
         return self.nodes.values()
     
     def get_node_ids(self):
-        return [i.get_id for i in self.nodes.values() ]
-    
+        return [i.get_id for i in self.nodes.values()]
+        
+    def get_node_by_id(self, i):
+        return self.nodes[i]
+        
+    def get_nodes_by_ids(self, l):
+        return [self.nodes[i] for i in l]
+        
     #setters open_diagraph
-    def set_input_ids(self,id2):
-        self.inputs = id2
+    def set_input_ids(self,i):
+        self.inputs = i
         
-    def set_output_ids(self,id2):
-        self.outputs = id2
+    def set_output_ids(self,i):
+        self.outputs = i
         
-    def add_input_id(self,id2):
-        self.inputs.append(id2)
+    def add_input_id(self,i):
+        self.inputs.append(i)
         
-    def add_output_id(self,id2):
-        self.outputs.append(id2)
+    def add_output_id(self,i):
+        self.outputs.append(i)
     
     def copy(self):
         self = copy.copy(self)
