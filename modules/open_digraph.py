@@ -131,7 +131,7 @@ class open_digraph:  # for open directed graph
         return cls(0,0, {})
 
     def remove_edge(self, src, tgt):
-        self.pop(src, tgt)
+        self.pop(tgt, src)
         return self
 
     def remove_parallel_edges(self, src, tgt):
