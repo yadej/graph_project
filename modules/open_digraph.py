@@ -160,7 +160,7 @@ class open_digraph:  # for open directed graph
             
     def add_node(self, label='', parents={},children={}):
         k = self.new_id()
-        self.nodes[k] = node(k,labels,parents,children)
+        self.nodes[k] = node(k,label,parents,children)
         for i in parents.keys():
             self.nodes[i].add_child_id(k)
         for i in children.keys():
