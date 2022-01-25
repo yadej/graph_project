@@ -156,4 +156,21 @@ class open_digraph:  # for open directed graph
 
     def remove_node_by_id(self):
         pass
-
+    #TD2exo3
+    def is_well_formed(self):
+        for i in self.get_output_ids:
+            if not self.get_nodes().contains(i)
+            or self.get_node_by_id(i).get_children_ids() != []
+            or self.get_node_by_id(i).get_parent_ids().size() != 1:
+                return False
+        for i in self.get_input_ids:
+            if not self.get_nodes().contains(i)
+            or self.get_node_by_id(i).get_parent_ids() != []
+            or self.get_node_by_id(i).get_children_ids().size() != 1:
+                return False
+        for clef in self.get_nodes():
+            if not clef.get_parent_ids().contains(clef)
+            or not 
+                return False
+        return True
+        
