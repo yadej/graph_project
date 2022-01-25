@@ -53,7 +53,7 @@ class node:
             self.children.append(i)
     # copy function
     def copy(self):
-        self = copy.copy(self)
+        return copy.copy(self)
 
 
 class open_digraph:  # for open directed graph
@@ -110,7 +110,7 @@ class open_digraph:  # for open directed graph
         self.outputs.append(i)
     
     def copy(self):
-        self = copy.copy(self)
+        return copy.copy(self)
         
     def new_id(self):
         k = self.get_node_ids().sorted()
