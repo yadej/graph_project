@@ -116,7 +116,7 @@ class open_digraph:  # for open directed graph
         k = self.get_node_ids().sorted()
         p = 1
         m = 0
-        while true:
+        while True:
             if k[m] == p:
                 m,p = m + 1, p + 1
             else:
