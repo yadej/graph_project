@@ -129,3 +129,14 @@ class open_digraph:  # for open directed graph
     @classmethod
     def empty(cls):
         return cls(0,0, {})
+
+    def remove_edge(self, src, tgt):
+        self.pop(src, tgt)
+        return self
+
+    def remove_parallel_edges(self, src, tgt):
+        while True:
+            self.remove_edge(src, tgt)
+
+    def remove_node_by_id(self):
+        pass
