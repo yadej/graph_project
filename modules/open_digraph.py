@@ -149,7 +149,7 @@ class open_digraph:  # for open directed graph
                 p = False
                 break
         if p :
-            self.get_node_by_id(src)..add_child_id(tgt)
+            self.get_node_by_id(src).add_child_id(tgt)
         p = True
         for i in k2:
             if i == src:
