@@ -113,6 +113,7 @@ class open_digraph:  # for open directed graph
         return copy.copy(self)
         
     def new_id(self):
+        # On suppose que l'id 0 n'existe pas
         k = self.get_node_ids().sorted()
         p = 1
         m = 0
@@ -124,7 +125,30 @@ class open_digraph:  # for open directed graph
         return p
     
     def add_edge(self, src, tgt):
-        pass
+        k1 = src.get_children_ids().keys()
+        k2 = tgt.get_parent_ids().keys()
+        p = True
+        for i in k1:
+            if i == tgt.id:
+                p = False
+                break
+        if p :
+            src.add_child_id(tgt.id)
+        p = True
+        for i in k2:
+            if i == src.id:
+                p = False
+                break
+        if p :
+            tgt.add_child_id(src.id)
+            
+    def add_node(self, label='', parents={},children={}):
+        k = self.new_id()
+        self.nodes[k] = node(k,labels,parents,children)
+        for i in parents.keys():
+            self.nodes[i].add_child_id(k)
+        for i in children.keys():
+            self.nodes[i].add_parent_id(k)
         
     @classmethod
     def empty(cls):
