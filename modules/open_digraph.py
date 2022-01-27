@@ -195,13 +195,20 @@ class open_digraph:  # for open directed graph
             if self.get_node_by_id(o).get_children_ids() != [] or self.get_node_by_id(o).get_parent_ids().size() != 1:
                 return False
             # chaque cĺe de nodes pointe vers un noeud d’id la clef
-            if not clef.get_children_ids().contains(clef)
+            if not clef.get_children_ids().contains(clef):
                 return False
             # si j a pour fils i avec multiplicite m, alors i doit avoir pour parent j avec multiplicite m, et vice-versa
     # crée un nouveau noeud que l'on place en entrée, et qui pointe vers le noeud dont on a donné l'id en paramètre
-    def add_input_node(self):
-        pass
+    def add_input_node(self, nodeId , label=''):
+        k = self.new_id()
+        self.add_input_id(k)
+        # On suppose que c le meme new id que k
+        self.add_node(label,{},{nodeId:1})
+
 
     # crée un nouveau noeud que l'on place en sortie, et qui pointe vers le noeud dont on a donné l'id en paramètre
-    def add_output_node(self):
-        pass
+    def add_output_node(self, nodeId , label=''):
+        k = self.new_id()
+        self.add_output_id(k)
+        # On suppose que c le meme new id que k
+        self.add_node(label, {nodeId: 1}, {})
