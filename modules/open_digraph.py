@@ -1,5 +1,6 @@
 import copy
 
+
 class node:
 
     def __init__(self, identity, label, parents, children):
@@ -13,68 +14,108 @@ class node:
         self.label = label
         self.parents = parents
         self.children = children
-    # renvoie le node représenté par une chaîne de caractères.
+
     def __str__(self):
         return f'identity: {self.id}, label: {self.label}, children: {self.children}'
-    # renvoie la chaîne de caractère utilisée pour afficher le noeud
+
     def __repr__(self):
         return str(self)
 
-    # getters node
-    # renvoie l'identifiant du node
+    # getters
     def get_id(self):
+        '''
+        returns id of the node
+        '''
         return self.id
-    # renvoie le label du node
+
     def get_label(self):
+        '''
+        returns label of the node
+        '''
         return self.label
-    # renvoie le parent du node
+
     def get_parent_ids(self):
+        '''
+        returns parent ids of the node
+        '''
         return self.parents
-    # renvoie l'enfant du node
+
     def get_children_ids(self):
+        '''
+        returns children ids of the node
+        '''
         return self.children
 
-    # setters node
-    # permet d'attriber un identifiant au node
+    # setters
     def set_id(self, i):
-            self.id = i
-    # permet d'attribuer un label au node
+        '''
+        sets node id to i
+        '''
+        self.id = i
+
     def set_label(self, label):
-            self.label = label
-    # permet d'attriber un parent au node
-    def set_parent_ids(self, p):
-            self.parents = p
-    # permet de définir un enfant pour le node
-    def set_children_ids(self, c):
-            self.children = c
-    # permet d'ajouter un identifiant pour un enfant du noeud
-    def add_child_id(self,i):
-            self.children[i] = self.children.get(i,0)+ 1 
-    # permet d'ajouter un identifiant pour un parent du noeud
-    def add_parent_id(self,i):
-            self.parents[i] = self.parents.get(i,0)+ 1 
-    # copy function
+        '''
+        sets node label to label
+        '''
+        self.label = label
+
+    def set_parent_ids(self, ids):
+        '''
+        sets node parent ids to ids
+        '''
+        self.parents = ids
+
+    def set_children_ids(self, ids):
+        '''
+        sets node children ids to ids
+        '''
+        self.children = ids
+
+    def add_child_id(self, i):
+        '''
+        adds node child id i
+        '''
+        self.children[i] = self.children.get(i, 0) + 1
+
+    def add_parent_id(self, i):
+        '''
+        adds parent id i
+        '''
+        self.parents[i] = self.parents.get(i, 0) + 1
+
     def copy(self):
+        '''
+        returns a copy of the node
+        '''
         return copy.copy(self)
-    #TD2exo1
-    # supprime une occurende du parent correspondant à l'identifiant
+
     def remove_parent_once(self, i):
-        
-        self.parents[i] = self.parents.get(i,0) - 1
-        if(self.parents[i] <=  0):
+        '''
+        removes the parent of id i
+        '''
+        self.parents[i] = self.parents.get(i, 0) - 1
+        if self.parents[i] <= 0:
             self.parents.pop(i)
 
-    # supprime une occurence de l'enfant correspondant à l'identifiant
     def remove_child_once(self, i):
-        self.children[i] = self.children.get(i,0) - 1
-        if(self.children[i] <=  0):
+        '''
+        removes the child of id i
+        '''
+        self.children[i] = self.children.get(i, 0) - 1
+        if self.children[i] <= 0:
             self.children.pop(i)
-    # supprime toutes les occurences de parent correspondant à l'identifiant
+
     def remove_parent_id(self, i):
+        '''
+        removes all occurences of parent of id i
+        '''
         self.parents[i] = 0
         self.parents.pop(i)
-    # supprime toutes les occurences de enfant correspondant à l'identifiant
+
     def remove_child_id(self, i):
+        '''
+        removes all occurences of child of id i
+        '''
         self.children[i] = 0
         self.children.pop(i)
 
@@ -90,100 +131,164 @@ class open_digraph:  # for open directed graph
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = {node.id: node for node in nodes}  # self.nodes: <int,node> dict
-    # renvoie le graphe représenté par une chaîne de caractères.
+
     def __str__(self):
         return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes}'
-    # renvoie la chaîne de caractère utilisée pour afficher le graphe
-    def __repr__(self):
-         return str(self)
-         
-    @classmethod
-    # retourne un graphe vide
-    def empty(cls):
-        return cls(0,0, {})
 
-    # getters open_digraph
-    # renvoie les entrées du graphe
+    def __repr__(self):
+        return str(self)
+
+    @classmethod
+    def empty(cls):
+        '''
+        returns an empty graph
+        '''
+        return cls(0, 0, {})
+
+    # getters
     def get_input_ids(self):
+        '''
+        returns the ids of input nodes
+        '''
         return self.inputs
-    #renvoie les sorties du graphe
+
     def get_output_ids(self):
+        '''
+        returns the ids of output nodes
+        '''
         return self.outputs
-    # renvoie un dictionnaire contenant les noeuds par identifiants
+
     def get_id_node_map(self):
+        '''
+        returns a dictionary containing the ids associated to their nodes
+        '''
         return self.nodes
-    # renvoie une liste de tous les noeuds du graphe
+
     def get_nodes(self):
+        '''
+        returns a list of every node in the graph
+        '''
         return self.nodes.values()
-    # renvoie une liste des identifiants de tous les noeuds du graphe
+
     def get_node_ids(self):
+        '''
+        returns a list of ids from every node in the graph
+        '''
         return [i.get_id for i in self.nodes.values()]
-    # renvoie le noeud correspondant à l'identifiant
+
     def get_node_by_id(self, i):
+        '''
+        returns the node corresponding to the id i
+        '''
         return self.nodes[i]
-    # renvoie une liste des noeuds du graphe à partir d'une liste d'identifiants
-    def get_nodes_by_ids(self, l):
-        return [self.nodes[i] for i in l]
-        
-    #setters open_diagraph
-    # permet d'attribuer une nouvelle entrée au graphe
-    def set_input_ids(self,i):
-        self.inputs = i
+
+    def get_nodes_by_ids(self, ids):
+        '''
+        returns a list of every node which id is in l
+        '''
+        return [self.nodes[i] for i in ids]
+
+    # setters
+    def set_input_ids(self, ids):
+        '''
+        sets input ids to ids
+        '''
+        self.inputs = ids
+
     # permet d'attribuer une nouvelle sortie au graphe
-    def set_output_ids(self,i):
-        self.outputs = i
-    # permet d'ajouter une nouvelle entrée au graphe
-    def add_input_id(self,i):
+    def set_output_ids(self, ids):
+        '''
+        sets output ids to ids
+        '''
+        self.outputs = ids
+
+    def add_input_id(self, i):
+        '''
+        adds an input id i to the graph
+        '''
         self.inputs.append(i)
-    # permet d'ajouter une nouvelle sortie au graphe
-    def add_output_id(self,i):
+
+    def add_output_id(self, i):
+        '''
+        adds an output id i to the graph
+        '''
         self.outputs.append(i)
-    # retourne une copie du graphe
+
     def copy(self):
+        '''
+        returns a copy of the graph
+        '''
         return copy.copy(self)
-    # renvoie un id non utilisé dans le graphe
+
     def new_id(self):
+        '''
+        returns an unassigned id for the graph
+        '''
         # On suppose que l'id 0 n'existe pas
         k = self.get_node_ids().sorted()
         p = 1
         m = 0
         while True:
             if k[m] == p:
-                m,p = m + 1, p + 1
+                m, p = m + 1, p + 1
             else:
                 break
         return p
-    # Permet d'ajouter une arête du noeud d'id tgt au noeud d'id src
+
     def add_edge(self, src, tgt):
-        
-      
+        '''
+        adds an edge from src to tgt
+        '''
         self.get_node_by_id(src).add_child_id(tgt)
-        self.get_node_by_id(tgt).add_child_id(src)
-    # ajoute un noeud avec label au graphe (en utilisant un nouvel id)
-    # le lie avec les noeuds d'ids parents et children (avec leur multiplicités respectives)
-    def add_node(self, label='', parents={},children={}):
+        self.get_node_by_id(tgt).add_parent_id(src)
+
+    def add_node(self, label='', parents={}, children={}):
+        '''
+        adds a node to the graph
+        '''
         k = self.new_id()
-        self.nodes[k] = node(k,label,parents,children)
+        self.nodes[k] = node(k, label, parents, children)
         for i in parents.keys():
             self.nodes[i].add_child_id(k)
         for i in children.keys():
             self.nodes[i].add_parent_id(k)
-        
-    #TD2exo2
-    # supprime une arête de src vers tgt
+
     def remove_edge(self, src, tgt):
-        self.get_node_by_id(src).remove_child_id(tgt)
+        '''
+        removes an edge from src to tgt
+        '''
+        self.get_node_by_id(src).remove_child_once(tgt)
         self.get_node_by_id(tgt).remove_parent_once(src)
-    # supprime toutes les arêtes de src vers tgt
+
     def remove_parallel_edges(self, src, tgt):
-        for i,j in src,tgt:
-            self.remove_edge(i, j)
-    # supprime toutes les arêtes associées au noeud
-    def remove_node_by_id(self):
+        '''
+        removes any edge from src to tgt
+        '''
+        self.get_node_by_id(src).remove_child_id(tgt)
+        self.get_node_by_id(tgt).remove_parent_id(src)
+
+    def remove_node_by_id(self, i):
+        '''
+        removes node of id i
+        '''
         pass
-    #TD2exo3
-    # vérifie si un graphe est bien formé. L'accepte dans ce cas et le rejette dans l'autre
+
+    def remove_edges(self, srcs, tgts):
+        for src, tgt in srcs, tgts:
+            self.remove_edge(src, tgt)
+
+    def remove_parallel_edges_list(self, srcs, tgts):
+        for src, tgt in srcs, tgts:
+            self.remove_parallel_edges(src, tgt)
+
+    def remove_nodes_by_id(self, ids):
+        for i in ids:
+            self.remove_node_by_id(i)
+
     def is_well_formed(self):
+        '''
+        returns true if the graph is well-formed else false
+        '''
         for i, o in self.get_input_ids(), self.get_output_ids():
             # chaque noeud d’inputs et d’outputs doit etre dans le graphe (i.e. son id comme cĺef dans nodes)
             if not self.get_nodes().contains(i) or not self.get_nodes().contains(o):
@@ -194,21 +299,24 @@ class open_digraph:  # for open directed graph
             # chaque noeud output doit avoir un unique parent (de multiplicit ́e 1) et pas de fils
             if self.get_node_by_id(o).get_children_ids() != [] or self.get_node_by_id(o).get_parent_ids().size() != 1:
                 return False
-            # chaque cĺe de nodes pointe vers un noeud d’id la clef
-            if not clef.get_children_ids().contains(clef):
+        # chaque clef de nodes pointe vers un noeud d’id la clef
+        for clef in self.get_nodes():
+            if clef not in clef.get_children_ids():
                 return False
-            # si j a pour fils i avec multiplicite m, alors i doit avoir pour parent j avec multiplicite m, et vice-versa
-    # crée un nouveau noeud que l'on place en entrée, et qui pointe vers le noeud dont on a donné l'id en paramètre
-    def add_input_node(self, nodeId , label=''):
-        k = self.new_id()
-        self.add_input_id(k)
-        # On suppose que c le meme new id que k
-        self.add_node(label,{},{nodeId:1})
+        # si j a pour fils i avec multiplicite m, alors i doit avoir pour parent j avec multip. m, et vice-versa
+        ...
+        return True
 
+    def add_input_node(self, nodeId, label=''):
+        '''
+        adds an input node with id and label to the graph
+        '''
+        self.add_input_id(self.new_id())
+        self.add_node(label, {}, {nodeId: 1})
 
-    # crée un nouveau noeud que l'on place en sortie, et qui pointe vers le noeud dont on a donné l'id en paramètre
-    def add_output_node(self, nodeId , label=''):
-        k = self.new_id()
-        self.add_output_id(k)
-        # On suppose que c le meme new id que k
+    def add_output_node(self, nodeId, label=''):
+        '''
+        adds an output node with id and label to the graph
+        '''
+        self.add_output_id(self.new_id())
         self.add_node(label, {nodeId: 1}, {})
