@@ -271,7 +271,14 @@ class open_digraph:  # for open directed graph
         '''
         removes node of id i
         '''
-        pass
+        # enleve tout les parents de i
+        for k in self.get_node_by_id(i).get_parent_ids():
+            self.get_node_by_id(k).remove_child_id(i)
+            self.get_node_by_id(i).remove_parent_id(k)
+        # enleve tout les enfants de i
+        for k in self.get_node_by_id(i).get_child_ids():
+            self.get_node_by_id(i).remove_child_id(k)
+            self.get_node_by_id(k).remove_parent_id(i)
 
     def remove_edges(self, srcs, tgts):
         for src, tgt in srcs, tgts:
