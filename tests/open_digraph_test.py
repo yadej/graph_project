@@ -29,5 +29,30 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.n0.get_label(), 'a')
 
 
+class OpenDiagramTest(unittest.TestCase):
+    def test_open_diagram(self):
+        diagram = open_digraph()
+        diagram.add_node('Aya')
+        self.assertEqual(diagram.get_id_node_map().get(1).get_id(), 1)
+        diagram.add_node(parents={1: 3})
+        diagram.add_node('Pour', children={2: 4})
+        diagram.add_node(children={2: 2})
+        diagram.add_node(parents={4: 6})
+        self.assertTrue(diagram.is_well_formed())
+        diagram.add_input_node(2)
+        diagram.add_output_node(3)
+        diagram.add_output_node(4)
+        diagram.add_input_node(4)
+        self.assertTrue(diagram.is_well_formed())
+        diagram.remove_parallel_edges(1, 2)
+        diagram.remove_edge(1, 2)
+        self.assertTrue(diagram.is_well_formed())
+        diagram.remove_edge(6, 2)
+        self.assertFalse(diagram.is_well_formed())
+        diagram.add_edge(6, 2)
+        self.assertTrue(diagram.is_well_formed())
+        diagram.remove_node_by_id(5)
+        self.assertTrue(diagram.is_well_formed())
+
 if __name__ == '__main__':  # the following code is called only when
     unittest.main()  # precisely this file is run

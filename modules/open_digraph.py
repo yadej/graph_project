@@ -16,7 +16,7 @@ class node:
         self.children = children
 
     def __str__(self):
-        return f'id: {self.id}, label: {self.label}, children: {self.children}'
+        return f'id: {self.id}, label: {self.label}, parents{self.parents}, children: {self.children}'
 
     def __repr__(self):
         return str(self)
@@ -72,17 +72,19 @@ class node:
         self.children = ids
 
     # features
-    def add_child_id(self, i):
+    def add_child_id(self, i, n = 1):
         '''
         adds node child id i
         '''
-        self.children[i] = self.children.get(i, 0) + 1
+        for _ in range(n):
+            self.children[i] = self.children.get(i, 0) + 1
 
-    def add_parent_id(self, i):
+    def add_parent_id(self, i , n = 1):
         '''
-        adds parent id i
+        adds parent id i n times
         '''
-        self.parents[i] = self.parents.get(i, 0) + 1
+        for _ in range(n):
+            self.parents[i] = self.parents.get(i, 0) + 1
 
     def copy(self):
         '''
@@ -123,7 +125,7 @@ class node:
 
 class open_digraph:  # for open directed graph
 
-    def __init__(self, inputs, outputs, nodes):
+    def __init__(self, inputs = [], outputs = [], nodes = {}):
         '''
         inputs: int list; the ids of the input nodes
         outputs: int list; the ids of the output nodes
@@ -175,7 +177,7 @@ class open_digraph:  # for open directed graph
         '''
         returns a list of ids from every node in the graph
         '''
-        return [n.get_id for n in self.get_nodes()]
+        return self.get_id_node_map().keys()
 
     def get_node_by_id(self, i):
         '''
@@ -244,65 +246,76 @@ class open_digraph:  # for open directed graph
         adds a node to the graph
         '''
         k = self.new_id()
-        self.nodes[k] = node(k, label, parents, children)
-        for i in parents.keys():
-            self.nodes[i].add_child_id(k)
-        for i in children.keys():
-            self.nodes[i].add_parent_id(k)
+        self.nodes[k] = node(k, label, copy.copy(parents), copy.copy(children))
+        for i,j in parents.items():
+            self.nodes[i].add_child_id(k,j)
+        for i,j in children.items():
+            self.nodes[i].add_parent_id(k,j)
 
-    def remove_edges(self, *pairs):
+    def remove_edge(self, src, tgt):
         '''
         removes edges from src to tgt
         '''
-        for pair in pairs:
-            src, tgt = pair
-            self.get_node_by_id(src).remove_child_once(tgt)
-            self.get_node_by_id(tgt).remove_parent_once(src)
+        self.get_node_by_id(src).remove_child_once(tgt)
+        self.get_node_by_id(tgt).remove_parent_once(src)
 
-    def remove_parallel_edges(self, *pairs):
+    def remove_parallel_edges(self, src, tgt):
         '''
         removes any edge from src to tgt
         '''
-        for pair in pairs:
-            src, tgt = pair
-            self.get_node_by_id(src).remove_child_id(tgt)
-            self.get_node_by_id(tgt).remove_parent_id(src)
+        self.get_node_by_id(src).remove_child_id(tgt)
+        self.get_node_by_id(tgt).remove_parent_id(src)
 
-    def remove_node_by_id(self, *ids):
+    def remove_node_by_id(self, i):
         '''
         removes node of id i
         '''
+        # enleve tout les parents de i
+        for k in self.get_node_by_id(i).get_parent_ids():
+            self.get_node_by_id(k).remove_child_id(i)
+        self.get_node_by_id(i).get_parent_ids().clear()
+        # enleve tout les enfants de i
+        for k in self.get_node_by_id(i).get_children_ids():
+            self.get_node_by_id(k).remove_parent_id(i)
+        self.get_node_by_id(i).get_children_ids().clear()
+
+    def remove_edges(self, srcs, tgts):
+        for src, tgt in zip(srcs, tgts):
+            self.remove_edge(src, tgt)
+
+    def remove_parallel_edges_list(self, srcs, tgts):
+        for src, tgt in zip(srcs, tgts):
+            self.remove_parallel_edges(src, tgt)
+
+    def remove_nodes_by_id(self, ids):
         for i in ids:
-            # enleve tout les parents de i
-            for k in self.get_node_by_id(i).get_parent_ids():
-                self.get_node_by_id(k).remove_child_id(i)
-                self.get_node_by_id(i).remove_parent_id(k)
-            # enleve tout les enfants de i
-            for k in self.get_node_by_id(i).get_child_ids():
-                self.get_node_by_id(i).remove_child_id(k)
-                self.get_node_by_id(k).remove_parent_id(i)
+            self.remove_node_by_id(i)
 
     def is_well_formed(self):
         '''
         returns true if the graph is well-formed else false
         '''
         # chaque noeud d’inputs et d’outputs doit etre dans le graphe (i.e. son id comme clef dans nodes)
-        for i, o in self.get_input_ids(), self.get_output_ids():
-            if i in self.get_nodes() and o in self.get_nodes():
+        for i in self.get_input_ids():
+            if self.get_node_by_id(i):
                 continue
             else:
                 return False
-
+        for i in self.get_output_ids():
+            if self.get_node_by_id(i):
+                continue
+            else:
+                return False
         # chaque noeud input doit avoir un unique fils (de multiplicite 1) et pas de parent
         for i in self.get_input_ids():
-            if len(self.get_node_by_id(i).get_children_ids()) == 1 or self.get_node_by_id(i).get_parent_ids() == []:
+            if len(self.get_node_by_id(i).get_children_ids()) == 1 and self.get_node_by_id(i).get_parent_ids() == {}:
                 continue
             else:
                 return False
 
         # chaque noeud output doit avoir un unique parent (de multiplicite 1) et pas de fils
         for o in self.get_output_ids():
-            if len(self.get_node_by_id(o).get_parent_ids()) == 1 or self.get_node_by_id(o).get_children_ids() == []:
+            if len(self.get_node_by_id(o).get_parent_ids()) == 1 and self.get_node_by_id(o).get_children_ids() == {}:
                 continue
             else:
                 return False
@@ -316,8 +329,8 @@ class open_digraph:  # for open directed graph
 
         # si j a pour fils i avec multiplicite m, alors i doit avoir pour parent j avec multip. m, et vice-versa
         for j in self.get_nodes():
-            for i in j.get_children_ids.keys():
-                if j.get_children_ids().get(i) == i.get_parent_ids().get(j.get_id()):
+            for i in j.get_children_ids().keys():
+                if j.get_children_ids().get(i) == self.get_node_by_id(i).get_parent_ids().get(j.get_id()):
                     continue
                 else:
                     return False
