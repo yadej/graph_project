@@ -123,7 +123,7 @@ class node:
 
 class open_digraph:  # for open directed graph
 
-    def __init__(self, inputs = [], outputs = [], nodes = {}):
+    def __init__(self, inputs=[], outputs=[], nodes={}):
         '''
         inputs: int list; the ids of the input nodes
         outputs: int list; the ids of the output nodes
@@ -144,7 +144,7 @@ class open_digraph:  # for open directed graph
         '''
         returns an empty graph
         '''
-        return cls(0, 0, {})
+        return cls([], [], {})
 
     # getters
     def get_input_ids(self):
