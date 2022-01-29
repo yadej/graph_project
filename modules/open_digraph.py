@@ -250,44 +250,37 @@ class open_digraph:  # for open directed graph
         for i in children.keys():
             self.nodes[i].add_parent_id(k)
 
-    def remove_edge(self, src, tgt):
+    def remove_edges(self, *pairs):
         '''
-        removes an edge from src to tgt
+        removes edges from src to tgt
         '''
-        self.get_node_by_id(src).remove_child_once(tgt)
-        self.get_node_by_id(tgt).remove_parent_once(src)
+        for pair in pairs:
+            src, tgt = pair
+            self.get_node_by_id(src).remove_child_once(tgt)
+            self.get_node_by_id(tgt).remove_parent_once(src)
 
-    def remove_parallel_edges(self, src, tgt):
+    def remove_parallel_edges(self, *pairs):
         '''
         removes any edge from src to tgt
         '''
-        self.get_node_by_id(src).remove_child_id(tgt)
-        self.get_node_by_id(tgt).remove_parent_id(src)
+        for pair in pairs:
+            src, tgt = pair
+            self.get_node_by_id(src).remove_child_id(tgt)
+            self.get_node_by_id(tgt).remove_parent_id(src)
 
-    def remove_node_by_id(self, i):
+    def remove_node_by_id(self, *ids):
         '''
         removes node of id i
         '''
-        # enleve tout les parents de i
-        for k in self.get_node_by_id(i).get_parent_ids():
-            self.get_node_by_id(k).remove_child_id(i)
-            self.get_node_by_id(i).remove_parent_id(k)
-        # enleve tout les enfants de i
-        for k in self.get_node_by_id(i).get_child_ids():
-            self.get_node_by_id(i).remove_child_id(k)
-            self.get_node_by_id(k).remove_parent_id(i)
-
-    def remove_edges(self, srcs, tgts):
-        for src, tgt in srcs, tgts:
-            self.remove_edge(src, tgt)
-
-    def remove_parallel_edges_list(self, srcs, tgts):
-        for src, tgt in srcs, tgts:
-            self.remove_parallel_edges(src, tgt)
-
-    def remove_nodes_by_id(self, ids):
         for i in ids:
-            self.remove_node_by_id(i)
+            # enleve tout les parents de i
+            for k in self.get_node_by_id(i).get_parent_ids():
+                self.get_node_by_id(k).remove_child_id(i)
+                self.get_node_by_id(i).remove_parent_id(k)
+            # enleve tout les enfants de i
+            for k in self.get_node_by_id(i).get_child_ids():
+                self.get_node_by_id(i).remove_child_id(k)
+                self.get_node_by_id(k).remove_parent_id(i)
 
     def is_well_formed(self):
         '''
@@ -316,7 +309,7 @@ class open_digraph:  # for open directed graph
 
         # chaque clef de nodes pointe vers un noeud d’id la clef
         for k in self.get_node_ids():
-            if self.get_nodes().get(k).get_id() == k:
+            if self.get_id_node_map().get(k).get_id() == k:
                 continue
             else:
                 return False
