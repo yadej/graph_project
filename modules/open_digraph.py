@@ -72,19 +72,17 @@ class node:
         self.children = ids
 
     # features
-    def add_child_id(self, i, n = 1):
+    def add_child_id(self, i, n=1):
         '''
         adds node child id i
         '''
-        for _ in range(n):
-            self.children[i] = self.children.get(i, 0) + 1
+        self.children[i] = self.children.get(i, 0) + n
 
-    def add_parent_id(self, i , n = 1):
+    def add_parent_id(self, i , n=1):
         '''
         adds parent id i n times
         '''
-        for _ in range(n):
-            self.parents[i] = self.parents.get(i, 0) + 1
+        self.parents[i] = self.parents.get(i, 0) + n
 
     def copy(self):
         '''
@@ -252,44 +250,35 @@ class open_digraph:  # for open directed graph
         for i,j in children.items():
             self.nodes[i].add_parent_id(k,j)
 
-    def remove_edge(self, src, tgt):
+    def remove_edge(self, *pairs):
         '''
         removes edges from src to tgt
         '''
-        self.get_node_by_id(src).remove_child_once(tgt)
-        self.get_node_by_id(tgt).remove_parent_once(src)
+        for src, tgt in pairs:
+            self.get_node_by_id(src).remove_child_once(tgt)
+            self.get_node_by_id(tgt).remove_parent_once(src)
 
-    def remove_parallel_edge(self, src, tgt):
+    def remove_parallel_edges(self, *pairs):
         '''
         removes any edge from src to tgt
         '''
-        self.get_node_by_id(src).remove_child_id(tgt)
-        self.get_node_by_id(tgt).remove_parent_id(src)
+        for src, tgt in pairs:
+            self.get_node_by_id(src).remove_child_id(tgt)
+            self.get_node_by_id(tgt).remove_parent_id(src)
 
-    def remove_node_by_id(self, i):
+    def remove_node_by_id(self, *ids):
         '''
         removes node of id i
         '''
-        # enleve tout les parents de i
-        for k in self.get_node_by_id(i).get_parent_ids():
-            self.get_node_by_id(k).remove_child_id(i)
-        self.get_node_by_id(i).get_parent_ids().clear()
-        # enleve tout les enfants de i
-        for k in self.get_node_by_id(i).get_children_ids():
-            self.get_node_by_id(k).remove_parent_id(i)
-        self.get_node_by_id(i).get_children_ids().clear()
-
-    def remove_edges(self, *pairs):
-        for src, tgt in pairs:
-            self.remove_edge(src, tgt)
-
-    def remove_parallel_edges(self, *pairs):
-        for src, tgt in pairs:
-            self.remove_parallel_edge(src, tgt)
-
-    def remove_nodes_by_id(self, *ids):
         for i in ids:
-            self.remove_node_by_id(i)
+            # enleve tout les parents de i
+            for k in self.get_node_by_id(i).get_parent_ids():
+                self.get_node_by_id(k).remove_child_id(i)
+            self.get_node_by_id(i).get_parent_ids().clear()
+            # enleve tout les enfants de i
+            for k in self.get_node_by_id(i).get_children_ids():
+                self.get_node_by_id(k).remove_parent_id(i)
+            self.get_node_by_id(i).get_children_ids().clear()
 
     def is_well_formed(self):
         '''

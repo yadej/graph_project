@@ -24,7 +24,7 @@ if diagram.is_well_formed():
 diagram.remove_parallel_edges((1, 2))
 if diagram.is_well_formed():
     print('wo uho')
-diagram.remove_edge(6, 2)
+diagram.remove_edge((6, 2))
 if diagram.is_well_formed():
     print('wo uho')
 diagram.add_edge(6, 2)
