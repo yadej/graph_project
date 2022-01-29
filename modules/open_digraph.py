@@ -259,7 +259,7 @@ class open_digraph:  # for open directed graph
         self.get_node_by_id(src).remove_child_once(tgt)
         self.get_node_by_id(tgt).remove_parent_once(src)
 
-    def remove_parallel_edges(self, src, tgt):
+    def remove_parallel_edge(self, src, tgt):
         '''
         removes any edge from src to tgt
         '''
@@ -283,9 +283,9 @@ class open_digraph:  # for open directed graph
         for src, tgt in zip(pairs):
             self.remove_edge(src, tgt)
 
-    def remove_parallel_edges_list(self, *pairs):
+    def remove_parallel_edges(self, *pairs):
         for src, tgt in zip(pairs):
-            self.remove_parallel_edges(src, tgt)
+            self.remove_parallel_edge(src, tgt)
 
     def remove_nodes_by_id(self, *ids):
         for i in ids:
