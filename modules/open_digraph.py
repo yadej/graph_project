@@ -78,7 +78,7 @@ class node:
         '''
         self.children[i] = self.children.get(i, 0) + n
 
-    def add_parent_id(self, i , n=1):
+    def add_parent_id(self, i, n=1):
         '''
         adds parent id i n times
         '''
@@ -247,9 +247,9 @@ class open_digraph:  # for open directed graph
         k = self.new_id()
         self.nodes[k] = node(k, label, copy.copy(parents), copy.copy(children))
         for i, j in parents.items():
-            self.nodes[i].add_child_id(k,j)
+            self.nodes[i].add_child_id(k, j)
         for i, j in children.items():
-            self.nodes[i].add_parent_id(k,j)
+            self.nodes[i].add_parent_id(k, j)
 
     def remove_edge(self, *pairs):
         '''
