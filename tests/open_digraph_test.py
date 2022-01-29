@@ -44,7 +44,7 @@ class OpenDiagramTest(unittest.TestCase):
         diagram.add_output_node(4)
         diagram.add_input_node(4)
         self.assertTrue(diagram.is_well_formed())
-        diagram.remove_parallel_edges(1, 2)
+        diagram.remove_parallel_edges((1, 2))
         diagram.remove_edge(1, 2)
         self.assertTrue(diagram.is_well_formed())
         diagram.remove_edge(6, 2)
@@ -53,6 +53,7 @@ class OpenDiagramTest(unittest.TestCase):
         self.assertTrue(diagram.is_well_formed())
         diagram.remove_node_by_id(5)
         self.assertTrue(diagram.is_well_formed())
+
 
 if __name__ == '__main__':  # the following code is called only when
     unittest.main()  # precisely this file is run

@@ -280,11 +280,11 @@ class open_digraph:  # for open directed graph
         self.get_node_by_id(i).get_children_ids().clear()
 
     def remove_edges(self, *pairs):
-        for src, tgt in zip(pairs):
+        for src, tgt in pairs:
             self.remove_edge(src, tgt)
 
     def remove_parallel_edges(self, *pairs):
-        for src, tgt in zip(pairs):
+        for src, tgt in pairs:
             self.remove_parallel_edge(src, tgt)
 
     def remove_nodes_by_id(self, *ids):

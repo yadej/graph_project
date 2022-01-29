@@ -21,7 +21,7 @@ diagram.add_input_node(4)
 print(f'diagram = {diagram}\n')
 if diagram.is_well_formed():
     print('wo uho')
-diagram.remove_parallel_edges(1, 2)
+diagram.remove_parallel_edges((1, 2))
 if diagram.is_well_formed():
     print('wo uho')
 diagram.remove_edge(6, 2)
