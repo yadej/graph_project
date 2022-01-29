@@ -232,12 +232,13 @@ class open_digraph:  # for open directed graph
                 m = m + 1
         return m
 
-    def add_edge(self, src, tgt):
+    def add_edge(self, *pairs):
         '''
         adds an edge from src to tgt
         '''
-        self.get_node_by_id(src).add_child_id(tgt)
-        self.get_node_by_id(tgt).add_parent_id(src)
+        for src, tgt in pairs:
+            self.get_node_by_id(src).add_child_id(tgt)
+            self.get_node_by_id(tgt).add_parent_id(src)
 
     def add_node(self, label='', parents={}, children={}):
         '''
@@ -245,9 +246,9 @@ class open_digraph:  # for open directed graph
         '''
         k = self.new_id()
         self.nodes[k] = node(k, label, copy.copy(parents), copy.copy(children))
-        for i,j in parents.items():
+        for i, j in parents.items():
             self.nodes[i].add_child_id(k,j)
-        for i,j in children.items():
+        for i, j in children.items():
             self.nodes[i].add_parent_id(k,j)
 
     def remove_edge(self, *pairs):
@@ -286,14 +287,10 @@ class open_digraph:  # for open directed graph
         '''
         # chaque noeud d’inputs et d’outputs doit etre dans le graphe (i.e. son id comme clef dans nodes)
         for i in self.get_input_ids():
-            if self.get_node_by_id(i):
-                continue
-            else:
+            if not self.get_node_by_id(i):
                 return False
         for i in self.get_output_ids():
-            if self.get_node_by_id(i):
-                continue
-            else:
+            if not self.get_node_by_id(i):
                 return False
         # chaque noeud input doit avoir un unique fils (de multiplicite 1) et pas de parent
         for i in self.get_input_ids():
@@ -311,17 +308,13 @@ class open_digraph:  # for open directed graph
 
         # chaque clef de nodes pointe vers un noeud d’id la clef
         for k in self.get_node_ids():
-            if self.get_id_node_map().get(k).get_id() == k:
-                continue
-            else:
+            if self.get_id_node_map().get(k).get_id() != k:
                 return False
 
         # si j a pour fils i avec multiplicite m, alors i doit avoir pour parent j avec multip. m, et vice-versa
         for j in self.get_nodes():
             for i in j.get_children_ids().keys():
-                if j.get_children_ids().get(i) == self.get_node_by_id(i).get_parent_ids().get(j.get_id()):
-                    continue
-                else:
+                if j.get_children_ids().get(i) != self.get_node_by_id(i).get_parent_ids().get(j.get_id()):
                     return False
         return True
 
