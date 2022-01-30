@@ -31,4 +31,8 @@ diagram.add_edge((6, 2))
 diagram.remove_node_by_id(5)
 if diagram.is_well_formed():
     print('wo uho')
+diagram.remove_node_by_id(6)
+diagram.add_edge((1, 3))
+if diagram.is_well_formed():
+    print('wo uho')
 print(diagram)

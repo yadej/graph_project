@@ -280,6 +280,11 @@ class open_digraph:  # for open directed graph
             for k in self.get_node_by_id(i).get_children_ids():
                 self.get_node_by_id(k).remove_parent_id(i)
             self.get_node_by_id(i).get_children_ids().clear()
+            self.get_id_node_map().pop(i)
+            if i in self.get_input_ids():
+                self.get_input_ids().remove(i)
+            if i in self.get_output_ids():
+                self.get_output_ids().remove(i)
 
     def is_well_formed(self):
         '''

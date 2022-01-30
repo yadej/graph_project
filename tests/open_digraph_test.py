@@ -53,6 +53,9 @@ class OpenDiagramTest(unittest.TestCase):
         self.assertTrue(diagram.is_well_formed())
         diagram.remove_node_by_id(5)
         self.assertTrue(diagram.is_well_formed())
+        diagram.remove_node_by_id(6)
+        diagram.add_edge((1, 3))
+        self.assertTrue(diagram.is_well_formed())
 
 
 if __name__ == '__main__':  # the following code is called only when
