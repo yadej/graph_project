@@ -16,7 +16,7 @@ class node:
         self.children = children
 
     def __str__(self):
-        return f'id: {self.id}, label: {self.label}, parents{self.parents}, children: {self.children}'
+        return f'(id: {self.id}, label: \'{self.label}\', parents: {self.parents}, children: {self.children})'
 
     def __repr__(self):
         return str(self)
@@ -134,7 +134,7 @@ class open_digraph:  # for open directed graph
         self.nodes = {n.id: n for n in nodes}  # self.nodes: <int,node> dict
 
     def __str__(self):
-        return f'inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes}'
+        return f'(inputs: {self.inputs}, outputs: {self.outputs}, nodes: {self.nodes})'
 
     def __repr__(self):
         return str(self)
