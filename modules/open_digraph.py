@@ -88,7 +88,7 @@ class node:
         '''
         returns a copy of the node
         '''
-        return copy.copy(self)
+        return copy.deepcopy(self)
 
     def remove_parent_once(self, i):
         '''
@@ -219,7 +219,7 @@ class open_digraph:  # for open directed graph
         '''
         returns a copy of the graph
         '''
-        return copy.copy(self)
+        return copy.deepcopy(self)
 
     def new_id(self):
         '''
@@ -245,7 +245,7 @@ class open_digraph:  # for open directed graph
         adds a node to the graph
         '''
         k = self.new_id()
-        self.nodes[k] = node(k, label, copy.copy(parents), copy.copy(children))
+        self.nodes[k] = node(k, label, parents.copy(), children.copy())
         for i, j in parents.items():
             self.nodes[i].add_child_id(k, j)
         for i, j in children.items():
