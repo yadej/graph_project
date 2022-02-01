@@ -1,4 +1,6 @@
 import copy
+import random
+
 
 
 class node:
@@ -363,5 +365,18 @@ class open_digraph:  # for open directed graph
         
         elif form=='loop-free undirected':
             m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
-            
+        k = []
+        for i in range(inputs):
+            r = random.randrange(n)
+            while r in k:
+                r = random.randrange(n)
+            k.append(r)
+        
+        p = []
+        for i in range(outputs):
+            r = random.randrange(n)
+            while r in k or in p:
+                r = random.randrange(n)
+            p.append(r)
+        
         return graph_from_adjacency_matrix(m)

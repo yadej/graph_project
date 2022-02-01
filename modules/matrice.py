@@ -28,6 +28,7 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
     
     return m
 
+
 def  graph_from_adjacency_matrix(m):
     a = open_digraph.empty()
     l = len(m)
@@ -38,3 +39,12 @@ def  graph_from_adjacency_matrix(m):
             for _ in range( m[i][j]):
                 a.add_edge((i,j))
     return a
+
+
+n = 5
+b = 5
+k = random_int_matrix(n, b, oriented =True)
+for i in range(n):
+    print(k[i])
+
+print(graph_from_adjacency_matrix(k));
