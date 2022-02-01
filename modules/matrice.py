@@ -1,3 +1,4 @@
+import numpy as np
 import random
 
 random_int_list = lambda n, bound: [random.randrange(bound) for i in range(n)]
