@@ -20,7 +20,7 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
     if triangular:
         for i in range(n):
             for j in range(i):
-                m[j][i] = 0
+                    m[j][i] = 0
         
     if null_diag:
         for i in range(n):
@@ -28,8 +28,23 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
     
     return m
 
+
+def  graph_from_adjacency_matrix(m):
+    a = open_digraph.empty()
+    l = len(m)
+    for _ in range(l):
+        a.add_node();
+    for i in range(l):
+        for j in range(l):
+            for _ in range( m[i][j]):
+                a.add_edge((i,j))
+    return a
+
+
 n = 5
-b = 10
+b = 5
 k = random_int_matrix(n, b, oriented =True)
 for i in range(n):
     print(k[i])
+
+print(graph_from_adjacency_matrix(k));
