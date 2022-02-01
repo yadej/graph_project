@@ -30,6 +30,6 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
 
 n = 5
 b = 10
-k = random_int_matrix(n, b, triangular =True)
+k = random_int_matrix(n, b, oriented =True)
 for i in range(n):
     print(k[i])
