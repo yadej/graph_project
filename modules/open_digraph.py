@@ -226,7 +226,7 @@ class open_digraph:  # for open directed graph
         returns an unassigned id for the graph
         '''
         # l'id 0 est reservee pour les id par default ie. invalide
-        m = 1
+        m = 0
         for i in sorted(self.get_node_ids()):
             if i == m:
                 m = m + 1

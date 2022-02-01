@@ -28,17 +28,13 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
     
     return m
 
-graph_from_adjacency_matrix = lambda m: open_digraph([], [], [node(0, '', {}, {}) for i in range(len(m)) for j in range(len(m))])
-
-
-
-
-
-
-
-
-n = 5
-b = 10
-k = random_int_matrix(n, b, null_diag=False, triangular =True)
-for i in range(n):
-    print(k[i])
+def  graph_from_adjacency_matrix(m):
+    a = open_digraph.empty()
+    l = len(m)
+    for _ in range(l):
+        a.add_node();
+    for i in range(l):
+        for j in range(l):
+            for _ in range( m[i][j]):
+                a.add_edge((i,j))
+    return a
