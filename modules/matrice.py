@@ -37,8 +37,6 @@ graph_from_adjacency_matrix = lambda m: open_digraph([], [], [node(0, '', {}, {}
 
 
 
-
-
 n = 5
 b = 10
 k = random_int_matrix(n, b, null_diag=False, triangular =True)

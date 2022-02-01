@@ -340,3 +340,28 @@ class open_digraph:  # for open directed graph
             raise Exception('node of argument nodeId is an output node')
         self.add_output_id(self.new_id())
         self.add_node(label, {nodeId: 1}, {})
+        
+    @classmethod
+    def random(n, bound, inputs=0, outputs=0, form='free'):
+        '''
+        form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
+        '''
+        if form=='free':
+            m = random_int_matrix(n, bound, null_diag=False)
+            
+        elif form=='DAG':
+            m = random_int_matrix(n, bound, null_diag=False)
+            
+        elif form=='oriented':
+            m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=True, triangular=False)
+            
+        elif form=='loop-free':
+            m = random_int_matrix(n, bound)
+            
+        elif form=='undirected':
+            m = 
+        
+        elif form=='loop-free undirected':
+            m = 
+            
+        return graph_from_adjacency_matrix(m)
