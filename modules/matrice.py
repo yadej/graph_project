@@ -28,4 +28,4 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
     
     return m
 
-print(random_int_matrix(5, 10, oriented =True))
+print(random_int_matrix(5, 10, triangular =True))
