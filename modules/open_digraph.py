@@ -364,4 +364,9 @@ class open_digraph:  # for open directed graph
         elif form=='loop-free undirected':
             m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
             
+        
+            
+            
         return graph_from_adjacency_matrix(m)
+        
+        @cla
