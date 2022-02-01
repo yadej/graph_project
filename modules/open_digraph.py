@@ -347,21 +347,21 @@ class open_digraph:  # for open directed graph
         form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
         '''
         if form=='free':
-            m = random_int_matrix(n, bound, null_diag=False)
+            m = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
             
         elif form=='DAG':
-            m = random_int_matrix(n, bound, null_diag=False)
+            m = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
             
         elif form=='oriented':
-            m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=True, triangular=False)
+            m = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
             
         elif form=='loop-free':
-            m = random_int_matrix(n, bound)
+            m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
             
         elif form=='undirected':
-            m = 
+            m = random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
         
         elif form=='loop-free undirected':
-            m = 
+            m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
             
         return graph_from_adjacency_matrix(m)
