@@ -1,7 +1,6 @@
 import copy
 import random
-
-
+import modules.matrice
 
 class node:
 
@@ -171,7 +170,7 @@ class open_digraph:  # for open directed graph
         '''
         returns a list of every node in the graph
         '''
-        return self.nodes.values()
+        return self.get_id_node_map().values()
 
     def get_node_ids(self):
         '''
@@ -342,29 +341,29 @@ class open_digraph:  # for open directed graph
             raise Exception('node of argument nodeId is an output node')
         self.add_output_id(self.new_id())
         self.add_node(label, {nodeId: 1}, {})
-        
+
     @classmethod
-    def random(n, bound, inputs=0, outputs=0, form='free'):
+    def random(cls, n, bound, inputs=0, outputs=0, form='free'):
         '''
         form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
         '''
         if form=='free':
-            m = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
+            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
             
         elif form=='DAG':
-            m = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
+            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
             
         elif form=='oriented':
-            m = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
+            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
             
         elif form=='loop-free':
-            m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
+            m = modules.matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
             
         elif form=='undirected':
-            m = random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
+            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
         
         elif form=='loop-free undirected':
-            m = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
+            m = modules.matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
         k = []
         for i in range(inputs):
             r = random.randrange(n)
@@ -375,8 +374,29 @@ class open_digraph:  # for open directed graph
         p = []
         for i in range(outputs):
             r = random.randrange(n)
-            while r in k or in p:
+            while r in k or r in p:
                 r = random.randrange(n)
             p.append(r)
-        
-        return graph_from_adjacency_matrix(m)
+        LastNode = list(range(n))
+        print( k + p)
+        for a in (p + k ):
+            for b in range(n):
+                m[a][b] = 0
+                m[b][a] = 0
+            LastNode.remove(a)
+        for i in k:
+            NewChild = random.randrange(len(LastNode))
+            m[i][LastNode[NewChild]] = 1
+        for i in p:
+            NewParent = random.randrange(len(LastNode))
+            m[LastNode[NewParent]][i] = 1
+        Mat = modules.matrice.graph_from_adjacency_matrix(m)
+        Mat.set_input_ids(k)
+        Mat.set_output_ids(p)
+        return Mat
+    def dict_unique_id(self):
+        p = max(self.get_node_ids())
+        dict = {}
+        for i in range(p):
+            dict[i] = random.randrange(p)
+        return dict

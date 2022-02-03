@@ -1,4 +1,6 @@
 from modules.open_digraph import *
+from modules.matrice import *
+
 # import inspect
 
 d = open_digraph([1, 2, 3], [6], [node(0, 'a', [], [1])])
@@ -36,3 +38,14 @@ diagram.add_edge((1, 3))
 if diagram.is_well_formed():
     print('wo uho')
 print(diagram)
+n = 5
+b = 5
+k = random_int_matrix(n, b, oriented=True)
+for i in range(n):
+    print(k[i])
+
+print(graph_from_adjacency_matrix(k))
+
+w = open_digraph.random(9, 10, 2, 3)
+print(w)
+print(w.dict_unique_id())
