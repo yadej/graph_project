@@ -394,9 +394,20 @@ class open_digraph:  # for open directed graph
         Mat.set_input_ids(k)
         Mat.set_output_ids(p)
         return Mat
+
     def dict_unique_id(self):
         p = max(self.get_node_ids())
         dict = {}
         for i in range(p):
             dict[i] = random.randrange(p)
         return dict
+
+    def adjacency_matrix(self):
+        p = len(self.get_node_ids())
+        m = [[0 for _ in range(p)] for _ in range(p)]
+        for i in self.get_nodes():
+            for x, y in i.get_parent_ids().items():
+                m[x][i.get_id()] = y
+            for x, y in i.get_children_ids().items():
+                m[i.get_id()][x] = y
+        return m

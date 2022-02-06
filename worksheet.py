@@ -46,6 +46,13 @@ for i in range(n):
 
 print(graph_from_adjacency_matrix(k))
 
-w = open_digraph.random(9, 10, 2, 3)
+w = open_digraph.random(9, 10)
 print(w)
+b = w.adjacency_matrix()
+for i in range(9):
+    print(b[i])
+print(graph_from_adjacency_matrix(b))
 print(w.dict_unique_id())
+p = random_int_matrix(10, 3, number_generator=(lambda: random.betavariate(1, 5)))
+for i in range(10):
+    print(p[i])

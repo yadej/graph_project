@@ -6,8 +6,12 @@ def random_int_list(n, bound):
     return [random.randrange(bound) for _ in range(n)]
 
 
-def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False):
-    m = [random_int_list(n, bound) for _ in range(n)]
+def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False,
+                      number_generator=None):
+    if number_generator is None:
+        m = [random_int_list(n, bound) for _ in range(n)]
+    else:
+        m = [[int(bound * number_generator()) for _ in range(n)] for _ in range(n)]
     
     if symetric:
         for i in range(n):
@@ -41,5 +45,3 @@ def graph_from_adjacency_matrix(m):
             for _ in range(m[i][j]):
                 a.add_edge((i, j))
     return a
-
-
