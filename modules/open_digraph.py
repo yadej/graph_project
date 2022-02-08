@@ -1,16 +1,18 @@
 import copy
 import random
 import matrice
+import os
+
 
 class node:
 
     def __init__(self, identity, label, parents, children):
-        '''
+        """
         identity: int; its unique id in the graph
         label: string;
         parents: int->int dict; maps a parent node's id to its multiplicity
         children: int->int dict; maps a child node's id to its multiplicity
-        '''
+        """
         self.id = identity
         self.label = label
         self.parents = parents
@@ -24,112 +26,118 @@ class node:
 
     # getters
     def get_id(self):
-        '''
+        """
         returns id of the node
-        '''
+        """
         return self.id
 
     def get_label(self):
-        '''
+        """
         returns label of the node
-        '''
+        """
         return self.label
 
     def get_parent_ids(self):
-        '''
+        """
         returns parent ids of the node
-        '''
+        """
         return self.parents
 
     def get_children_ids(self):
-        '''
+        """
         returns children ids of the node
-        '''
+        """
         return self.children
 
     # setters
     def set_id(self, i):
-        '''
+        """
         sets node id to i
-        '''
+        """
         self.id = i
 
     def set_label(self, label):
-        '''
+        """
         sets node label to label
-        '''
+        """
         self.label = label
 
     def set_parent_ids(self, ids):
-        '''
+        """
         sets node parent ids to ids
-        '''
+        """
         self.parents = ids
 
     def set_children_ids(self, ids):
-        '''
+        """
         sets node children ids to ids
-        '''
+        """
         self.children = ids
 
     # features
     def add_child_id(self, i, n=1):
-        '''
+        """
         adds node child id i
-        '''
+        """
         self.children[i] = self.children.get(i, 0) + n
 
     def add_parent_id(self, i, n=1):
-        '''
+        """
         adds parent id i n times
-        '''
+        """
         self.parents[i] = self.parents.get(i, 0) + n
 
     def copy(self):
-        '''
+        """
         returns a copy of the node
-        '''
+        """
         return copy.deepcopy(self)
 
     def remove_parent_once(self, i):
-        '''
+        """
         removes the parent of id i
-        '''
+        """
         self.parents[i] = self.parents.get(i, 0) - 1
         if self.parents[i] <= 0:
             self.parents.pop(i)
 
     def remove_child_once(self, i):
-        '''
+        """
         removes the child of id i
-        '''
+        """
         self.children[i] = self.children.get(i, 0) - 1
         if self.children[i] <= 0:
             self.children.pop(i)
 
     def remove_parent_id(self, i):
-        '''
+        """
         removes all occurences of parent of id i
-        '''
+        """
         self.parents[i] = 0
         self.parents.pop(i)
 
     def remove_child_id(self, i):
-        '''
+        """
         removes all occurences of child of id i
-        '''
+        """
         self.children[i] = 0
         self.children.pop(i)
 
 
 class open_digraph:  # for open directed graph
 
-    def __init__(self, inputs=[], outputs=[], nodes={}):
-        '''
+    def __init__(self, inputs=None, outputs=None, nodes=None):
+        """
         inputs: int list; the ids of the input nodes
         outputs: int list; the ids of the output nodes
         nodes: node iter;
-        '''
+        """
+        if nodes is None:
+            nodes = {}
+        if outputs is None:
+            outputs = []
+        if inputs is None:
+            inputs = []
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = {n.id: n for n in nodes}  # self.nodes: <int,node> dict
@@ -142,90 +150,90 @@ class open_digraph:  # for open directed graph
 
     @classmethod
     def empty(cls):
-        '''
+        """
         returns an empty graph
-        '''
+        """
         return cls([], [], {})
 
     # getters
     def get_input_ids(self):
-        '''
+        """
         returns the ids of input nodes
-        '''
+        """
         return self.inputs
 
     def get_output_ids(self):
-        '''
+        """
         returns the ids of output nodes
-        '''
+        """
         return self.outputs
 
     def get_id_node_map(self):
-        '''
+        """
         returns a dictionary containing the ids associated to their nodes
-        '''
+        """
         return self.nodes
 
     def get_nodes(self):
-        '''
+        """
         returns a list of every node in the graph
-        '''
+        """
         return self.get_id_node_map().values()
 
     def get_node_ids(self):
-        '''
+        """
         returns a list of ids from every node in the graph
-        '''
+        """
         return self.get_id_node_map().keys()
 
     def get_node_by_id(self, i):
-        '''
+        """
         returns the node corresponding to the id i
-        '''
+        """
         return self.nodes.get(i, 0)
 
     def get_nodes_by_ids(self, ids):
-        '''
+        """
         returns a list of every node which id is in ids
-        '''
+        """
         return [self.get_node_by_id(i) for i in ids]
 
     # setters
     def set_input_ids(self, ids):
-        '''
+        """
         sets input ids to ids
-        '''
+        """
         self.inputs = ids
 
     def set_output_ids(self, ids):
-        '''
+        """
         sets output ids to ids
-        '''
+        """
         self.outputs = ids
 
     # features
     def add_input_id(self, i):
-        '''
+        """
         adds an input id i to the graph
-        '''
+        """
         self.inputs.append(i)
 
     def add_output_id(self, i):
-        '''
+        """
         adds an output id i to the graph
-        '''
+        """
         self.outputs.append(i)
 
     def copy(self):
-        '''
+        """
         returns a copy of the graph
-        '''
+        """
         return copy.deepcopy(self)
 
     def new_id(self):
-        '''
+        """
         returns an unassigned id for the graph
-        '''
+        """
         # l'id 0 est reservee pour les id par default ie. invalide
         m = 0
         for i in sorted(self.get_node_ids()):
@@ -234,17 +242,21 @@ class open_digraph:  # for open directed graph
         return m
 
     def add_edge(self, *pairs):
-        '''
+        """
         adds an edge from src to tgt
-        '''
+        """
         for src, tgt in pairs:
             self.get_node_by_id(src).add_child_id(tgt)
             self.get_node_by_id(tgt).add_parent_id(src)
 
-    def add_node(self, label='', parents={}, children={}):
-        '''
+    def add_node(self, label='', parents=None, children=None):
+        """
         adds a node to the graph
-        '''
+        """
+        if children is None:
+            children = {}
+        if parents is None:
+            parents = {}
         k = self.new_id()
         self.nodes[k] = node(k, label, parents.copy(), children.copy())
         for i, j in parents.items():
@@ -253,25 +265,25 @@ class open_digraph:  # for open directed graph
             self.nodes[i].add_parent_id(k, j)
 
     def remove_edge(self, *pairs):
-        '''
+        """
         removes edges from src to tgt
-        '''
+        """
         for src, tgt in pairs:
             self.get_node_by_id(src).remove_child_once(tgt)
             self.get_node_by_id(tgt).remove_parent_once(src)
 
     def remove_parallel_edges(self, *pairs):
-        '''
+        """
         removes any edge from src to tgt
-        '''
+        """
         for src, tgt in pairs:
             self.get_node_by_id(src).remove_child_id(tgt)
             self.get_node_by_id(tgt).remove_parent_id(src)
 
     def remove_node_by_id(self, *ids):
-        '''
+        """
         removes node of id i
-        '''
+        """
         for i in ids:
             # enleve tout les parents de i
             for k in self.get_node_by_id(i).get_parent_ids():
@@ -288,9 +300,9 @@ class open_digraph:  # for open directed graph
                 self.get_output_ids().remove(i)
 
     def is_well_formed(self):
-        '''
+        """
         returns true if the graph is well-formed else false
-        '''
+        """
         # chaque noeud d’inputs et d’outputs doit etre dans le graphe (i.e. son id comme clef dans nodes)
         for i in self.get_input_ids():
             if not self.get_node_by_id(i):
@@ -325,18 +337,18 @@ class open_digraph:  # for open directed graph
         return True
 
     def add_input_node(self, nodeId, label=''):
-        '''
+        """
         adds an input node to the graph that is pointing towards a node of id nodeId
-        '''
+        """
         if self.get_node_by_id(nodeId) in self.get_input_ids():
             raise Exception('node of argument nodeId is an input node')
         self.add_input_id(self.new_id())
         self.add_node(label, {}, {nodeId: 1})
 
     def add_output_node(self, nodeId, label=''):
-        '''
+        """
         adds an output node to the graph that is pointed by a node of id nodeId
-        '''
+        """
         if self.get_node_by_id(nodeId) in self.get_output_ids():
             raise Exception('node of argument nodeId is an output node')
         self.add_output_id(self.new_id())
@@ -344,26 +356,28 @@ class open_digraph:  # for open directed graph
 
     @classmethod
     def random(cls, n, bound, inputs=0, outputs=0, form='free'):
-        '''
+        """
         form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
-        '''
-        if form=='free':
+        """
+        if form == 'free':
             m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
-            
-        elif form=='DAG':
+
+        elif form == 'DAG':
             m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
-            
-        elif form=='oriented':
+
+        elif form == 'oriented':
             m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
-            
-        elif form=='loop-free':
+
+        elif form == 'loop-free':
             m = matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
-            
-        elif form=='undirected':
+
+        elif form == 'undirected':
             m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
-        
-        elif form=='loop-free undirected':
+
+        elif form == 'loop-free undirected':
             m = matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
+        else:
+            raise Exception('not a valid open_digraph form')
 
         k = []
         for i in range(inputs):
@@ -371,7 +385,7 @@ class open_digraph:  # for open directed graph
             while r in k:
                 r = random.randrange(n)
             k.append(r)
-        
+
         p = []
         for i in range(outputs):
             r = random.randrange(n)
@@ -379,19 +393,19 @@ class open_digraph:  # for open directed graph
                 r = random.randrange(n)
             p.append(r)
 
-        LastNode = list(range(n))
-        print( k + p)
-        for a in (p + k ):
+        lastNode = list(range(n))
+        print(k + p)
+        for a in (p + k):
             for b in range(n):
                 m[a][b] = 0
                 m[b][a] = 0
-            LastNode.remove(a)
+            lastNode.remove(a)
         for i in k:
-            NewChild = random.randrange(len(LastNode))
-            m[i][LastNode[NewChild]] = 1
+            newChild = random.randrange(len(lastNode))
+            m[i][lastNode[newChild]] = 1
         for i in p:
-            NewParent = random.randrange(len(LastNode))
-            m[LastNode[NewParent]][i] = 1
+            newParent = random.randrange(len(lastNode))
+            m[lastNode[newParent]][i] = 1
         Mat = matrice.graph_from_adjacency_matrix(m)
         Mat.set_input_ids(k)
         Mat.set_output_ids(p)
@@ -399,10 +413,10 @@ class open_digraph:  # for open directed graph
 
     def dict_unique_id(self):
         p = max(self.get_node_ids())
-        dict = {}
+        dico = {}
         for i in range(p):
-            dict[i] = random.randrange(p)
-        return dict
+            dico[i] = random.randrange(p)
+        return dico
 
     def adjacency_matrix(self):
         p = len(self.get_node_ids())
@@ -413,25 +427,11 @@ class open_digraph:  # for open directed graph
             for x, y in i.get_children_ids().items():
                 m[i.get_id()][x] = y
         return m
-        
-        
-    def save_as_string(self, verbose=False):
-        p = 'digraph G { \n'
-        if verbose:
-            for i in self.get_nodes():
-                if i.get_label() != '':
-                    p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
-        for n in self.get_nodes():
-                for i in n.get_children_ids().keys():
-                    for _ in range(n.get_children_ids().get(i)):
-                        p = p + f'v{n.get_id()} -> v{i}; \n'
-        p = p + '}'
-        return p
-    
+
     def save_as_dot_file(self, path, verbose=False):
-        '''
+        """
         enregistrer en fichier .dot par ex:
-        
+
         digraph G {
         v0 [label="&"];
         v1 [label="~"];
@@ -443,43 +443,48 @@ class open_digraph:  # for open directed graph
         v3 -> v4;
         v2 -> v4;
         }
-        '''
+        """
         f = open(path, 'w+')
-        self.save_as_string(verbose)
+        p = 'digraph G { \n'
+        if verbose:
+            for i in self.get_nodes():
+                if i.get_label() != '':
+                    p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
+        for n in self.get_nodes():
+            for i in n.get_children_ids().keys():
+                for _ in range(n.get_children_ids().get(i)):
+                    p = p + f'v{n.get_id()} -> v{i}; \n'
+        p = p + '}'
         f.write(p)
         f.close()
-        
-        
+
     @classmethod
-    def from_dot_file(cls,paths,verbose=False):
-        '''
+    def from_dot_file(cls, path, verbose=False):
+        """
         return un digraph lu dans un fichier .dot
-        '''
-        k = open_diagram.empty()
-        file1 = open(path, 'r')
-        Lines = file1.readlines()
-        for line in Lines:
+        """
+        graph = open_digraph()
+        for line in open(path, 'r').readlines():
             if line[0] == 'v':
                 if line[3] == "[":
                     if verbose:
-                        while len(k.get_node_ids()) < int(lines[1]):
-                            k.add_node()
-                        k.add_node(labels=lines[11])
+                        while len(graph.get_node_ids()) < int(line[1]):
+                            graph.add_node()
+                        graph.add_node(label=line[11])
                 else:
                     c = 4
-                    while lines[c] != ';';
-                        if c%3 == 1:
-                            while len(k.get_node_ids()) < int(lines[c]):
-                                k.add_node()
-                            k.add_edge(lines[c-3], lines[c])
+                    while line[c] != ';':
+                        if c % 3 == 1:
+                            while len(graph.get_node_ids()) < int(line[c]):
+                                graph.add_node()
+                            graph.add_edge(line[c - 3], line[c])
                         c += 1
-        return k
-        
+        return graph
+
     def display(self, verbose=False):
-        '''
+        """
         affiche directement le graphe
-        '''
+        """
         self.save_as_dot_file('tmp', verbose)
         os.system('dot -Tpdf tmp.dot -o tmp.pdf')
         os.system('firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{%0A%09v0 -> v1%3B%0A}')
-        
