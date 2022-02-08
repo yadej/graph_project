@@ -1,5 +1,5 @@
 import random
-import modules.open_digraph
+import open_digraph
 
 
 def random_int_list(n, bound):
@@ -37,7 +37,7 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
 
 
 def graph_from_adjacency_matrix(m):
-    a = modules.open_digraph.open_digraph.empty()
+    a = open_digraph.open_digraph.empty()
     for _ in range(len(m)):
         a.add_node()
     for i in range(len(m)):

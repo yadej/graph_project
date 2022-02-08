@@ -1,6 +1,6 @@
 import copy
 import random
-import modules.matrice
+import matrice
 
 class node:
 
@@ -348,22 +348,22 @@ class open_digraph:  # for open directed graph
         form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
         '''
         if form=='free':
-            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
+            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
             
         elif form=='DAG':
-            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
+            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
             
         elif form=='oriented':
-            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
+            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
             
         elif form=='loop-free':
-            m = modules.matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
+            m = matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
             
         elif form=='undirected':
-            m = modules.matrice.random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
+            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
         
         elif form=='loop-free undirected':
-            m = modules.matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
+            m = matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
 
         k = []
         for i in range(inputs):
@@ -392,7 +392,7 @@ class open_digraph:  # for open directed graph
         for i in p:
             NewParent = random.randrange(len(LastNode))
             m[LastNode[NewParent]][i] = 1
-        Mat = modules.matrice.graph_from_adjacency_matrix(m)
+        Mat = matrice.graph_from_adjacency_matrix(m)
         Mat.set_input_ids(k)
         Mat.set_output_ids(p)
         return Mat
