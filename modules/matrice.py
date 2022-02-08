@@ -1,7 +1,6 @@
 import random
 import open_digraph
 
-
 def random_int_list(n, bound):
     return [random.randrange(bound) for _ in range(n)]
 

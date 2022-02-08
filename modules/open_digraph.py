@@ -415,6 +415,19 @@ class open_digraph:  # for open directed graph
         return m
         
         
+    def save_as_string(self, verbose=False):
+        p = 'digraph G { \n'
+        if verbose:
+            for i in self.get_nodes():
+                if i.get_label() != '':
+                    p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
+        for n in self.get_nodes():
+                for i in n.get_children_ids().keys():
+                    for _ in range(n.get_children_ids().get(i)):
+                        p = p + f'v{n.get_id()} -> v{i}; \n'
+        p = p + '}'
+        return p
+    
     def save_as_dot_file(self, path, verbose=False):
         '''
         enregistrer en fichier .dot par ex:
@@ -432,30 +445,40 @@ class open_digraph:  # for open directed graph
         }
         '''
         f = open(path, 'w+')
-        p = 'digraph G { \n'
-        if verbose:
-            for i in self.get_nodes():
-                if i.get_label() != '':
-                    p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
-        for n in self.get_nodes():
-                for i in n.get_children_ids().keys():
-                    p = p + f'v{n.get_id()} -> v{i}; \n'
-        p = p + '}'
+        self.save_as_string(verbose)
         f.write(p)
         f.close()
         
         
     @classmethod
-    def from_dot_file(cls):
+    def from_dot_file(cls,paths,verbose=False):
         '''
         return un digraph lu dans un fichier .dot
         '''
+        k = open_diagram.empty()
+        file1 = open(path, 'r')
+        Lines = file1.readlines()
+        for line in Lines:
+            if line[0] == 'v':
+                if line[3] == "[":
+                    if verbose:
+                        while len(k.get_node_ids()) < int(lines[1]):
+                            k.add_node()
+                        k.add_node(labels=lines[11])
+                else:
+                    c = 4
+                    while lines[c] != ';';
+                        if c%3 == 1:
+                            while len(k.get_node_ids()) < int(lines[c]):
+                                k.add_node()
+                            k.add_edge(lines[c-3], lines[c])
+                        c += 1
+        return k
         
     def display(self, verbose=False):
         '''
         affiche directement le graphe
         '''
-        
         self.save_as_dot_file('tmp', verbose)
         os.system('dot -Tpdf tmp.dot -o tmp.pdf')
         os.system('firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{%0A%09v0 -> v1%3B%0A}')
