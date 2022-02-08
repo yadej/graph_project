@@ -1,58 +1,59 @@
-from modules.open_digraph import *
-from modules.matrice import *
+import random
+from modules import open_digraph, matrice
 
-# import inspect
+graph = open_digraph.open_digraph()
+print(f'diagram = {graph}\n')
 
-d = open_digraph([1, 2, 3], [6], [node(0, 'a', [], [1])])
-print(f'd = {d}\n')
+graph.add_node('Aya')
+graph.add_node(parents={1: 3})
+graph.add_node('Pour', children={2: 4})
+graph.add_node(children={2: 2})
+graph.add_node(parents={4: 6})
+print(f'diagram = {graph}\n')
 
-print(f'methodes du module open_digraph = {dir(open_digraph)}')
+graph.add_input_node(2)
+graph.add_output_node(3)
+graph.add_output_node(4)
+graph.add_input_node(4)
+print(f'diagram = {graph}\n')
 
-diagram = open_digraph()
-print(f'diagram = {diagram}\n')
-diagram.add_node('Aya')
-diagram.add_node(parents={1: 3})
-diagram.add_node('Pour', children={2: 4})
-diagram.add_node(children={2: 2})
-diagram.add_node(parents={4: 6})
-print(f'diagram = {diagram}\n')
-diagram.add_input_node(2)
-diagram.add_output_node(3)
-diagram.add_output_node(4)
-diagram.add_input_node(4)
-print(f'diagram = {diagram}\n')
-if diagram.is_well_formed():
+if graph.is_well_formed():
     print('wo uho')
-diagram.remove_parallel_edges((1, 2))
-if diagram.is_well_formed():
+
+graph.remove_parallel_edges((1, 2))
+if graph.is_well_formed():
     print('wo uho')
-diagram.remove_edge((6, 2))
-if diagram.is_well_formed():
+
+graph.remove_edge((6, 2))
+if graph.is_well_formed():
     print('wo uho')
-diagram.add_edge((6, 2))
-diagram.remove_node_by_id(5)
-if diagram.is_well_formed():
+
+graph.add_edge((6, 2))
+graph.remove_node_by_id(5)
+if graph.is_well_formed():
     print('wo uho')
-diagram.remove_node_by_id(6)
-diagram.add_edge((1, 3))
-if diagram.is_well_formed():
+
+graph.remove_node_by_id(6)
+graph.add_edge((1, 3))
+if graph.is_well_formed():
     print('wo uho')
-print(diagram)
+
+print(graph)
+
 n = 5
-b = 5
-k = random_int_matrix(n, b, oriented=True)
+matrix = matrice.random_int_matrix(n, n, oriented=True)
 for i in range(n):
-    print(k[i])
+    print(matrix[i])
+print(matrice.graph_from_adjacency_matrix(matrix))
 
-print(graph_from_adjacency_matrix(k))
+digraph = open_digraph.open_digraph.random(9, 10)
+print(digraph)
 
-w = open_digraph.random(9, 10)
-print(w)
-b = w.adjacency_matrix()
+b = digraph.adjacency_matrix()
 for i in range(9):
     print(b[i])
-print(graph_from_adjacency_matrix(b))
-print(w.dict_unique_id())
-p = random_int_matrix(10, 3, number_generator=(lambda: random.betavariate(1, 5)))
+print(matrice.graph_from_adjacency_matrix(b))
+print(digraph.dict_unique_id())
+p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 for i in range(10):
     print(p[i])

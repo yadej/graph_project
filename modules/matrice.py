@@ -1,47 +1,51 @@
-import random
-import open_digraph
+from random import randrange
+from modules import open_digraph
 
 
 def random_int_list(n, bound):
-    return [random.randrange(bound) for _ in range(n)]
+    return [randrange(bound) for _ in range(n)]
 
 
-def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False,
-                      number_generator=None):
-    if number_generator is None:
-        m = [random_int_list(n, bound) for _ in range(n)]
+def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False, number_gen=None):
+
+    if number_gen is None:
+        matrix = [random_int_list(n, bound) for _ in range(n)]
     else:
-        m = [[int(bound * number_generator()) for _ in range(n)] for _ in range(n)]
+        matrix = [[int(bound * number_gen()) for _ in range(n)] for _ in range(n)]
 
     if symetric:
         for i in range(n):
             for j in range(i):
-                m[i][j] = m[j][i]
+                matrix[i][j] = matrix[j][i]
 
     if oriented:
         for i in range(n):
             for j in range(n):
-                while m[i][j] == m[j][i] and i != j:
-                    m[i][j] = random.randrange(n)
+                while matrix[i][j] == matrix[j][i] and i != j:
+                    matrix[i][j] = randrange(n)
 
     if triangular:
         for i in range(n):
             for j in range(i):
-                m[j][i] = 0
+                matrix[j][i] = 0
 
     if null_diag:
         for i in range(n):
-            m[i][i] = 0
+            matrix[i][i] = 0
 
-    return m
+    return matrix
 
 
 def graph_from_adjacency_matrix(m):
-    a = open_digraph.open_digraph.empty()
+
+    graph = open_digraph.open_digraph()
+
     for _ in range(len(m)):
-        a.add_node()
+        graph.add_node()
+
     for i in range(len(m)):
         for j in range(len(m)):
             for _ in range(m[i][j]):
-                a.add_edge((i, j))
-    return a
+                graph.add_edge((i, j))
+
+    return graph

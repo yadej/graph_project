@@ -1,7 +1,7 @@
 import copy
 import random
-import matrice
 import os
+from modules.matrice import random_int_matrix, graph_from_adjacency_matrix
 
 
 class node:
@@ -360,22 +360,22 @@ class open_digraph:  # for open directed graph
         form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
         """
         if form == 'free':
-            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
+            matrix = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
 
         elif form == 'DAG':
-            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
+            matrix = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
 
         elif form == 'oriented':
-            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
+            matrix = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)
 
         elif form == 'loop-free':
-            m = matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
+            matrix = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False)
 
         elif form == 'undirected':
-            m = matrice.random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
+            matrix = random_int_matrix(n, bound, null_diag=False, symetric=True, oriented=False, triangular=True)
 
         elif form == 'loop-free undirected':
-            m = matrice.random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
+            matrix = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
         else:
             raise Exception('not a valid open_digraph form')
 
@@ -397,19 +397,19 @@ class open_digraph:  # for open directed graph
         print(k + p)
         for a in (p + k):
             for b in range(n):
-                m[a][b] = 0
-                m[b][a] = 0
+                matrix[a][b] = 0
+                matrix[b][a] = 0
             lastNode.remove(a)
         for i in k:
             newChild = random.randrange(len(lastNode))
-            m[i][lastNode[newChild]] = 1
+            matrix[i][lastNode[newChild]] = 1
         for i in p:
             newParent = random.randrange(len(lastNode))
-            m[lastNode[newParent]][i] = 1
-        Mat = matrice.graph_from_adjacency_matrix(m)
-        Mat.set_input_ids(k)
-        Mat.set_output_ids(p)
-        return Mat
+            matrix[lastNode[newParent]][i] = 1
+        graph = graph_from_adjacency_matrix(matrix)
+        graph.set_input_ids(k)
+        graph.set_output_ids(p)
+        return graph
 
     def dict_unique_id(self):
         p = max(self.get_node_ids())
@@ -420,13 +420,13 @@ class open_digraph:  # for open directed graph
 
     def adjacency_matrix(self):
         p = len(self.get_node_ids())
-        m = [[0 for _ in range(p)] for _ in range(p)]
+        matrix = [[0 for _ in range(p)] for _ in range(p)]
         for i in self.get_nodes():
             for x, y in i.get_parent_ids().items():
-                m[x][i.get_id()] = y
+                matrix[x][i.get_id()] = y
             for x, y in i.get_children_ids().items():
-                m[i.get_id()][x] = y
-        return m
+                matrix[i.get_id()][x] = y
+        return matrix
 
     def save_as_dot_file(self, path, verbose=False):
         """
