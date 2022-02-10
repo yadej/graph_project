@@ -428,7 +428,7 @@ class open_digraph:  # for open directed graph
                 matrix[i.get_id()][x] = y
         return matrix
 
-    def diagramTostring(self,arg1,*args):
+    def diagraph_to_string(self, arg1, *args):
         string = ""
         k = arg1.get_children_ids()
         for arg in args:
@@ -446,9 +446,9 @@ class open_digraph:  # for open directed graph
             for i in range(len(k)):
                 lm = arg1.get_children_ids().get(k[i])
                 for j in range(i):
-                    lm = min(lm,self.get_node_by_id(k[i]).get_children_ids().get(k[i]))
+                    lm = min(lm, self.get_node_by_id(k[i]).get_children_ids().get(k[i]))
                 for _ in range(lm):
-                    string = string + self.diagramTostring(self,arg1,args,self.get_node_by_id(k[i]))
+                    string = string + self.diagramTostring(self, arg1, args, self.get_node_by_id(k[i]))
             return string
 
     def save_as_dot_file(self, path, verbose=False):
@@ -480,7 +480,6 @@ class open_digraph:  # for open directed graph
         p = p + '}'
         f.write(p)
         f.close()
-
 
     @classmethod
     def from_dot_file(cls, path, verbose=False):
