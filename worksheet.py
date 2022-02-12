@@ -46,12 +46,12 @@ matrix = matrice.random_int_matrix(n, n, oriented=True)
 for i in range(n):
     print(matrix[i])
 print(matrice.graph_from_adjacency_matrix(matrix))
-
-digraph = open_digraph.open_digraph.random(9, 10, form='loop-free')
+bound = 3
+digraph = open_digraph.open_digraph.random(n, bound, form='loop-free')
 print(digraph)
 
 b = digraph.adjacency_matrix()
-for i in range(9):
+for i in range(n):
     print(b[i])
 print(matrice.graph_from_adjacency_matrix(b))
 print(digraph.dict_unique_id())
