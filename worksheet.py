@@ -68,3 +68,9 @@ print(ellepath)
 print(os.access(ellepath, os.W_OK))
 
 digraph.save_as_dot_file(existGDBPath, verbose=False)
+print(digraph)
+c = digraph.adjacency_matrix()
+for i in range(n):
+    print(c[i])
+abc = digraph.from_dot_file(existGDBPath)
+print(abc)

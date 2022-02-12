@@ -190,7 +190,7 @@ class open_digraph:  # for open directed graph
         """
         returns the node corresponding to the id i
         """
-        return self.nodes.get(i, 0)
+        return self.nodes.get(i)
 
     def get_nodes_by_ids(self, ids):
         """
@@ -439,9 +439,9 @@ class open_digraph:  # for open directed graph
             Targ = list(args)
             for arg in range(len(Targ)):
                 string = string + f' -> v{Targ[arg].get_id()}'
-                for i in range(len(Targ) - arg):
-                    self.get_node_by_id(Targ[arg].get_id()).remove_child_once(i)
-            string = string + '\n'
+                for i in range(len(Targ) - arg - 1):
+                    self.remove_edge((Targ[arg].get_id(),Targ[i].get_id()))
+            string = string + ';\n'
             return string
         else:
             for i in range(len(k)):
@@ -499,12 +499,12 @@ class open_digraph:  # for open directed graph
                             graph.add_node()
                         graph.add_node(label=line[11])
                 else:
-                    c = 4
+                    c = 1
                     while line[c] != ';':
-                        if c % 3 == 1:
-                            while len(graph.get_node_ids()) < int(line[c]):
+                        if c % 6 == 1 and c > 6:
+                            while len(graph.get_node_ids()) < int(line[c]) + 1:
                                 graph.add_node()
-                            graph.add_edge(line[c - 3], line[c])
+                            graph.add_edge((int(line[c - 6]), int(line[c])))
                         c += 1
         return graph
 
