@@ -512,6 +512,7 @@ class open_digraph:  # for open directed graph
         """
         affiche directement le graphe
         """
-        self.save_as_dot_file('tmp', verbose)
-        os.system('dot -Tpdf tmp.dot -o tmp.pdf')
-        os.system('firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{%0A%09v0 -> v1%3B%0A}')
+        self.save_as_dot_file('tmp.dot', verbose)
+        # C'est pour Windows
+        url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph%7B%0A%09v0%20-">"%20v1%0A%7D'
+        os.system(url)

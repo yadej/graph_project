@@ -74,3 +74,4 @@ for i in range(n):
     print(c[i])
 abc = digraph.from_dot_file(existGDBPath)
 print(abc)
+digraph.display()
