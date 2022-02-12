@@ -1,5 +1,6 @@
 import random
 from modules import open_digraph, matrice
+import os
 
 graph = open_digraph.open_digraph()
 print(f'diagram = {graph}\n')
@@ -46,7 +47,7 @@ for i in range(n):
     print(matrix[i])
 print(matrice.graph_from_adjacency_matrix(matrix))
 
-digraph = open_digraph.open_digraph.random(9, 10)
+digraph = open_digraph.open_digraph.random(9, 10, form='loop-free')
 print(digraph)
 
 b = digraph.adjacency_matrix()
@@ -57,3 +58,13 @@ print(digraph.dict_unique_id())
 p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 for i in range(10):
     print(p[i])
+existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\diagraph.dot"
+# existGDBPath = './diagraph.dot'
+assert os.path.isfile(existGDBPath)
+print(existGDBPath)
+
+ellepath = os.path.dirname(existGDBPath)
+print(ellepath)
+print(os.access(ellepath, os.W_OK))
+
+digraph.save_as_dot_file(existGDBPath, verbose=False)
