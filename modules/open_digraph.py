@@ -513,8 +513,9 @@ class open_digraph:  # for open directed graph
                         if c % 6 == 1 and c > 6:
                             while len(graph.get_node_ids()) < int(line[c]) + 1:
                                 graph.add_node()
-                            graph.add_edge((int(line[c - 6]), int(line[c])))
+
                         c += 1
+                    graph.add_edge((int(line[(c%6)-1]), int(line[c-1])))
         return graph
 
     def display(self, verbose=False):
