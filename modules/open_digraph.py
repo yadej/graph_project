@@ -439,7 +439,7 @@ class open_digraph:  # for open directed graph
             string = string + f'v{arg1.get_id()}'
             Targ = list(args)
             for arg in range(len(Targ)):
-                self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
+                # self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
                 string = string + f' -> v{Targ[arg].get_id()}'
                 for i in range(len(Targ) - arg - 1):
                     self.remove_edge((Targ[arg].get_id(),Targ[i].get_id()))
@@ -452,6 +452,8 @@ class open_digraph:  # for open directed graph
                     m = self.get_node_by_id(k[i]).get_children_ids().get(k[i])
                     if m is not None:
                         lm = min(lm, m)
+                if lm is None:
+                    return ""
                 for _ in range(lm):
                     p = (*args, self.get_node_by_id(k[i]))
                     string = string + self.diagraph_to_string(arg1, *p)
