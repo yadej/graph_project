@@ -47,7 +47,7 @@ for i in range(n):
     print(matrix[i])
 print(matrice.graph_from_adjacency_matrix(matrix))
 bound = 3
-digraph = open_digraph.open_digraph.random(n, bound, form='loop-free')
+digraph = open_digraph.open_digraph.random(n, bound, 1, 2, form='loop-free')
 print(digraph)
 
 b = digraph.adjacency_matrix()

@@ -432,12 +432,14 @@ class open_digraph:  # for open directed graph
         string = ""
         k = list(arg1.get_children_ids().keys())
         for a in args:
-            k.remove(a.get_id())
+            if(a.get_id() in k):
+                k.remove(a.get_id())
             k = [x for x in k if x not in a.get_children_ids()]
         if len(k) == 0:
             string = string + f'v{arg1.get_id()}'
             Targ = list(args)
             for arg in range(len(Targ)):
+                self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
                 string = string + f' -> v{Targ[arg].get_id()}'
                 for i in range(len(Targ) - arg - 1):
                     self.remove_edge((Targ[arg].get_id(),Targ[i].get_id()))
@@ -479,7 +481,7 @@ class open_digraph:  # for open directed graph
                 if i.get_label() != '':
                     p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
         for n in newOp.get_nodes():
-            for i in n.get_children_ids().keys():
+            for i in list(n.get_children_ids().keys()):
                 p = p + newOp.diagraph_to_string(n,newOp.get_node_by_id(i))
         p = p + '}'
         f.write(p)
@@ -495,14 +497,19 @@ class open_digraph:  # for open directed graph
             if line[0] == 'v':
                 if line[3] == "[":
                     if verbose:
+                        newlabel = line[4]
+                        a = 5
                         while len(graph.get_node_ids()) < int(line[1]):
                             graph.add_node()
-                        graph.add_node(label=line[11])
+                        while line[a] != "]":
+                            newlabel = newlabel + line[a]
+                            a = a + 1
+                        graph.add_node(label=newlabel)
                 else:
                     c = 1
                     while line[c] != ';':
                         if c % 6 == 1 and c > 6:
-                            while len(graph.get_node_ids()) < int(line[c]) + 1:
+                            while len(graph.get_node_ids()) < int(line[c]) + 2:
                                 graph.add_node()
                             graph.add_edge((int(line[c - 6]), int(line[c])))
                         c += 1
