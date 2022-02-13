@@ -513,6 +513,14 @@ class open_digraph:  # for open directed graph
         affiche directement le graphe
         """
         self.save_as_dot_file('tmp.dot', verbose)
+        f = open("./tmp.dot", 'r')
+        txt = f.readlines()
+        newTxt = '%0A%09'
+        for line in txt[1:-1]:
+            line = line[:-1]
+            NewLine = line.split(' -> ')
+            line = '-">"'.join(NewLine)
+            newTxt = newTxt + line + '%0A%09'
+        url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         # C'est pour Windows
-        url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph%7B%0A%09v0%20-">"%20v1%0A%7D'
         os.system(url)
