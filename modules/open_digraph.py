@@ -432,7 +432,7 @@ class open_digraph:  # for open directed graph
         string = ""
         k = list(arg1.get_children_ids().keys())
         for a in args:
-            if(a.get_id() in k):
+            if a.get_id() in k:
                 k.remove(a.get_id())
             k = [x for x in k if x not in a.get_children_ids()]
         if len(k) == 0:
@@ -442,7 +442,7 @@ class open_digraph:  # for open directed graph
                 # self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
                 string = string + f' -> v{Targ[arg].get_id()}'
                 for i in range(len(Targ) - arg - 1):
-                    self.remove_edge((Targ[arg].get_id(),Targ[i].get_id()))
+                    self.remove_edge((Targ[arg].get_id(), Targ[i].get_id()))
             string = string + ';\n'
             return string
         else:
@@ -484,7 +484,7 @@ class open_digraph:  # for open directed graph
                     p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
         for n in newOp.get_nodes():
             for i in list(n.get_children_ids().keys()):
-                p = p + newOp.diagraph_to_string(n,newOp.get_node_by_id(i))
+                p = p + newOp.diagraph_to_string(n, newOp.get_node_by_id(i))
         p = p + '}'
         f.write(p)
         f.close()
@@ -515,7 +515,7 @@ class open_digraph:  # for open directed graph
                                 graph.add_node()
 
                         c += 1
-                    graph.add_edge((int(line[(c%6)-1]), int(line[c-1])))
+                    graph.add_edge((int(line[(c % 6) - 1]), int(line[c - 1])))
         return graph
 
     def display(self, verbose=False):
@@ -531,6 +531,8 @@ class open_digraph:  # for open directed graph
             NewLine = line.split(' -> ')
             line = '-">"'.join(NewLine)
             newTxt = newTxt + line + '%0A%09'
-        url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
-        # C'est pour Windows
+        # windows
+        # url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        # linux
+        url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
