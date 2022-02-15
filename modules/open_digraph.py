@@ -565,9 +565,11 @@ class open_digraph:  # for open directed graph
         
         def __init__(self, g=None):
             if isinstance(g, open_digraph):
-                self.graph = g
-                if not g.is_well_formed:
-                    raise Exception('is not a boolean circuit')
+                self.inputs = g.get_input_ids()
+                self.outputs = g.get_output_ids()
+                self.nodes = g.get_nodes()
+            if not g.is_well_formed:
+                raise Exception('is not a boolean circuit')
         
         def is_well_formed(self):
             # doit etre acyclique
