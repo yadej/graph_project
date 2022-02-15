@@ -124,13 +124,13 @@ class node:
         self.children.pop(i)
         
     def indegree(self):
-        ...
+        return sum(self.get_parent_ids().values())
         
     def outdegree(self):
-        ...
+        return sum(self.get_children_ids().values())
         
     def degree(self):
-        ...
+        return self.indegree() + self.outdegree()
 
 
 class open_digraph:  # for open directed graph
@@ -546,8 +546,14 @@ class open_digraph:  # for open directed graph
         url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
         
-    def is_cyclic():
-        ...
+    def is_cyclic(self):
+        # pas de noeud -> acyclique
+        if self.get_nodes() == []:
+            return False
+        # cherchons une feuille
+        g = self.copy()
+        if g.
+        
         
     class bool_circ(open_digraph):
         
@@ -560,13 +566,11 @@ class open_digraph:  # for open directed graph
         def is_well_formed(self):
             # doit etre acyclique
             if g.is_cyclic:
-                return false
+                return False
             # les noeuds copie ie label='' doivent avoir un input
             
             # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
             
             # les noeuds NON ie label='~' doivent avoir un input et un output
             
-            return true
-        
-        
+            return True
