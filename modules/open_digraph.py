@@ -573,10 +573,17 @@ class open_digraph:  # for open directed graph
             # doit etre acyclique
             if g.is_cyclic:
                 return False
-            # les noeuds copie ie label='' doivent avoir un input
             
-            # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
-            
-            # les noeuds NON ie label='~' doivent avoir un input et un output
-            
+            for node in self.get_nodes():
+                # les noeuds copie ie label='' doivent avoir un input
+                if node.get_label == '' and len(node.get_input_ids()) != 1:
+                    return False
+                # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
+                if node.get_label == '&' or node.get_label == '|':
+                    if len(node.get_output_ids()) != 1:
+                        return False
+                # les noeuds NON ie label='~' doivent avoir un input et un output
+                if node.get_label == '~':
+                    if len(node.get_output_ids()) != 1 || len(node.get_output_ids()) != 1:
+                        return False
             return True
