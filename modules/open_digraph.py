@@ -536,3 +536,10 @@ class open_digraph:  # for open directed graph
         # linux
         url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
+        
+    class bool_circ(open_digraph):
+        
+        def __init__(self, g=None):
+            if isinstance(g, open_digraph):
+                ...
+            
