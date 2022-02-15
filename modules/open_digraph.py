@@ -586,6 +586,6 @@ class open_digraph:  # for open directed graph
                         return False
                 # les noeuds NON ie label='~' doivent avoir un input et un output
                 if node.get_label == '~':
-                    if len(node.get_output_ids()) != 1 || len(node.get_output_ids()) != 1:
+                    if len(node.get_output_ids()) != 1 or len(node.get_output_ids()) != 1:
                         return False
             return True
