@@ -122,6 +122,15 @@ class node:
         """
         self.children[i] = 0
         self.children.pop(i)
+        
+    def indegree(self):
+        ...
+        
+    def outdegree(self):
+        ...
+        
+    def degree(self):
+        ...
 
 
 class open_digraph:  # for open directed graph
@@ -537,9 +546,27 @@ class open_digraph:  # for open directed graph
         url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
         
+    def is_cyclic():
+        ...
+        
     class bool_circ(open_digraph):
         
         def __init__(self, g=None):
             if isinstance(g, open_digraph):
-                ...
+                self.graph = g
+                if not g.is_well_formed:
+                    raise Exception('is not a boolean circuit')
+        
+        def is_well_formed(self):
+            # doit etre acyclique
+            if g.is_cyclic:
+                return false
+            # les noeuds copie ie label='' doivent avoir un input
             
+            # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
+            
+            # les noeuds NON ie label='~' doivent avoir un input et un output
+            
+            return true
+        
+        
