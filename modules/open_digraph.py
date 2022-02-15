@@ -551,8 +551,14 @@ class open_digraph:  # for open directed graph
         if self.get_nodes() == []:
             return False
         # cherchons une feuille
-        g = self.copy()
-        if g.
+        for node in self.get_nodes():
+            if node.get_children_ids().values() == []: # si c'est une feuille
+                # on la retire et on recommence
+                g = self.copy()
+                g.remove_node_by_id(node.get_id())
+                return g.is_cyclic()
+        # si il n'y a pas de feuille -> cyclique
+        return True
         
         
     class bool_circ(open_digraph):
