@@ -46,7 +46,7 @@ matrix = matrice.random_int_matrix(n, n, oriented=True)
 for i in range(n):
     print(matrix[i])
 print(matrice.graph_from_adjacency_matrix(matrix))
-bound = 3
+bound = 2
 digraph = open_digraph.open_digraph.random(n, bound, 1, 2, form='loop-free')
 print(digraph)
 
@@ -58,7 +58,7 @@ print(digraph.dict_unique_id())
 p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 for i in range(10):
     print(p[i])
-existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\digraph.dot"
+existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\diagraph.dot"
 # existGDBPath = './digraph.dot'
 assert os.path.isfile(existGDBPath)
 print(existGDBPath)
