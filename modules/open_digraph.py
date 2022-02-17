@@ -255,8 +255,6 @@ class open_digraph:  # for open directed graph
         adds an edge from src to tgt
         """
         for src, tgt in pairs:
-            if src is None or tgt is None:
-                continue
             self.get_node_by_id(src).add_child_id(tgt)
             self.get_node_by_id(tgt).add_parent_id(src)
 
