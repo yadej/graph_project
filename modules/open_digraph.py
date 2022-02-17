@@ -255,6 +255,8 @@ class open_digraph:  # for open directed graph
         adds an edge from src to tgt
         """
         for src, tgt in pairs:
+            if src is None or tgt is None:
+                continue
             self.get_node_by_id(src).add_child_id(tgt)
             self.get_node_by_id(tgt).add_parent_id(src)
 
@@ -520,11 +522,12 @@ class open_digraph:  # for open directed graph
                     c = 1
                     while line[c] != ';':
                         if c % 6 == 1 and c > 6:
-                            while len(graph.get_node_ids()) < int(line[c]) + 1:
+                            while (graph.new_id()) < int(line[c]) + 1:
                                 graph.add_node()
 
                         c += 1
-                    graph.add_edge((int(line[(c % 6) - 1]), int(line[c - 1])))
+                    if isinstance(int(line[(c % 6) - 1]), int) and isinstance(int(line[c - 1]), int):
+                        graph.add_edge((int(line[(c % 6) - 1]), int(line[c - 1])))
         return graph
 
     def display(self, verbose=False):
