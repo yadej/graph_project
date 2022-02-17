@@ -568,7 +568,7 @@ class bool_circ(open_digraph):
                 self.inputs = g.get_input_ids()
                 self.outputs = g.get_output_ids()
                 self.nodes = g.get_nodes()
-            if not g.is_well_formed:
+            if not g.is_well_formed():
                 raise Exception('is not a boolean circuit')
 
         def is_well_formed(self):
