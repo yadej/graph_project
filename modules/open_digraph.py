@@ -122,18 +122,18 @@ class node:
         """
         self.children[i] = 0
         self.children.pop(i)
-        
+
     def indegree(self):
         return sum(self.get_parent_ids().values())
-        
+
     def outdegree(self):
         return sum(self.get_children_ids().values())
-        
+
     def degree(self):
         return self.indegree() + self.outdegree()
 
 
-class open_digraph:  # for open directed graph
+class open_digraph(object):  # for open directed graph
 
     def __init__(self, inputs=None, outputs=None, nodes=None):
         """
@@ -545,47 +545,48 @@ class open_digraph:  # for open directed graph
         # linux
         url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
-        
+
     def is_cyclic(self):
         # pas de noeud -> acyclique
-        if self.get_nodes() == []:
+        if not self.get_nodes():
             return False
         # cherchons une feuille
-        for node in self.get_nodes():
-            if node.get_children_ids().values() == []: # si c'est une feuille
+        for n in self.get_nodes():
+            if not n.get_children_ids().values():  # si c'est une feuille
                 # on la retire et on recommence
                 g = self.copy()
-                g.remove_node_by_id(node.get_id())
+                g.remove_node_by_id(n.get_id())
                 return g.is_cyclic()
         # si il n'y a pas de feuille -> cyclique
         return True
-        
-        
-    class bool_circ(open_digraph):
-        
-        def __init__(self, g=None):
-            if isinstance(g, open_digraph):
-                self.inputs = g.get_input_ids()
-                self.outputs = g.get_output_ids()
-                self.nodes = g.get_nodes()
-            if not g.is_well_formed:
-                raise Exception('is not a boolean circuit')
-        
-        def is_well_formed(self):
-            # doit etre acyclique
-            if g.is_cyclic:
+
+
+class bool_circ(open_digraph):
+
+    def __init__(self, g=None):
+        super().__init__()
+        if isinstance(g, open_digraph):
+            self.inputs = g.get_input_ids()
+            self.outputs = g.get_output_ids()
+            self.nodes = g.get_nodes()
+        if not g.is_well_formed:
+            raise Exception('is not a boolean circuit')
+
+    def is_well_formed(self):
+        # doit etre acyclique
+        if self.is_cyclic:
+            return False
+
+        for n in self.get_nodes():
+            # les noeuds copie ie label='' doivent avoir un input
+            if n.get_label == '' and len(n.get_input_ids()) != 1:
                 return False
-            
-            for node in self.get_nodes():
-                # les noeuds copie ie label='' doivent avoir un input
-                if node.get_label == '' and len(node.get_input_ids()) != 1:
+            # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
+            if n.get_label == '&' or n.get_label == '|':
+                if len(n.get_output_ids()) != 1:
                     return False
-                # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
-                if node.get_label == '&' or node.get_label == '|':
-                    if len(node.get_output_ids()) != 1:
-                        return False
-                # les noeuds NON ie label='~' doivent avoir un input et un output
-                if node.get_label == '~':
-                    if len(node.get_output_ids()) != 1 or len(node.get_output_ids()) != 1:
-                        return False
-            return True
+            # les noeuds NON ie label='~' doivent avoir un input et un output
+            if n.get_label == '~':
+                if len(n.get_output_ids()) != 1 or len(n.get_output_ids()) != 1:
+                    return False
+        return True
