@@ -3,20 +3,20 @@ from modules import open_digraph, matrice
 import os
 
 graph = open_digraph.open_digraph()
-print(f'diagram = {graph}\n')
+print(f'digraph = {graph}\n')
 
 graph.add_node('Aya')
 graph.add_node(parents={1: 3})
 graph.add_node('Pour', children={2: 4})
 graph.add_node(children={2: 2})
 graph.add_node(parents={4: 6})
-print(f'diagram = {graph}\n')
+print(f'digraph = {graph}\n')
 
 graph.add_input_node(2)
 graph.add_output_node(3)
 graph.add_output_node(4)
 graph.add_input_node(4)
-print(f'diagram = {graph}\n')
+print(f'digraph = {graph}\n')
 
 if graph.is_well_formed():
     print('wo uho')
@@ -58,7 +58,7 @@ print(digraph.dict_unique_id())
 p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 for i in range(10):
     print(p[i])
-existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\diagraph.dot"
+existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\digraph.dot"
 # existGDBPath = './digraph.dot'
 assert os.path.isfile(existGDBPath)
 print(existGDBPath)

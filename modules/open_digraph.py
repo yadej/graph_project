@@ -437,7 +437,7 @@ class open_digraph:  # for open directed graph
                 matrix[i.get_id()][x] = y
         return matrix
 
-    def diagraph_to_string(self, arg1, *args):
+    def digraph_to_string(self, arg1, *args):
         string = ""
         k = list(arg1.get_children_ids().keys())
         for a in args:
@@ -465,7 +465,7 @@ class open_digraph:  # for open directed graph
                     return ""
                 for _ in range(lm):
                     p = (*args, self.get_node_by_id(k[i]))
-                    string = string + self.diagraph_to_string(arg1, *p)
+                    string = string + self.digraph_to_string(arg1, *p)
             return string
 
     def save_as_dot_file(self, path, verbose=False):
@@ -493,7 +493,7 @@ class open_digraph:  # for open directed graph
                     p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
         for n in newOp.get_nodes():
             for i in list(n.get_children_ids().keys()):
-                p = p + newOp.diagraph_to_string(n, newOp.get_node_by_id(i))
+                p = p + newOp.digraph_to_string(n, newOp.get_node_by_id(i))
         p = p + '}'
         f.write(p)
         f.close()
