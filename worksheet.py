@@ -77,7 +77,9 @@ print(abc)
 digraph.display()
 test = r"C:\Users\kids\PycharmProjects\projetinfo\test_bool.dot"
 # test = r".\test_bool.dot"
-bool_circ = digraph.from_dot_file(test, verbose=True)
-print(bool_circ)
-bool_circ.display(verbose=False)
+testDis = digraph.from_dot_file(test, verbose=True)
+print(testDis)
+testDis.display(verbose=False)
+print(testDis.is_cyclic())
+test_bool = open_digraph.bool_circ(testDis)
 
