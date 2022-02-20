@@ -46,7 +46,7 @@ matrix = matrice.random_int_matrix(n, n, oriented=True)
 for i in range(n):
     print(matrix[i])
 print(matrice.graph_from_adjacency_matrix(matrix))
-bound = 2
+bound = 5
 digraph = open_digraph.open_digraph.random(n, bound, 1, 2, form='loop-free')
 print(digraph)
 
@@ -75,3 +75,9 @@ for i in range(n):
 abc = digraph.from_dot_file(existGDBPath)
 print(abc)
 digraph.display()
+test = r"C:\Users\kids\PycharmProjects\projetinfo\test_bool.dot"
+# test = r".\test_bool.dot"
+bool_circ = digraph.from_dot_file(test, verbose=True)
+print(bool_circ)
+bool_circ.display(verbose=False)
+

@@ -444,29 +444,23 @@ class open_digraph:  # for open directed graph
             if a.get_id() in k:
                 k.remove(a.get_id())
             k = [x for x in k if x not in a.get_children_ids()]
-        if len(k) == 0:
-            string = string + f'v{arg1.get_id()}'
-            Targ = list(args)
-            for arg in range(len(Targ)):
-                # self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
-                string = string + f' -> v{Targ[arg].get_id()}'
-                for i in range(len(Targ) - arg - 1):
-                    self.remove_edge((Targ[arg].get_id(), Targ[i].get_id()))
-            string = string + ';\n'
-            return string
-        else:
-            for i in range(len(k)):
-                lm = arg1.get_children_ids().get(k[i])
-                for j in range(i):
-                    m = self.get_node_by_id(k[i]).get_children_ids().get(k[i])
-                    if m is not None:
-                        lm = min(lm, m)
-                if lm is None:
-                    return ""
-                for _ in range(lm):
-                    p = (*args, self.get_node_by_id(k[i]))
-                    string = string + self.digraph_to_string(arg1, *p)
-            return string
+        for i in range(len(k)):
+            m = self.get_node_by_id(k[i]).get_children_ids()
+            if len(m) == 1:
+                b = list(m.keys())
+                p = (*args, self.get_node_by_id(b[0]))
+                self.remove_edge((k[i], b[0]))
+                string = string + self.digraph_to_string(arg1, *p)
+                return string
+        string = string + f'v{arg1.get_id()}'
+        Targ = list(args)
+        for arg in range(len(Targ)):
+            # self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
+            string = string + f' -> v{Targ[arg].get_id()}'
+            if arg == 0:
+                self.remove_edge((arg1.get_id(), Targ[0].get_id()))
+        string = string + ';\n'
+        return string
 
     def save_as_dot_file(self, path, verbose=False):
         """
@@ -490,10 +484,11 @@ class open_digraph:  # for open directed graph
         if verbose:
             for i in newOp.get_nodes():
                 if i.get_label() != '':
-                    p = p + f'v{i.get_id()}[label="{i.get_label()}"]; \n'
+                    p = p + f'v{i.get_id()}[{i.get_label()}]; \n'
         for n in newOp.get_nodes():
             for i in list(n.get_children_ids().keys()):
-                p = p + newOp.digraph_to_string(n, newOp.get_node_by_id(i))
+                for j in range(n.get_children_ids().get(i)):
+                    p = p + newOp.digraph_to_string(n, newOp.get_node_by_id(i))
         p = p + '}'
         f.write(p)
         f.close()
@@ -525,7 +520,9 @@ class open_digraph:  # for open directed graph
 
                         c += 1
                     if isinstance(int(line[(c % 6) - 1]), int) and isinstance(int(line[c - 1]), int):
-                        graph.add_edge((int(line[(c % 6) - 1]), int(line[c - 1])))
+                        while(c > 2):
+                            graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
+                            c = c - 6
         return graph
 
     def display(self, verbose=False):
@@ -538,16 +535,21 @@ class open_digraph:  # for open directed graph
         newTxt = '%0A%09'
         for line in txt[1:-1]:
             line = line[:-1]
-            NewLine = line.split(' -> ')
-            line = '-">"'.join(NewLine)
-            newTxt = newTxt + line + '%0A%09'
+            if line[4] != 'l' or not verbose:
+                NewLine = line.split(' -> ')
+                line = '-">"'.join(NewLine)
+                newTxt = newTxt + line + '%0A%09'
+            else:
+                NewLine =line.split('"')
+                line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
+                newTxt = newTxt + line # + '%0A%09'
         # windows
         url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         # linux
         # url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
 
-    def is_cyclic(self):
+    def cyclic(self):
         # pas de noeud -> acyclique
         if not self.get_nodes():
             return False
@@ -560,7 +562,10 @@ class open_digraph:  # for open directed graph
                 return g.is_cyclic()
         # si il n'y a pas de feuille -> cyclique
         return True
-        
+
+    def is_cyclic(self):
+        k = self.copy()
+        return k.cyclic()
         
 class bool_circ(open_digraph):
 
