@@ -439,21 +439,22 @@ class open_digraph:  # for open directed graph
 
     def digraph_to_string(self, arg1, *args):
         string = ""
-        k = list(arg1.get_children_ids().keys())
-        for a in args:
-            if a.get_id() in k:
-                k.remove(a.get_id())
-            k = [x for x in k if x not in a.get_children_ids()]
-        for i in range(len(k)):
-            m = self.get_node_by_id(k[i]).get_children_ids()
-            if len(m) == 1:
-                b = list(m.keys())
-                p = (*args, self.get_node_by_id(b[0]))
-                self.remove_edge((k[i], b[0]))
-                string = string + self.digraph_to_string(arg1, *p)
-                return string
-        string = string + f'v{arg1.get_id()}'
+        # k = list(arg1.get_children_ids().keys())
         Targ = list(args)
+        # for a in args:
+        #   if a.get_id() in k:
+        #         k.remove(a.get_id())
+        #    k = [x for x in k if x not in a.get_children_ids()]
+        # for i in range(len(k)):
+        m = Targ[-1].get_children_ids()
+        if len(m) == 1:
+            b = list(m.keys())
+            p = (*args, self.get_node_by_id(b[0]))
+            self.remove_edge((Targ[-1].get_id(), b[0]))
+            string = string + self.digraph_to_string(arg1, *p)
+            return string
+        string = string + f'v{arg1.get_id()}'
+        # Targ = list(args)
         for arg in range(len(Targ)):
             # self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
             string = string + f' -> v{Targ[arg].get_id()}'
