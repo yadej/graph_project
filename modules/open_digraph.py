@@ -575,6 +575,45 @@ class open_digraph:  # for open directed graph
 
     def max_id(self):
        return max(list(self.get_node_ids()))
+       
+    def shift_indices(self, n):
+        for i in self.get_nodes():
+            i.set_id(i.get_id() + n)
+            k = {}
+            for ci, m in i.get_children_ids().items():
+                k[ci + n] = m
+            i.set_children_ids(k)
+            p = {}
+            for ci, m in i.get_parent_ids().items():
+                p[ci + n] = m
+            i.set_parent_ids(p)
+        ns = {}
+        for i in self.get_nodes():
+            ns[i.get_id() + n] = i
+        self = open_digraph([i+n for i in self.get_inputs()], [i+n for i in self.get_outputs()], ns)
+    
+    def iparallel(self, *gs):
+        for g in gs:
+            ...
+        
+    def parallel(self, *gs):
+        for g in gs:
+            ...
+        
+    def icompose(self, g):
+        if self.get_input_ids != g.get_output_ids:
+            raise Exception('inputs do not match g outputs')
+        ...
+    
+    def compose(self, g):
+        ...
+        
+    def connected_components(self):
+        ...
+        
+    def list(self):
+        ...
+    
         
 class bool_circ(open_digraph):
 
