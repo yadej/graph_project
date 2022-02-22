@@ -556,10 +556,10 @@ class open_digraph:  # for open directed graph
             return False
         # cherchons une feuille
         for n in self.get_nodes():
-            if not n.get_children_ids().values():  # si c'est une feuille
+            if not list(n.get_children_ids().values()):  # si c'est une feuille
                 # on la retire et on recommence
                 self.remove_node_by_id(n.get_id())
-                # return self.cyclic()
+                #return self.cyclic()
         if not self.get_nodes():
             return False
         # si il n'y a pas de feuille -> cyclique
@@ -568,6 +568,12 @@ class open_digraph:  # for open directed graph
     def is_cyclic(self):
         k = self.copy()
         return k.cyclic()
+
+    def min_id(self):
+       return min(list(self.get_node_ids()))
+
+    def max_id(self):
+       return max(list(self.get_node_ids()))
         
 class bool_circ(open_digraph):
 
