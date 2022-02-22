@@ -255,8 +255,11 @@ class open_digraph:  # for open directed graph
         adds an edge from src to tgt
         """
         for src, tgt in pairs:
-            self.get_node_by_id(src).add_child_id(tgt)
-            self.get_node_by_id(tgt).add_parent_id(src)
+            n_src = self.get_node_by_id(src)
+            n_tgt = self.get_node_by_id(tgt)
+            if n_src != None and n_tgt != None:
+                n_src.add_child_id(tgt)
+                n_tgt.add_parent_id(src)
 
     def add_node(self, label='', parents=None, children=None):
         """
@@ -520,10 +523,9 @@ class open_digraph:  # for open directed graph
                                 graph.add_node()
 
                         c += 1
-                    if isinstance(int(line[(c % 6) - 1]), int) and isinstance(int(line[c - 1]), int):
-                        while(c > 2):
-                            graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
-                            c = c - 6
+                    while(c > 2):
+                        graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
+                        c = c - 6
         return graph
 
     def display(self, verbose=False):
@@ -545,9 +547,9 @@ class open_digraph:  # for open directed graph
                 line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
                 newTxt = newTxt + line # + '%0A%09'
         # windows
-        url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        # url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         # linux
-        # url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
         os.system(url)
 
     def cyclic(self):
@@ -556,10 +558,10 @@ class open_digraph:  # for open directed graph
             return False
         # cherchons une feuille
         for n in self.get_nodes():
-            if not n.get_children_ids().values():  # si c'est une feuille
+            if not list(n.get_children_ids().values()):  # si c'est une feuille
                 # on la retire et on recommence
                 self.remove_node_by_id(n.get_id())
-                self.get_nodes().remove(n);
+                self.get_id_node_map().pop(n.get_id());
                 return self.cyclic()
         if not self.get_nodes():
             return False
@@ -569,6 +571,12 @@ class open_digraph:  # for open directed graph
     def is_cyclic(self):
         k = self.copy()
         return k.cyclic()
+
+    def min_id(self):
+       return min(list(self.get_node_ids()))
+
+    def max_id(self):
+       return max(list(self.get_node_ids()))
         
 class bool_circ(open_digraph):
 

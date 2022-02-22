@@ -58,9 +58,11 @@ print(digraph.dict_unique_id())
 p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 for i in range(10):
     print(p[i])
-# existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\digraph.dot"
+
+# existGDBPath = r"C:\Users\Rui\PycharmProjects\projetinfo\digraph.dot"
 # existGDBPath = r'/home/tp-home008/rcesis1/projetinfo/projetinfo/digraph.dot'
 existGDBPath = r'/home/tp-home011/tberlan/Documents/projetinfo/digraph.dot'
+
 assert os.path.isfile(existGDBPath)
 print(existGDBPath)
 
@@ -76,7 +78,8 @@ for i in range(n):
 abc = digraph.from_dot_file(existGDBPath)
 print(abc)
 digraph.display()
-# test = r"C:\Users\kids\PycharmProjects\projetinfo\test_bool.dot"
+
+# test = r"C:\Users\Rui\PycharmProjects\projetinfo\test_bool.dot"
 # test = r"/home/tp-home008/rcesis1/projetinfo/projetinfo/test_bool.dot"
 test = r'/home/tp-home011/tberlan/Documents/projetinfo/test_bool.dot'
 
@@ -86,3 +89,5 @@ testDis.display(verbose=False)
 print(testDis.is_cyclic())
 test_bool = open_digraph.bool_circ(testDis)
 
+print(digraph.min_id())
+print(digraph.max_id())
