@@ -1,3 +1,5 @@
+from typing import Any
+
 import copy
 import random
 import os
@@ -561,7 +563,7 @@ class open_digraph:  # for open directed graph
             if not list(n.get_children_ids().values()):  # si c'est une feuille
                 # on la retire et on recommence
                 self.remove_node_by_id(n.get_id())
-                self.get_id_node_map().pop(n.get_id());
+                self.get_id_node_map().pop(n.get_id())
                 return self.cyclic()
         # si il n'y a pas de feuille -> cyclique
         return True
@@ -594,11 +596,24 @@ class open_digraph:  # for open directed graph
     
     def iparallel(self, *gs):
         for g in gs:
-            ...
-        
+            self.shift_indices(g.max_id() - self.min_id() + 1)
+            ns = {}
+            for n in self.get_nodes():
+                ns[n.get_id()] = n
+            for n in g.get_nodes():
+                ns[n.get_id()] = n
+            self = open_digraph(self.get_inputs() + g.get_input_ids, self.get_outputs() + g.get_output_ids, ns)
+
+
     def parallel(self, *gs):
+        k = self.copy()
         for g in gs:
-            ...
+            k.shift_indices(g.max_id() - k.min_id() + 1)
+            ns = k.get_nodes()
+            for n in g.get_nodes():
+                ns[n.get_id()] = n
+            k = open_digraph(k.get_inputs() + g.get_input_ids, k.get_outputs() + g.get_output_ids, ns)
+        return k
         
     def icompose(self, g):
         if self.get_input_ids != g.get_output_ids:
