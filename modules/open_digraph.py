@@ -563,8 +563,6 @@ class open_digraph:  # for open directed graph
                 self.remove_node_by_id(n.get_id())
                 self.get_id_node_map().pop(n.get_id());
                 return self.cyclic()
-        if not self.get_nodes():
-            return False
         # si il n'y a pas de feuille -> cyclique
         return True
 
