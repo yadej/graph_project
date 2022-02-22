@@ -1,6 +1,7 @@
 import copy
 import random
 import os
+import webbrowser
 from modules.matrice import random_int_matrix, graph_from_adjacency_matrix
 
 
@@ -545,12 +546,13 @@ class open_digraph:  # for open directed graph
             else:
                 NewLine =line.split('"')
                 line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
-                newTxt = newTxt + line # + '%0A%09'
+                newTxt = newTxt + line# + '%0A%09'
         # windows
-        # url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        url = 'https://dreampuf.github.io/GraphvizOnline/#digraph{' + newTxt + '}'
         # linux
-        url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
-        os.system(url)
+        # url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        #os.system(url)
+        webbrowser.open(url)
 
     def cyclic(self):
         # pas de noeud -> acyclique
@@ -614,7 +616,14 @@ class open_digraph:  # for open directed graph
     def list(self):
         ...
     
-        
+
+    def shift_indices(self, n):
+        k = list(n.get_nodes().keys())[::-1]
+        for n in k:
+            self.get_node_by_id(n).id = self.get_node_by_id(n).id +n
+
+
+
 class bool_circ(open_digraph):
 
     def __init__(self, g=None):
