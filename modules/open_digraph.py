@@ -1,8 +1,7 @@
-from typing import Any
-
 import copy
 import random
-import os
+import webbrowser
+
 from modules.matrice import random_int_matrix, graph_from_adjacency_matrix
 
 
@@ -259,7 +258,7 @@ class open_digraph:  # for open directed graph
         for src, tgt in pairs:
             n_src = self.get_node_by_id(src)
             n_tgt = self.get_node_by_id(tgt)
-            if n_src != None and n_tgt != None:
+            if n_src is not None and n_tgt is not None:
                 n_src.add_child_id(tgt)
                 n_tgt.add_parent_id(src)
 
@@ -525,7 +524,7 @@ class open_digraph:  # for open directed graph
                                 graph.add_node()
 
                         c += 1
-                    while(c > 2):
+                    while c > 2:
                         graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
                         c = c - 6
         return graph
@@ -542,17 +541,15 @@ class open_digraph:  # for open directed graph
             line = line[:-1]
             if line[4] != 'l' or not verbose:
                 NewLine = line.split(' -> ')
-                line = '-">"'.join(NewLine)
+                line = '->'.join(NewLine)
                 newTxt = newTxt + line + '%0A%09'
             else:
-                NewLine =line.split('"')
+                NewLine = line.split('"')
                 line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
-                newTxt = newTxt + line # + '%0A%09'
-        # windows
-        # url = f'start chrome https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
-        # linux
-        url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
-        os.system(url)
+                newTxt = newTxt + line  # + '%0A%09'
+
+        url = f'https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        webbrowser.open(url)
 
     def cyclic(self):
         # pas de noeud -> acyclique
@@ -573,11 +570,11 @@ class open_digraph:  # for open directed graph
         return k.cyclic()
 
     def min_id(self):
-       return min(list(self.get_node_ids()))
+        return min(list(self.get_node_ids()))
 
     def max_id(self):
-       return max(list(self.get_node_ids()))
-       
+        return max(list(self.get_node_ids()))
+
     def shift_indices(self, n):
         for i in self.get_nodes():
             i.set_id(i.get_id() + n)
@@ -592,8 +589,8 @@ class open_digraph:  # for open directed graph
         ns = {}
         for i in self.get_nodes():
             ns[i.get_id() + n] = i
-        self = open_digraph([i+n for i in self.get_inputs()], [i+n for i in self.get_outputs()], ns)
-    
+        self.nodes = ns
+
     def iparallel(self, *gs):
         for g in gs:
             self.shift_indices(g.max_id() - self.min_id() + 1)
@@ -602,8 +599,9 @@ class open_digraph:  # for open directed graph
                 ns[n.get_id()] = n
             for n in g.get_nodes():
                 ns[n.get_id()] = n
-            self = open_digraph(self.get_inputs() + g.get_input_ids, self.get_outputs() + g.get_output_ids, ns)
-
+            self.get_input_ids().append(g.get_input_ids)
+            self.get_output_ids().append(g.get_output_ids)
+            self.nodes = ns
 
     def parallel(self, *gs):
         k = self.copy()
@@ -612,24 +610,26 @@ class open_digraph:  # for open directed graph
             ns = k.get_nodes()
             for n in g.get_nodes():
                 ns[n.get_id()] = n
-            k = open_digraph(k.get_inputs() + g.get_input_ids, k.get_outputs() + g.get_output_ids, ns)
+            k.get_input_ids().append(g.get_input_ids)
+            k.get_output_ids().append(g.get_output_ids)
+            k.nodes = ns
         return k
-        
+
     def icompose(self, g):
         if self.get_input_ids != g.get_output_ids:
             raise Exception('inputs do not match g outputs')
         ...
-    
+
     def compose(self, g):
         ...
-        
+
     def connected_components(self):
         ...
-        
+
     def list(self):
         ...
-    
-        
+
+
 class bool_circ(open_digraph):
 
     def __init__(self, g=None):

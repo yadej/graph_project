@@ -1,9 +1,5 @@
-import sys
 import unittest
 from modules.open_digraph import *
-
-root = os.path.normpath(os.path.join(__file__, './../..'))
-sys.path.append(root)  # allows us to fetch files from the project root
 
 
 class InitTest(unittest.TestCase):

@@ -2,6 +2,8 @@ import random
 from modules import open_digraph, matrice
 import os
 
+root_dir = os.path.dirname(os.path.abspath(__file__))
+
 graph = open_digraph.open_digraph()
 print(f'digraph = {graph}\n')
 
@@ -59,9 +61,7 @@ p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5
 for i in range(10):
     print(p[i])
 
-# existGDBPath = r"C:\Users\Rui\PycharmProjects\projetinfo\digraph.dot"
-# existGDBPath = r'/home/tp-home008/rcesis1/projetinfo/projetinfo/digraph.dot'
-existGDBPath = r'/home/tp-home011/tberlan/Documents/projetinfo/digraph.dot'
+existGDBPath = root_dir + r'/digraph.dot'
 
 assert os.path.isfile(existGDBPath)
 print(existGDBPath)
@@ -79,9 +79,7 @@ abc = digraph.from_dot_file(existGDBPath)
 print(abc)
 digraph.display()
 
-# test = r"C:\Users\Rui\PycharmProjects\projetinfo\test_bool.dot"
-# test = r"/home/tp-home008/rcesis1/projetinfo/projetinfo/test_bool.dot"
-test = r'/home/tp-home011/tberlan/Documents/projetinfo/test_bool.dot'
+test = root_dir + r'/test_bool.dot'
 
 testDis = digraph.from_dot_file(test, verbose=True)
 print(testDis)
