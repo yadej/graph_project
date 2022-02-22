@@ -595,6 +595,8 @@ class open_digraph:  # for open directed graph
         for i in self.get_nodes():
             ns[i.get_id() + n] = i
         self.nodes = ns
+        self.set_input_ids([i + n for i in self.get_input_ids()])
+        self.set_output_ids([i + n for i in self.get_output_ids()])
 
     def iparallel(self, *gs):
         for g in gs:
