@@ -260,7 +260,7 @@ class open_digraph:  # for open directed graph
             n_tgt = self.get_node_by_id(tgt)
             if n_src is not None and n_tgt is not None:
                 n_src.add_child_id(tgt)
-                n_tgt.add_parent_id(src)
+                n_tgt.add_parent_id(src)egrgerufguy
 
     def add_node(self, label='', parents=None, children=None):
         """
