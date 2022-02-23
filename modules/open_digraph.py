@@ -1,10 +1,9 @@
-from typing import Any
-
 import copy
 import random
-import os
-import webbrowser
-from modules.matrice import random_int_matrix, graph_from_adjacency_matrix
+
+from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
+from modules.open_digraph_mx.open_digraph_compositions_mx import open_digraph_compositions_mx
+from modules.open_digraph_mx.open_digraph_dot_mx import open_digraph_dot_mx
 
 
 class node:
@@ -136,7 +135,7 @@ class node:
         return self.indegree() + self.outdegree()
 
 
-class open_digraph:  # for open directed graph
+class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def __init__(self, inputs=None, outputs=None, nodes=None):
         """
@@ -443,119 +442,6 @@ class open_digraph:  # for open directed graph
                 matrix[i.get_id()][x] = y
         return matrix
 
-    def digraph_to_string(self, arg1, *args):
-        string = ""
-        # k = list(arg1.get_children_ids().keys())
-        Targ = list(args)
-        # for a in args:
-        #   if a.get_id() in k:
-        #         k.remove(a.get_id())
-        #    k = [x for x in k if x not in a.get_children_ids()]
-        # for i in range(len(k)):
-        m = Targ[-1].get_children_ids()
-        if len(m) == 1:
-            b = list(m.keys())
-            p = (*args, self.get_node_by_id(b[0]))
-            self.remove_edge((Targ[-1].get_id(), b[0]))
-            string = string + self.digraph_to_string(arg1, *p)
-            return string
-        string = string + f'v{arg1.get_id()}'
-        # Targ = list(args)
-        for arg in range(len(Targ)):
-            # self.remove_edge((arg1.get_id(),Targ[arg].get_id()))
-            string = string + f' -> v{Targ[arg].get_id()}'
-            if arg == 0:
-                self.remove_edge((arg1.get_id(), Targ[0].get_id()))
-        string = string + ';\n'
-        return string
-
-    def save_as_dot_file(self, path, verbose=False):
-        """
-        enregistrer en fichier .dot par ex:
-
-        digraph G {
-        v0 [label="&"];
-        v1 [label="~"];
-        v4 [label="|"];
-        v0 -> v1 -> v2;
-        v0 -> v3;
-        v2 -> v3;
-        v2 -> v3;
-        v3 -> v4;
-        v2 -> v4;
-        }
-        """
-        newOp = self.copy()
-        f = open(path, 'w+')
-        p = 'digraph G { \n'
-        if verbose:
-            for i in newOp.get_nodes():
-                if i.get_label() != '':
-                    p = p + f'v{i.get_id()}[{i.get_label()}]; \n'
-        for n in newOp.get_nodes():
-            for i in list(n.get_children_ids().keys()):
-                for j in range(n.get_children_ids().get(i)):
-                    p = p + newOp.digraph_to_string(n, newOp.get_node_by_id(i))
-        p = p + '}'
-        f.write(p)
-        f.close()
-
-    @classmethod
-    def from_dot_file(cls, path, verbose=False):
-        """
-        return un digraph lu dans un fichier .dot
-        """
-        graph = open_digraph()
-        for line in open(path, 'r').readlines():
-            if line[0] == 'v':
-                if line[3] == "[":
-                    if verbose:
-                        newlabel = line[4]
-                        a = 5
-                        while len(graph.get_node_ids()) < int(line[1]):
-                            graph.add_node()
-                        while line[a] != "]":
-                            newlabel = newlabel + line[a]
-                            a = a + 1
-                        graph.add_node(label=newlabel)
-                else:
-                    c = 1
-                    while line[c] != ';':
-                        if c % 6 == 1 and c > 6:
-                            while (graph.new_id()) < int(line[c]) + 1:
-                                graph.add_node()
-
-                        c += 1
-                    while c > 2:
-                        graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
-                        c = c - 6
-        return graph
-
-    def display(self, verbose=False):
-        """
-        affiche directement le graphe
-        """
-        self.save_as_dot_file('tmp.dot', verbose)
-        f = open("./tmp.dot", 'r')
-        txt = f.readlines()
-        newTxt = '%0A%09'
-        for line in txt[1:-1]:
-            line = line[:-1]
-            if line[4] != 'l' or not verbose:
-                #NewLine = line.split(' -> ')
-                #line = '->'.join(NewLine)
-                newTxt = newTxt + line + '%0A%09'
-            else:
-                #NewLine =line.split('"')
-                #line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
-                newTxt = newTxt + line # + '%0A%09'
-        # windows
-        url = r'https://dreampuf.github.io/GraphvizOnline/#digraph{' + newTxt + '}'
-        # linux
-        # url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
-        # os.system(url)
-        webbrowser.open(url)
-
     def cyclic(self):
         # pas de noeud -> acyclique
         if not self.get_nodes():
@@ -573,94 +459,6 @@ class open_digraph:  # for open directed graph
     def is_cyclic(self):
         k = self.copy()
         return k.cyclic()
-
-    def min_id(self):
-        return min(list(self.get_node_ids()))
-
-    def max_id(self):
-        return max(list(self.get_node_ids()))
-
-    def shift_indices(self, n):
-        for i in self.get_nodes():
-            i.set_id(i.get_id() + n)
-            k = {}
-            for ci, m in i.get_children_ids().items():
-                k[ci + n] = m
-            i.set_children_ids(k)
-            p = {}
-            for ci, m in i.get_parent_ids().items():
-                p[ci + n] = m
-            i.set_parent_ids(p)
-        ns = {}
-        for i in self.get_nodes():
-            ns[i.get_id() + n] = i
-        self.nodes = ns
-        self.set_input_ids([i + n for i in self.get_input_ids()])
-        self.set_output_ids([i + n for i in self.get_output_ids()])
-
-    def iparallel(self, *gs):
-        for g in gs:
-            self.shift_indices(g.max_id() - self.min_id() + 1)
-            ns = {}
-            for n in self.get_nodes():
-                ns[n.get_id()] = n
-            for n in g.get_nodes():
-                ns[n.get_id()] = n
-            self.set_input_ids(self.get_inputs() + g.get_input_ids)
-            self.set_output_ids(self.get_outputs() + g.get_output_ids)
-            self.nodes = ns
-
-
-    def parallel(self, *gs):
-        k = self.copy()
-        for g in gs:
-            k.shift_indices(g.max_id() - k.min_id() + 1)
-            ns = k.get_nodes()
-            for n in g.get_nodes():
-                ns[n.get_id()] = n
-            k.get_input_ids().append(g.get_input_ids)
-            k.get_output_ids().append(g.get_output_ids)
-            k.nodes = ns
-        return k
-
-    def icompose(self, g):
-        if self.get_input_ids != g.get_output_ids:
-            raise Exception('inputs do not match g outputs')
-        self.shift_indices(g.max_id() - self.min_id() + 1)
-        b1 = self.get_input_ids()
-        b2 = g.get_output_ids()
-        ns = {}
-        for n in self.get_nodes():
-            ns[n.get_id()] = n
-        for n in g.get_nodes():
-            ns[n.get_id()] = n
-        self.set_input_ids(g.get_input_ids())
-        self.nodes = ns
-        for i,j in zip(b1,b2):
-            self.add_edge((i,j))
-
-    def compose(self, g):
-        if self.get_input_ids != g.get_output_ids:
-            raise Exception('inputs do not match g outputs')
-        k = self.copy()
-        k.shift_indices(g.max_id() - k.min_id() + 1)
-        b1 = k.get_input_ids()
-        b2 = g.get_output_ids()
-        ns = {}
-        for n in k.get_nodes():
-            ns[n.get_id()] = n
-        for n in g.get_nodes():
-            ns[n.get_id()] = n
-        k = open_digraph(g.get_input_ids(), k.get_outputs(), ns)
-        for i, j in zip(b1, b2):
-            k.add_edge((i, j))
-        return k
-
-    def connected_components(self):
-        ...
-
-    def list(self):
-        ...
 
 
 class bool_circ(open_digraph):

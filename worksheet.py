@@ -1,6 +1,8 @@
 import random
-from modules import open_digraph, matrice
+from modules import open_digraph
 import os
+
+from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
 
 root_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,10 +46,10 @@ if graph.is_well_formed():
 print(graph)
 
 n = 5
-matrix = matrice.random_int_matrix(n, n, oriented=True)
+matrix = random_int_matrix(n, n, oriented=True)
 for i in range(n):
     print(matrix[i])
-print(matrice.graph_from_adjacency_matrix(matrix))
+print(graph_from_adjacency_matrix(matrix))
 bound = 5
 digraph = open_digraph.open_digraph.random(n, bound, 1, 2, form='loop-free')
 print(digraph)
@@ -55,15 +57,13 @@ print(digraph)
 b = digraph.adjacency_matrix()
 for i in range(n):
     print(b[i])
-print(matrice.graph_from_adjacency_matrix(b))
+print(graph_from_adjacency_matrix(b))
 print(digraph.dict_unique_id())
-p = matrice.random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
+p = random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 for i in range(10):
     print(p[i])
 
-existGDBPath = r"C:\Users\kids\PycharmProjects\projetinfo\digraph.dot"
-# existGDBPath = r'/home/tp-home008/rcesis1/projetinfo/projetinfo/digraph.dot'
-# existGDBPath = r'/home/tp-home011/tberlan/Documents/projetinfo/digraph.dot'
+existGDBPath = root_dir + r'/digraph.dot'
 
 assert os.path.isfile(existGDBPath)
 print(existGDBPath)
@@ -81,9 +81,7 @@ abc = digraph.from_dot_file(existGDBPath)
 print(abc)
 digraph.display()
 
-test = r"C:\Users\kids\PycharmProjects\projetinfo\test_bool.dot"
-# test = r"/home/tp-home008/rcesis1/projetinfo/projetinfo/test_bool.dot"
-# test = r'/home/tp-home011/tberlan/Documents/projetinfo/test_bool.dot'
+test = root_dir + r'/test_bool.dot'
 
 testDis = digraph.from_dot_file(test, verbose=True)
 print(testDis)
