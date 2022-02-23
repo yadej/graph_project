@@ -1,7 +1,9 @@
+from typing import Any
+
 import copy
 import random
+import os
 import webbrowser
-
 from modules.matrice import random_int_matrix, graph_from_adjacency_matrix
 
 
@@ -540,15 +542,18 @@ class open_digraph:  # for open directed graph
         for line in txt[1:-1]:
             line = line[:-1]
             if line[4] != 'l' or not verbose:
-                NewLine = line.split(' -> ')
-                line = '->'.join(NewLine)
+                #NewLine = line.split(' -> ')
+                #line = '->'.join(NewLine)
                 newTxt = newTxt + line + '%0A%09'
             else:
-                NewLine = line.split('"')
-                line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
-                newTxt = newTxt + line  # + '%0A%09'
-
-        url = f'https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+                #NewLine =line.split('"')
+                #line = '%3D\"'.join(NewLine[0:1]) + "\"]%5D%3B%0D%0A"
+                newTxt = newTxt + line # + '%0A%09'
+        # windows
+        url = r'https://dreampuf.github.io/GraphvizOnline/#digraph{' + newTxt + '}'
+        # linux
+        # url = f'firefox -url https://dreampuf.github.io/GraphvizOnline/#digraph{"{" + newTxt + "}"}'
+        # os.system(url)
         webbrowser.open(url)
 
     def cyclic(self):
@@ -590,6 +595,8 @@ class open_digraph:  # for open directed graph
         for i in self.get_nodes():
             ns[i.get_id() + n] = i
         self.nodes = ns
+        self.set_input_ids([i + n for i in self.get_input_ids()])
+        self.set_output_ids([i + n for i in self.get_output_ids()])
 
     def iparallel(self, *gs):
         for g in gs:
@@ -599,9 +606,10 @@ class open_digraph:  # for open directed graph
                 ns[n.get_id()] = n
             for n in g.get_nodes():
                 ns[n.get_id()] = n
-            self.get_input_ids().append(g.get_input_ids)
-            self.get_output_ids().append(g.get_output_ids)
+            self.set_input_ids(self.get_inputs() + g.get_input_ids)
+            self.set_output_ids(self.get_outputs() + g.get_output_ids)
             self.nodes = ns
+
 
     def parallel(self, *gs):
         k = self.copy()
@@ -618,10 +626,35 @@ class open_digraph:  # for open directed graph
     def icompose(self, g):
         if self.get_input_ids != g.get_output_ids:
             raise Exception('inputs do not match g outputs')
-        ...
+        self.shift_indices(g.max_id() - self.min_id() + 1)
+        b1 = self.get_input_ids()
+        b2 = g.get_output_ids()
+        ns = {}
+        for n in self.get_nodes():
+            ns[n.get_id()] = n
+        for n in g.get_nodes():
+            ns[n.get_id()] = n
+        self.set_input_ids(g.get_input_ids())
+        self.nodes = ns
+        for i,j in zip(b1,b2):
+            self.add_edge((i,j))
 
     def compose(self, g):
-        ...
+        if self.get_input_ids != g.get_output_ids:
+            raise Exception('inputs do not match g outputs')
+        k = self.copy()
+        k.shift_indices(g.max_id() - k.min_id() + 1)
+        b1 = k.get_input_ids()
+        b2 = g.get_output_ids()
+        ns = {}
+        for n in k.get_nodes():
+            ns[n.get_id()] = n
+        for n in g.get_nodes():
+            ns[n.get_id()] = n
+        k = open_digraph(g.get_input_ids(), k.get_outputs(), ns)
+        for i, j in zip(b1, b2):
+            k.add_edge((i, j))
+        return k
 
     def connected_components(self):
         ...
