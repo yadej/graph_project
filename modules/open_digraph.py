@@ -444,15 +444,23 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def cyclic(self):
         # pas de noeud -> acyclique
-        if not self.get_nodes():
-            return False
+        if len(visited) == len(self.get_nodes()):
+            return True
         # cherchons une feuille
         for n in self.get_nodes():
-            if not list(n.get_children_ids().values()):  # si c'est une feuille
+            if not n.get_id() in visited:
+                if any(True for e in n.get_children_ids().values() if e in visited):
+                    return False
+                else:
+                    # on la retire et on recommence
+                    self.remove_node_by_id(n.get_id())
+                    visited.append(n.get_id())
+                    return self.cyclic(visited)
+                # if not list(n.get_children_ids().values()):  # si c'est une feuille
                 # on la retire et on recommence
-                self.remove_node_by_id(n.get_id())
-                self.get_id_node_map().pop(n.get_id())
-                return self.cyclic()
+                # self.remove_node_by_id(n.get_id())
+                # self.get_id_node_map().pop(n.get_id())
+                # return self.cyclic()
         # si il n'y a pas de feuille -> cyclique
         return True
 
