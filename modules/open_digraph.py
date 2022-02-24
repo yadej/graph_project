@@ -445,12 +445,12 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     def cyclic(self, visited=[]):
         # pas de noeud -> acyclique
         if len(visited) == len(self.get_nodes()):
-            return True
+            return False
         # cherchons une feuille
         for n in self.get_nodes():
             if not n.get_id() in visited:
                 if any(True for e in n.get_children_ids().values() if e in visited):
-                    return False
+                    return True
                 else:
                     # on la retire et on recommence
                     self.remove_node_by_id(n.get_id())
@@ -465,6 +465,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return True
 
     def is_cyclic(self):
+        if not self.get_nodes():
+            return False
         k = self.copy()
         return k.cyclic()
 
