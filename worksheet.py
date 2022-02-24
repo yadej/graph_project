@@ -74,6 +74,7 @@ print(os.access(ellepath, os.W_OK))
 
 digraph.save_as_dot_file(existGDBPath, verbose=False)
 print(digraph)
+print(digraph.is_cyclic())
 c = digraph.adjacency_matrix()
 for i in range(n):
     print(c[i])
