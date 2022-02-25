@@ -442,8 +442,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
                 matrix[i.get_id()][x] = y
         return matrix
 
-    def cyclic(self, visited=[]):
+    def cyclic(self, visited=None):
         # pas de noeud -> acyclique
+        if visited is None:
+            visited = []
         if len(visited) == len(self.get_nodes()):
             return False
         # cherchons une feuille
