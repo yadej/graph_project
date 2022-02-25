@@ -50,7 +50,7 @@ matrix = random_int_matrix(n, n, oriented=True)
 for i in range(n):
     print(matrix[i])
 print(graph_from_adjacency_matrix(matrix))
-bound = 5
+bound = 2
 digraph = open_digraph.open_digraph.random(n, bound, 1, 2, form='loop-free')
 print(digraph)
 
@@ -80,13 +80,13 @@ for i in range(n):
     print(c[i])
 abc = digraph.from_dot_file(existGDBPath)
 print(abc)
-digraph.display()
+# digraph.display()
 
 test = root_dir + r'/test_bool.dot'
 
 testDis = digraph.from_dot_file(test, verbose=True)
 print(testDis)
-testDis.display(verbose=True)
+# testDis.display(verbose=True)
 print(testDis.is_cyclic())
 test_bool = open_digraph.bool_circ(testDis)
 

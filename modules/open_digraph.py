@@ -442,7 +442,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
                 matrix[i.get_id()][x] = y
         return matrix
 
-    def cyclic(self, visited=None):
+    """def cyclic(self, visited=None):
         # pas de noeud -> acyclique
         if visited is None:
             visited = []
@@ -451,7 +451,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         # cherchons une feuille
         for n in self.get_nodes():
             if not n.get_id() in visited:
-                if any(True for e in n.get_children_ids().values() if e in visited):
+                if any(True for e in n.get_children_ids().keys() if e in visited):
                     return True
                 else:
                     # on la retire et on recommence
@@ -464,14 +464,48 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
                 # self.get_id_node_map().pop(n.get_id())
                 # return self.cyclic()
         # si il n'y a pas de feuille -> cyclique
-        return True
-
+        return True """
+    """
     def is_cyclic(self):
         if not self.get_nodes():
             return False
         k = self.copy()
         return k.cyclic()
+    """
 
+    def cyclic(self, v, visited, recStack):
+
+        # Mark current node as visited and
+        # adds to recursion stack
+        visited[v] = True
+        recStack[v] = True
+
+        # Recur for all neighbours
+        # if any neighbour is visited and in
+        # recStack then graph is cyclic
+        if self.get_node_by_id(v) is None:
+            return False
+        for n in self.get_node_by_id(v).get_children_ids().keys():
+            if visited[n] == False:
+                if self.cyclic(n, visited, recStack) == True:
+                    return True
+            elif recStack[n] == True:
+                return True
+
+        # The node needs to be poped from
+        # recursion stack before function ends
+        recStack[v] = False
+        return False
+
+    # Returns true if graph is cyclic else false
+    def is_cyclic(self):
+        visited = [False] * (len(self.get_nodes()) + 1)
+        recStack = [False] * (len(self.get_nodes()) + 1)
+        for n in range(len(self.get_nodes()) + 1):
+            if visited[n] == False:
+                if self.cyclic(n, visited, recStack) == True:
+                    return True
+        return False
 
 class bool_circ(open_digraph):
 
