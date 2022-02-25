@@ -501,9 +501,9 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     def is_cyclic(self):
         visited = [False] * (len(self.get_nodes()) + 1)
         recStack = [False] * (len(self.get_nodes()) + 1)
-        for n in range(len(self.get_nodes()) + 1):
-            if visited[n] == False:
-                if self.cyclic(n, visited, recStack) == True:
+        for n in self.get_nodes():
+            if visited[n.get_id()] == False:
+                if self.cyclic(n.get_id(), visited, recStack) == True:
                     return True
         return False
 
