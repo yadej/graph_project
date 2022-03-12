@@ -507,6 +507,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
                     return True
         return False
 
+
 class bool_circ(open_digraph):
 
     def __init__(self, g=None):
