@@ -486,10 +486,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         if self.get_node_by_id(v) is None:
             return False
         for n in self.get_node_by_id(v).get_children_ids().keys():
-            if visited[n] == False:
-                if self.cyclic(n, visited, recStack) == True:
+            if not visited[n]:
+                if self.cyclic(n, visited, recStack):
                     return True
-            elif recStack[n] == True:
+            elif recStack[n]:
                 return True
 
         # The node needs to be poped from
@@ -502,8 +502,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         visited = [False] * (len(self.get_nodes()) + 1)
         recStack = [False] * (len(self.get_nodes()) + 1)
         for n in self.get_nodes():
-            if visited[n.get_id()] == False:
-                if self.cyclic(n.get_id(), visited, recStack) == True:
+            if not visited[n.get_id()]:
+                if self.cyclic(n.get_id(), visited, recStack):
                     return True
         return False
 

@@ -89,7 +89,7 @@ def main():
     print(testDis)
     # testDis.display(verbose=True)
     print(testDis.is_cyclic())
-    test_bool = open_digraph.bool_circ(testDis)
+    # test_bool = open_digraph.bool_circ(testDis)
 
     print(digraph.min_id())
     print(digraph.max_id())
