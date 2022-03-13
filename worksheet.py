@@ -46,12 +46,12 @@ def main():
 
     print(graph)
 
-    n = 5
+    n = 7
     matrix = random_int_matrix(n, n, oriented=True)
     for i in range(n):
         print(matrix[i])
     print(graph_from_adjacency_matrix(matrix))
-    bound = 2
+    bound = 1
     digraph = open_digraph.open_digraph.random(n, bound, 1, 2, form='loop-free')
     print(digraph)
 
@@ -93,6 +93,13 @@ def main():
 
     print(digraph.min_id())
     print(digraph.max_id())
+
+    x, y = digraph.connected_components()
+    print(f'nb de composant connexe:{x}')
+    print(y)
+    p = digraph.list()
+    for i in p:
+        print(i)
 
 
 if __name__ == '__main__':
