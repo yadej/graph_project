@@ -3,11 +3,20 @@ from modules import open_digraph
 
 
 def random_int_list(n, bound):
+    """
+
+    inputs : n: int, bound: int
+    outputs : list of random int between 0 and bound (int list)
+    """
     return [randrange(bound) for _ in range(n)]
 
 
 def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=False, number_gen=None):
+    """
 
+    inputs : n: int, bound: int, null_diag: bool, symetric: bool, oriented: bool, triangular: bool, number_gen: int
+    outputs : generate n*n matrix with random numbers between 0 and bound (matrix)
+    """
     if number_gen is None:
         matrix = [random_int_list(n, bound) for _ in range(n)]
     else:
@@ -37,7 +46,10 @@ def random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, 
 
 
 def graph_from_adjacency_matrix(m):
-
+    """
+    input : m (matrix)
+    output : graph from adjacency matrix (graph)
+    """
     graph = open_digraph.open_digraph()
 
     for _ in range(len(m)):
