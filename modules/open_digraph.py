@@ -542,6 +542,9 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
                     prev[i] = u
         return dist, prev
 
+    def shortest_path(self, u, v):
+        return self.dijkstra(u, tgt=v)
+
     def common_ancestor(self,src1 , src2):
         i, j = self.dijkstra(src1)
         k, h = self.dijkstra(src2)
