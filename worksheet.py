@@ -103,6 +103,9 @@ def main():
 
     print(digraph.dijkstra(1))
 
+    d7 = digraph.from_dot_file('d7.dot')
+    print(d7.common_ancestor(5, 8))
+
 
 if __name__ == '__main__':
     main()

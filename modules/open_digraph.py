@@ -660,36 +660,36 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         dist, prev = self.dijkstra(src, tgt=tgt)
         return dist[tgt]
 
-    def common_ancestor(self,src1 , src2):
-        i, j = self.dijkstra(src1)
-        k, h = self.dijkstra(src2)
+    def common_ancestor(self, src1, src2):
+        dist1, prev1 = self.dijkstra(src1, direction=-1)
+        dist2, prev2 = self.dijkstra(src2, direction=-1)
 
-        p = list(set(i) & set(k))
+        p = list(set(dist1) & set(dist2))
         m = {}
         for a in p:
-            m[a] = (i[a], k[a])
+            m[a] = (dist1[a], dist2[a])
         return m
 
     def tri_topologique(self):
         if self.is_cyclic():
             raise Exception("Est cyclic")
-    k = self.copy()
-    old = []
-    nb = 0
-    while nb == len(k.get_nodes()):
+        k = self.copy()
+        old = []
         nb = 0
-        new = []
-        for i in k.get_node_ids():
-            if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) != 0:
-                new.append(i)
-        for i in new:
-            for k in k.get_node_by_id(i).keys():
-                k.remove_parallel_edges((k, i))
-        old.append(new)
-        for i in k.get_node_ids():
-            if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) == 0:
-                nb += 1
-    return old
+        while nb == len(k.get_nodes()):
+            nb = 0
+            new = []
+            for i in k.get_node_ids():
+                if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) != 0:
+                    new.append(i)
+            for i in new:
+                for k in k.get_node_by_id(i).keys():
+                    k.remove_parallel_edges((k, i))
+            old.append(new)
+            for i in k.get_node_ids():
+                if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) == 0:
+                    nb += 1
+        return old
 
 
 class bool_circ(open_digraph):

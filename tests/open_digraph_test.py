@@ -57,6 +57,8 @@ class OpenDigraphTest(unittest.TestCase):
         self.assertTrue(digraph.is_well_formed())
         digraph.parallel(open_digraph.random(5, 10))
         self.assertTrue(digraph.is_well_formed())
+        self.assertTrue(digraph.dijkstra(1)[1].get(0) in digraph.dijkstra(1)[0])
+        self.assertEqual(digraph.from_dot_file('d7').common_ancestor(), {0: (2, 3), 1: (1, 1), 3: (1, 2)})
 
 
 if __name__ == '__main__':  # the following code is called only when
