@@ -515,7 +515,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
             dic.append(open_digraph(nodes=p))
         return dic
 
-    def dijkstra(self, src, direction=None):
+    def dijkstra(self, src, direction=None, tgt=None):
         Q = [src]
         dist = {src:0}
         prev = {}
@@ -523,8 +523,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
             u = Q[0]
             for i,j in dist.items():
                 if dist[u] > j:
-                    u = i.get_id()
-            Q.pop(u)
+                    u = i
+            Q.remove(u)
+            if u == tgt:
+                return dist, prev
             v = []
             if direction is None:
                 v = v + self.get_node_by_id(u).get_children_ids().keys() + self.get_node_by_id(u).get_parent_ids().keys()
