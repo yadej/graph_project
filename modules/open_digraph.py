@@ -516,14 +516,13 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return dic
 
     def dijkstra(self, src, direction=None, tgt=None):
+        if self.get_node_by_id(src) == 0:
+            raise Exception('not in digraph')
         Q = [src]
         dist = {src: 0}
         prev = {}
         while Q:
-            u = Q[0]
-            for i, j in dist.items():
-                if dist[u] > j:
-                    u = i
+            u = min(Q, key=lambda x: dist[x])
             Q.remove(u)
             if u == tgt:
                 return dist, prev
