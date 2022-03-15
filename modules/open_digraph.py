@@ -515,6 +515,30 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
             dic.append(open_digraph(nodes=p))
         return dic
 
+    def dijkstra(self, src, direction=None):
+        Q = [src]
+        dist = {src:0}
+        prev = {}
+        while Q:
+            u = Q[0]
+            for i,j in dist.items():
+                if dist[u] > j:
+                    u = i.get_id()
+            Q.pop(u)
+            v = []
+            if direction is None:
+                v = v + self.get_node_by_id(u).get_children_ids().keys() + self.get_node_by_id(u).get_parent_ids().keys()
+            elif direction == 1:
+                v = v + self.get_node_by_id(u).get_children_ids().keys()
+            else:
+                v = v + self.get_node_by_id(u).get_parent_ids().keys()
+            for i in v:
+                if not i in dist:
+                    Q.append(i)
+                if not i in dist or dist[i] > dist[u] = 1:
+                    dist[v] = dist[u] + 1
+                    prev[v] = u
+        return dist, prev
 
 class bool_circ(open_digraph):
 
