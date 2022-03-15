@@ -101,6 +101,8 @@ def main():
     for i in p:
         print(i)
 
+    print(digraph.dijkstra(1))
+
 
 if __name__ == '__main__':
     main()
