@@ -535,7 +535,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
             for i in v:
                 if not i in dist:
                     Q.append(i)
-                if not i in dist or dist[i] > dist[u] = 1:
+                if not i in dist or dist[i] > dist[u] == 1:
                     dist[v] = dist[u] + 1
                     prev[v] = u
         return dist, prev
