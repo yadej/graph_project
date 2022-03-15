@@ -231,6 +231,11 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         """
         return self.nodes
 
+
+
+
+
+
     def get_nodes(self):
         """
         input : none
