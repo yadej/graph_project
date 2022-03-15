@@ -29,24 +29,32 @@ class node:
     # getters
     def get_id(self):
         """
+        inputs : none
+        outputs : id of node (int)
         returns id of the node
         """
         return self.id
 
     def get_label(self):
         """
+        inputs : none
+        outputs : label of node (string)
         returns label of the node
         """
         return self.label
 
     def get_parent_ids(self):
         """
+        inputs : none
+        outputs : parents id of node (int -> int dict)
         returns parent ids of the node
         """
         return self.parents
 
     def get_children_ids(self):
         """
+        inputs : none
+        outputs : childeren id of node (int -> int dict)
         returns children ids of the node
         """
         return self.children
@@ -54,24 +62,32 @@ class node:
     # setters
     def set_id(self, i):
         """
+        inputs : id to set (int)
+        outputs : none
         sets node id to i
         """
         self.id = i
 
     def set_label(self, label):
         """
+        inputs : label to set (string)
+        outputs : none
         sets node label to label
         """
         self.label = label
 
     def set_parent_ids(self, ids):
         """
+        inputs : id to set (int)
+        outputs : none
         sets node parent ids to ids
         """
         self.parents = ids
 
     def set_children_ids(self, ids):
         """
+        inputs : id to set (int)
+        outputs : none
         sets node children ids to ids
         """
         self.children = ids
@@ -91,12 +107,16 @@ class node:
 
     def copy(self):
         """
+        inputs : none
+        output : copy of the node
         returns a copy of the node
         """
         return copy.deepcopy(self)
 
     def remove_parent_once(self, i):
         """
+        input : id of open_digraph (int i)
+        output : none (procedure)
         removes the parent of id i
         """
         self.parents[i] = self.parents.get(i, 0) - 1
@@ -105,6 +125,8 @@ class node:
 
     def remove_child_once(self, i):
         """
+        input : id of open_digraph
+        output : none (procedure)
         removes the child of id i
         """
         self.children[i] = self.children.get(i, 0) - 1
@@ -113,6 +135,8 @@ class node:
 
     def remove_parent_id(self, i):
         """
+        inputs : id of open_digraph (int i)
+        outputs : none (procedure)
         removes all occurences of parent of id i
         """
         self.parents[i] = 0
@@ -120,18 +144,32 @@ class node:
 
     def remove_child_id(self, i):
         """
-        removes all occurences of child of id i
+        inputs : id of the open_digraph (int i)
+        outputs : none
+        removes all occurences of child of id
         """
         self.children[i] = 0
         self.children.pop(i)
 
     def indegree(self):
+        """
+        inputs : none (method)
+        outputs : incoming degree of the open_digraph
+        """
         return sum(self.get_parent_ids().values())
 
     def outdegree(self):
+        """
+        inputs : none
+        outputs : outgoing degree of the open_digraph
+        """
         return sum(self.get_children_ids().values())
 
     def degree(self):
+        """
+        inputs : none (method)
+        outputs : total degree of the open_digraph (incoming + outcoming)
+        """
         return self.indegree() + self.outdegree()
 
 
@@ -162,6 +200,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     @classmethod
     def empty(cls):
         """
+        inputs : none
+        outputs : empty graph (open_digraph)
         returns an empty graph
         """
         return cls([], [], {})
@@ -169,42 +209,56 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     # getters
     def get_input_ids(self):
         """
+        inputs : none
+        outputs : id op input notes (int)
         returns the ids of input nodes
         """
         return self.inputs
 
     def get_output_ids(self):
         """
+        input : none
+        outputs : id of output nodes (int)
         returns the ids of output nodes
         """
         return self.outputs
 
     def get_id_node_map(self):
         """
+        input : none
+        output : dictionnary of id (int dict)
         returns a dictionary containing the ids associated to their nodes
         """
         return self.nodes
 
     def get_nodes(self):
         """
+        input : none
+        output : list of nodes (node list)
         returns a list of every node in the graph
         """
         return self.get_id_node_map().values()
 
     def get_node_ids(self):
         """
+        inputs : none
+        outputs : list of graph's nodes ids (int list)
         returns a list of ids from every node in the graph
         """
         return self.get_id_node_map().keys()
 
     def get_node_by_id(self, i):
         """
+        input : id (int)
+        output : node associated to the id (node)
         returns the node corresponding to the id i
         """
         return self.nodes.get(i)
 
     def get_nodes_by_ids(self, ids):
         """
+        inputs : list of nodes' id (int list)
+        outputs : list of nodes have id present in id list (node list)
         returns a list of every node which id is in ids
         """
         return [self.get_node_by_id(i) for i in ids]
@@ -212,12 +266,16 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     # setters
     def set_input_ids(self, ids):
         """
+        inputs : list of ids (int list)
+        outputs : none
         sets input ids to ids
         """
         self.inputs = ids
 
     def set_output_ids(self, ids):
         """
+        inputs : list of ids (int list)
+        outputs : none
         sets output ids to ids
         """
         self.outputs = ids
@@ -225,24 +283,32 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     # features
     def add_input_id(self, i):
         """
+        inputs : id (int)
+        outputs : none
         adds an input id i to the graph
         """
         self.inputs.append(i)
 
     def add_output_id(self, i):
         """
+        inputs : id (int)
+        outputs : none
         adds an output id i to the graph
         """
         self.outputs.append(i)
 
     def copy(self):
         """
+        input : none
+        outputs : copy of graph (graph)
         returns a copy of the graph
         """
         return copy.deepcopy(self)
 
     def new_id(self):
         """
+        input : non
+        outputs : id (int)
         returns an unassigned id for the graph
         """
         # l'id 0 est reservee pour les id par default ie. invalide
@@ -254,6 +320,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def add_edge(self, *pairs):
         """
+        inputs : list of ids (int list)
+        outputs : none
         adds an edge from src to tgt
         """
         for src, tgt in pairs:
@@ -265,6 +333,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def add_node(self, label='', parents=None, children=None):
         """
+        inputs : label (string), parents id (int), children id (int)
+        outputs : none
         adds a node to the graph
         """
         if children is None:
@@ -280,6 +350,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def remove_edge(self, *pairs):
         """
+        inputs : list of ids (int list)
+        outputs : none
         removes edges from src to tgt
         """
         for src, tgt in pairs:
@@ -288,6 +360,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def remove_parallel_edges(self, *pairs):
         """
+        inputs : list of ids (int list)
+        outputs : none
         removes any edge from src to tgt
         """
         for src, tgt in pairs:
@@ -296,6 +370,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def remove_node_by_id(self, *ids):
         """
+        inputs : list of ids (int list)
+        outputs : none
         removes node of id i
         """
         for i in ids:
@@ -315,6 +391,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def is_well_formed(self):
         """
+        inputs : none
+        outputs : boolean (bool)
         returns true if the graph is well-formed else false
         """
         # chaque noeud d’inputs et d’outputs doit etre dans le graphe (i.e. son id comme clef dans nodes)
@@ -352,6 +430,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def add_input_node(self, nodeId, label=''):
         """
+        inputs : node id (int), label (string)
+        outputs : none
         adds an input node to the graph that is pointing towards a node of id nodeId
         """
         if self.get_node_by_id(nodeId) in self.get_input_ids():
@@ -361,6 +441,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     def add_output_node(self, nodeId, label=''):
         """
+        inputs : node id (int), label (string)
+        outputs : none
         adds an output node to the graph that is pointed by a node of id nodeId
         """
         if self.get_node_by_id(nodeId) in self.get_output_ids():
@@ -371,6 +453,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     @classmethod
     def random(cls, n, bound, inputs=0, outputs=0, form='free'):
         """
+        inputs : inputs (int), outputs (int), form (string), (j'ai des doutes pour les autres)
+        outputs : random graph (open_digraph)
         form: 'free' or 'DAG' or 'oriented' or loop-free' or 'undirected' or 'loop-free undirected'
         """
         if form == 'free':
@@ -426,6 +510,11 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return graph
 
     def dict_unique_id(self):
+        """
+        inputs : none
+        outputs : dictonnary ids (int dict)
+        return dictionnary which associate node's ids with int 0 <= i < n
+        """
         p = max(self.get_node_ids())
         dico = {}
         for i in range(p):
@@ -433,6 +522,11 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return dico
 
     def adjacency_matrix(self):
+        """
+        inputs : none
+        outputs : adjency matrix (matrix)
+        returns graph's adjency matrix
+        """
         p = len(self.get_node_ids())
         matrix = [[0 for _ in range(p)] for _ in range(p)]
         for i in self.get_nodes():
@@ -474,7 +568,12 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     """
 
     def cyclic(self, v, visited, recStack):
-
+        """
+        :param v:
+        :param visited:
+        :param recStack:
+        :return:
+        """
         # Mark current node as visited and
         # adds to recursion stack
         visited[v] = True
@@ -499,6 +598,11 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
 
     # Returns true if graph is cyclic else false
     def is_cyclic(self):
+        """
+        inputs : none
+        outputs : boolean (bool)
+        return if a graph is cyclic or not
+        """
         visited = [False] * (len(self.get_nodes()) + 1)
         recStack = [False] * (len(self.get_nodes()) + 1)
         for n in self.get_nodes():
@@ -508,6 +612,11 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return False
 
     def list(self):
+        """
+        inputs : none
+        outputs : dictionnary
+        :return:
+        """
         n, data = self.connected_components()
         dic = []
         for i in range(n):
@@ -566,6 +675,11 @@ class bool_circ(open_digraph):
             raise Exception('is not a boolean circuit')
 
     def is_well_formed(self):
+        """
+        inputs : none
+        outputs : boolean (bool)
+        returns if boolean_circuit is really a boolean circuit
+        """
         # doit etre acyclique
         if self.is_cyclic():
             return False
