@@ -511,9 +511,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         n, data = self.connected_components()
         dic = []
         for i in range(n):
-            p =  [ self.get_node_by_id(key) for key in data.keys() if data[key] == i ]
+            p = [self.get_node_by_id(key) for key in data.keys() if data[key] == i]
             dic.append(open_digraph(nodes=p))
         return dic
+
 
 class bool_circ(open_digraph):
 

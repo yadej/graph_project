@@ -53,6 +53,10 @@ class OpenDigraphTest(unittest.TestCase):
         self.assertTrue(digraph.is_well_formed())
         digraph.shift_indices(3)
         self.assertTrue(digraph.is_well_formed())
+        digraph.iparallel(open_digraph.random(5, 10))
+        self.assertTrue(digraph.is_well_formed())
+        digraph.parallel(open_digraph.random(5, 10))
+        self.assertTrue(digraph.is_well_formed())
 
 
 if __name__ == '__main__':  # the following code is called only when
