@@ -1,12 +1,25 @@
 class open_digraph_compositions_mx:
 
     def min_id(self):
+        """
+        inputs : none
+        outputs : min id of graph's nodes (int)
+        """
         return min(list(self.get_node_ids()))
 
     def max_id(self):
+        """
+        inputs : none
+        outputs : max id of graph's nodes (int)
+        """
         return max(list(self.get_node_ids()))
 
     def shift_indices(self, n):
+        """
+        inputs : n (int)
+        outputs : none
+        adds n to all the indices of the graph.
+        """
         for i in self.get_nodes():
             i.set_id(i.get_id() + n)
             k = {}
@@ -25,6 +38,11 @@ class open_digraph_compositions_mx:
         self.set_output_ids([i + n for i in self.get_output_ids()])
 
     def iparallel(self, *gs):
+        """
+        inputs : gs: list of open_digraph
+        outputs ; none
+        adds g to the open_digraph
+        """
         for g in gs:
             self.shift_indices(g.max_id() - self.min_id() + 1)
             ns = {}
@@ -37,6 +55,10 @@ class open_digraph_compositions_mx:
             self.nodes = ns
 
     def parallel(self, *gs):
+        """
+        inputs : gs: list of open_digraph
+        outputs : k, parallel composition of the two graphs
+        """
         k = self.copy()
         for g in gs:
             k.shift_indices(g.max_id() - k.min_id() + 1)
@@ -49,6 +71,11 @@ class open_digraph_compositions_mx:
         return k
 
     def icompose(self, g):
+        """
+        inputs : g (open_digraph)
+        outputs ; none
+        makes the sequential composition of the two graphs.
+        """
         if self.get_input_ids != g.get_output_ids:
             raise Exception('inputs do not match g outputs')
         self.shift_indices(g.max_id() - self.min_id() + 1)
@@ -65,6 +92,10 @@ class open_digraph_compositions_mx:
             self.add_edge((i, j))
 
     def compose(self, g):
+        """
+        inputs : g (open_digraph)
+        outputs : k, composed of the two graphs
+        """
         if self.get_input_ids != g.get_output_ids:
             raise Exception('inputs do not match g outputs')
         k = self.copy()
@@ -84,6 +115,10 @@ class open_digraph_compositions_mx:
         return k
 
     def is_connected(self, i, visited):
+        """
+        inputs : i : id of graph (int), visited : list of ids (int list)
+        outputs : visited (int list)
+        """
         visited.append(i)
         if not self.get_node_by_id(i).get_children_ids() in visited:
             for j in self.get_node_by_id(i).get_children_ids():
@@ -96,6 +131,11 @@ class open_digraph_compositions_mx:
         return visited
 
     def connected_components(self):
+        """
+        inputs : none
+        outputs : nb : number of connected components, dic : dictionary which associate each ids to an integer
+        corresponding to a connected component
+        """
         nb = 0
         if len(self.get_nodes()) == 0:
             return nb

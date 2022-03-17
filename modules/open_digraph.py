@@ -226,7 +226,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     def get_id_node_map(self):
         """
         input : none
-        output : dictionnary of id (int dict)
+        output : dictionary of id (int dict)
         returns a dictionary containing the ids associated to their nodes
         """
         return self.nodes
@@ -517,8 +517,8 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     def dict_unique_id(self):
         """
         inputs : none
-        outputs : dictonnary ids (int dict)
-        return dictionnary which associate node's ids with int 0 <= i < n
+        outputs : dictonary ids (int dict)
+        return dictionary which associate node's ids with int 0 <= i < n
         """
         p = max(self.get_node_ids())
         dico = {}
