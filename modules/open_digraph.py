@@ -231,11 +231,6 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         """
         return self.nodes
 
-
-
-
-
-
     def get_nodes(self):
         """
         input : none
@@ -713,27 +708,27 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
                     k.remove_parallel_edges((a, i))
             old.append(new)
             for i in k.get_node_ids():
-                if not i in visited and len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) == 0:
+                if i not in visited and len(k.get_node_by_id(i).get_children_ids()) == 0 and len(
+                        k.get_node_by_id(i).get_parent_ids()) == 0:
                     nb += 1
                     visited.append(i)
-        #C'est pour ajoute la derniere ligne
+        # C'est pour ajoute la derniere ligne
         flat_old = [item for t in old for item in t]
-        p = [i for i in k.get_node_ids() if not i in flat_old]
+        p = [i for i in k.get_node_ids() if i not in flat_old]
         old.append(p)
         return old
 
-    def noeuds_profondeur(self, id):
+    def noeuds_profondeur(self, i):
         """
         inputs : id(int)
         outputs : int
-        return  the layer of the node of id
-
+        return  the depth of the node of id
         """
         a = self.tri_topologique()
-        for i in range(len(a)):
-            if id in a:
-                return i
-        #Return -1 si le noeud n'est pas dans le digraph
+        for depth in range(len(a)):
+            if i in a:
+                return depth
+        # Return -1 si le noeud n'est pas dans le digraph
         return -1
 
     def prof_OpD(self):
@@ -741,13 +736,13 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         inputs : None
         outputs : int
         return  max layer of digraph
-
         """
         a = self.tri_topologique()
         if a:
             return len(a) - 1
         else:
             return 0
+
 
 class bool_circ(open_digraph):
 

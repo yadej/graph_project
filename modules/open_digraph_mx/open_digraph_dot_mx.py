@@ -2,6 +2,7 @@ import webbrowser
 from modules import open_digraph
 
 
+# noinspection PyUnresolvedReferences
 class open_digraph_dot_mx:
 
     def digraph_to_string(self, arg1, *args):

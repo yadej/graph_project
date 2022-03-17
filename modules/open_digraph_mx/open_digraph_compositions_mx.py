@@ -1,4 +1,7 @@
+# noinspection PyUnresolvedReferences
 class open_digraph_compositions_mx:
+
+    nodes: dict
 
     def min_id(self):
         """
@@ -122,11 +125,11 @@ class open_digraph_compositions_mx:
         visited.append(i)
         if not self.get_node_by_id(i).get_children_ids() in visited:
             for j in self.get_node_by_id(i).get_children_ids():
-                if not j in visited:
+                if j not in visited:
                     visited = self.is_connected(j, visited)
         if not self.get_node_by_id(i).get_parent_ids() in visited:
             for j in self.get_node_by_id(i).get_parent_ids():
-                if not j in visited:
+                if j not in visited:
                     visited = self.is_connected(j, visited)
         return visited
 
@@ -146,11 +149,10 @@ class open_digraph_compositions_mx:
             for i in self.get_node_ids():
                 if new_v:
                     break
-                if not i in visited:
+                if i not in visited:
                     new_v = self.is_connected(i, new_v)
             visited = visited + new_v
             for i in new_v:
                 dic[i] = nb
             nb += 1
         return nb, dic
-
