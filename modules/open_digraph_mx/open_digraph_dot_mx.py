@@ -5,6 +5,10 @@ from modules import open_digraph
 class open_digraph_dot_mx:
 
     def digraph_to_string(self, arg1, *args):
+        """
+        inputs : arg1: args:
+        outputs : string (str)
+        """
         string = ""
         # k = list(arg1.get_children_ids().keys())
         Targ = list(args)
@@ -32,6 +36,8 @@ class open_digraph_dot_mx:
 
     def save_as_dot_file(self, path, verbose=False):
         """
+        inputs : path (str)
+        outputs : verbose (bool)
         enregistrer en fichier .dot par ex:
 
         digraph G {
@@ -64,6 +70,8 @@ class open_digraph_dot_mx:
     @classmethod
     def from_dot_file(cls, path, verbose=False):
         """
+        inputs : path (str), verbose (bool)
+        outputs : graph (open_digraph)
         return un digraph lu dans un fichier .dot
         """
         graph = open_digraph.open_digraph()
@@ -94,6 +102,8 @@ class open_digraph_dot_mx:
 
     def display(self, verbose=False):
         """
+        inputs : verbose (bool)
+        outputs : none
         affiche directement le graphe
         """
         self.save_as_dot_file('tmp.dot', verbose)
