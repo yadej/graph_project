@@ -664,6 +664,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return dist, prev
 
     def shortest_path(self, src, tgt):
+
         dist, prev = self.dijkstra(src, tgt=tgt)
         return dist[tgt]
 
