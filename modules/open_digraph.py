@@ -619,8 +619,9 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
     def list(self):
         """
         inputs : none
-        outputs : dictionnary
-        :return:
+        outputs : list of open_digraph
+        return a list of open_digraph
+        divide an open_digraph in part of node that are not connected together
         """
         n, data = self.connected_components()
         dic = []
@@ -630,6 +631,12 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return dic
 
     def dijkstra(self, src, direction=None, tgt=None):
+        """
+        inputs : src(int), direction({None , 1 ,-1}) tgt(int)
+        outputs : dist(dict of int), prev(dict of int)
+        return a dict of distance compared with src and a dict with the previous one as key
+
+        """
         if self.get_node_by_id(src) == 0:
             raise Exception('not in digraph')
         Q = [src]
@@ -671,26 +678,45 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return m
 
     def tri_topologique(self):
-        if self.is_cyclic():
-            raise Exception("Est cyclic")
         k = self.copy()
         old = []
+        visited = []
         nb = 0
-        while nb == len(k.get_nodes()):
-            nb = 0
+        while nb != len(k.get_nodes()):
             new = []
             for i in k.get_node_ids():
                 if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) != 0:
                     new.append(i)
+            if not new:
+                raise Exception("Digraph cyclic")
             for i in new:
-                for k in k.get_node_by_id(i).keys():
-                    k.remove_parallel_edges((k, i))
+                for a in list(k.get_node_by_id(i).get_parent_ids()):
+                    k.remove_parallel_edges((a, i))
             old.append(new)
             for i in k.get_node_ids():
-                if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) == 0:
+                if not i in visited and len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) == 0:
                     nb += 1
+                    visited.append(i)
+        #C'est pour ajoute la derniere ligne
+        flat_old = [item for t in old for item in t]
+        p = [i for i in k.get_node_ids() if not i in flat_old]
+        old.append(p)
         return old
 
+    def noeuds_profondeur(self, id):
+        a = self.tri_topologique()
+        for i in range(len(a)):
+            if id in a:
+                return i
+        #Return -1 si le noeud n'est pas dans le digraph
+        return -1
+
+    def prof_OpD(self):
+        a = self.tri_topologique()
+        if a:
+            return len(a) - 1
+        else:
+            return 0
 
 class bool_circ(open_digraph):
 

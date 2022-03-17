@@ -105,7 +105,6 @@ def main():
 
     d7 = digraph.from_dot_file('d7.dot')
     print(d7.common_ancestor(5, 8))
-
-
+    print(d7.tri_topologique())
 if __name__ == '__main__':
     main()
