@@ -664,11 +664,23 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return dist, prev
 
     def shortest_path(self, src, tgt):
+        """
+        inputs : src(int), tgt(int)
+        outputs : int
+        return the distance between src and tgt
+
+        """
 
         dist, prev = self.dijkstra(src, tgt=tgt)
         return dist[tgt]
 
     def common_ancestor(self, src1, src2):
+        """
+        inputs : src1(int), src2(int)
+        outputs : dict of tuple of int
+        return  a dictionary of the distance of the of src and tgt
+
+        """
         dist1, prev1 = self.dijkstra(src1, direction=-1)
         dist2, prev2 = self.dijkstra(src2, direction=-1)
 
@@ -679,6 +691,12 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return m
 
     def tri_topologique(self):
+        """
+        inputs : None
+        outputs : list of list of int
+        return  a list of id_node layer by layer
+
+        """
         k = self.copy()
         old = []
         visited = []
@@ -705,6 +723,12 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return old
 
     def noeuds_profondeur(self, id):
+        """
+        inputs : id(int)
+        outputs : int
+        return  the layer of the node of id
+
+        """
         a = self.tri_topologique()
         for i in range(len(a)):
             if id in a:
@@ -713,6 +737,12 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return -1
 
     def prof_OpD(self):
+        """
+        inputs : None
+        outputs : int
+        return  max layer of digraph
+
+        """
         a = self.tri_topologique()
         if a:
             return len(a) - 1
