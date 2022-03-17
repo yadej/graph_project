@@ -1,5 +1,4 @@
 import os
-import random
 from modules import open_digraph
 from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
 
@@ -39,8 +38,8 @@ def main():
     print(f'{graph.is_well_formed() = }\n')
 
     def printMat(mat):
-        for i in range(len(mat)):
-            print(matrix[i])
+        for j in range(len(mat)):
+            print(matrix[j])
 
     n = 7
 
