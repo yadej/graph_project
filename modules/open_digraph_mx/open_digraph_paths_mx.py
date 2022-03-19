@@ -100,7 +100,8 @@ class open_digraph_paths_mx:
         flat_old = [item for t in old for item in t]
         p = [i for i in k.get_node_ids() if i not in flat_old]
         old.append(p)
-        return old
+        #Retourne l'inverse d'old
+        return old[::-1]
 
     def node_depth(self, i):
         """
@@ -138,7 +139,7 @@ class open_digraph_paths_mx:
                 id1p = i
             if tgt in T[i]:
                 id2p = i
-        if id1p > id2p:
+        if id1p < id2p:
             dico = {src: 0}
             last = tgt
         else:
@@ -146,8 +147,8 @@ class open_digraph_paths_mx:
             last = src
             id1p, id2p = id2p, id1p
         prev = {}
-        for i in range(id1p, id2p, -1):
-            for j in T[i - 1]:
+        for i in range(id1p, id2p):
+            for j in T[i + 1]:
                 v1 = set(self.get_node_by_id(j).get_parent_ids())
                 v2 = set(dico.keys())
                 v3 = list(v1 & v2)

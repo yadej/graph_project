@@ -9,10 +9,10 @@ def main():
 
     graph = open_digraph()
     graph.add_node('Aya')
-    graph.add_node(parents={1: 3})
-    graph.add_node('Pour', children={2: 4})
+    graph.add_node(parents={0: 3})
+    graph.add_node('Pour', children={1: 4})
     graph.add_node(children={2: 2})
-    graph.add_node(parents={4: 6})
+    graph.add_node(parents={3: 6})
     graph.add_input_node(2)
     graph.add_output_node(3)
     graph.add_output_node(4)
@@ -24,11 +24,11 @@ def main():
     print(f'{graph = }')
     print(f'{graph.is_well_formed() = }\n')
 
-    graph.remove_edge((6, 2))
+    graph.remove_edge((5, 2))
     print(f'{graph = }')
     print(f'{graph.is_well_formed() = }\n')
 
-    graph.add_edge((6, 2))
+    graph.add_edge((5, 2))
     graph.remove_node_by_id(5)
     print(f'{graph = }')
     print(f'{graph.is_well_formed() = }\n')
@@ -38,6 +38,9 @@ def main():
     print(f'{graph = }')
     print(f'{graph.is_well_formed() = }\n')
 
+    graph.shift_indices(3)
+    print(f'{graph = }')
+    print(f'{graph.is_well_formed() = }\n')
     def printMat(mat):
         for j in range(len(mat)):
             print(matrix[j])

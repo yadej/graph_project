@@ -1,4 +1,5 @@
 from modules import open_digraph
+from modules import node
 
 
 # noinspection PyUnresolvedReferences
@@ -26,19 +27,11 @@ class open_digraph_compositions_mx:
         outputs : none
         adds n to all the indices of the graph.
         """
-        for i in self.get_nodes():
-            i.set_id(i.get_id() + n)
-            k = {}
-            for ci, m in i.get_children_ids().items():
-                k[ci + n] = m
-            i.set_children_ids(k)
-            p = {}
-            for ci, m in i.get_parent_ids().items():
-                p[ci + n] = m
-            i.set_parent_ids(p)
         ns = {}
         for i in self.get_nodes():
-            ns[i.get_id() + n] = i
+            nparent = {x + n: y for (x, y) in i.get_parent_ids().items()}
+            nchildren = {x + n: y for (x, y) in i.get_children_ids().items()}
+            ns[i.get_id() + n] = node.node(i.get_id() + n, i.get_label(), nparent, nchildren)
         self.nodes = ns
         self.set_input_ids([i + n for i in self.get_input_ids()])
         self.set_output_ids([i + n for i in self.get_output_ids()])
@@ -56,8 +49,8 @@ class open_digraph_compositions_mx:
                 ns[n.get_id()] = n
             for n in g.get_nodes():
                 ns[n.get_id()] = n
-            self.set_input_ids(self.get_input_ids() + g.get_input_ids)
-            self.set_output_ids(self.get_output_ids() + g.get_output_ids)
+            self.set_input_ids(self.get_input_ids() + g.get_input_ids())
+            self.set_output_ids(self.get_output_ids() + g.get_output_ids())
             self.nodes = ns
 
     def parallel(self, *gs):
@@ -68,11 +61,11 @@ class open_digraph_compositions_mx:
         k = self.copy()
         for g in gs:
             k.shift_indices(g.max_id() - k.min_id() + 1)
-            ns = k.get_nodes()
+            ns = k.get_id_node_map()
             for n in g.get_nodes():
                 ns[n.get_id()] = n
-            k.get_input_ids().append(g.get_input_ids)
-            k.get_output_ids().append(g.get_output_ids)
+            k.get_input_ids().extend(g.get_input_ids())
+            k.get_output_ids().extend(g.get_output_ids())
             k.nodes = ns
         return k
 
