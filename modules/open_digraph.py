@@ -725,10 +725,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return  the depth of the node of id
         """
         a = self.tri_topologique()
-        for depth in range(len(a)):
-            if i in a:
-                return depth
-        # Return -1 si le noeud n'est pas dans le digraph
+        for i in range(len(a)):
+            if id in a[i]:
+                return i
+        #Return -1 si le noeud n'est pas dans le digraph
         return -1
 
     def prof_OpD(self):
@@ -742,6 +742,46 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
             return len(a) - 1
         else:
             return 0
+
+    def max_dist(self, src, tgt):
+        a = list(self.get_node_ids())
+        if not src in a or not tgt in a:
+            raise Exception("Noeud qui ne sont pas dans le graph")
+        T = self.tri_topologique()
+        id1p = 0
+        id2p = 0
+        for i in range(len(T)):
+            if src in T[i]:
+                id1p = i
+            if tgt in T[i]:
+                id2p = i
+        if id1p > id2p:
+            dict = {src:0}
+            last = tgt
+        else:
+            dict = {tgt:0}
+            last = src
+            id1p, id2p = id2p, id1p
+        prev = {}
+        for i in range(id1p, id2p, -1):
+            for j in T[i-1]:
+                v1 = set(self.get_node_by_id(j).get_parent_ids())
+                v2 = set(dict.keys())
+                v3 = list(v1 & v2)
+                if v3:
+                    p = max(v3, key= lambda x:dict[x])
+                    dict[j] = dict[p] + 1
+                    prev[j] = p
+        newprev = {}
+        if last == tgt:
+            while last != src:
+                newprev[last] = prev[last]
+                last = prev[last]
+        else:
+            while last != tgt:
+                newprev[last] = prev[last]
+                last = prev[last]
+        return max(dict[src], dict[tgt]), newprev
 
 
 class bool_circ(open_digraph):
