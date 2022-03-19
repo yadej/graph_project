@@ -1,3 +1,6 @@
+from modules import open_digraph
+
+
 # noinspection PyUnresolvedReferences
 class open_digraph_compositions_mx:
 
@@ -156,3 +159,86 @@ class open_digraph_compositions_mx:
                 dic[i] = nb
             nb += 1
         return nb, dic
+
+    """def cyclic(self, visited=None):
+        # pas de noeud -> acyclique
+        if visited is None:
+            visited = []
+        if len(visited) == len(self.get_nodes()):
+            return False
+        # cherchons une feuille
+        for n in self.get_nodes():
+            if not n.get_id() in visited:
+                if any(True for e in n.get_children_ids().keys() if e in visited):
+                    return True
+                else:
+                    # on la retire et on recommence
+                    self.remove_node_by_id(n.get_id())
+                    visited.append(n.get_id())
+                    return self.cyclic(visited)
+                # if not list(n.get_children_ids().values()):  # si c'est une feuille
+                # on la retire et on recommence
+                # self.remove_node_by_id(n.get_id())
+                # self.get_id_node_map().pop(n.get_id())
+                # return self.cyclic()
+        # si il n'y a pas de feuille -> cyclique
+        return True """
+    """
+    def is_cyclic(self):
+        if not self.get_nodes():
+            return False
+        k = self.copy()
+        return k.cyclic()
+    """
+
+    def cyclic(self, v, visited, recStack):
+        # Mark current node as visited and
+        # adds to recursion stack
+        visited[v] = True
+        recStack[v] = True
+
+        # Recur for all neighbours
+        # if any neighbour is visited and in
+        # recStack then graph is cyclic
+        if self.get_node_by_id(v) is None:
+            return False
+        for n in self.get_node_by_id(v).get_children_ids().keys():
+            if not visited[n]:
+                if self.cyclic(n, visited, recStack):
+                    return True
+            elif recStack[n]:
+                return True
+
+        # The node needs to be poped from
+        # recursion stack before function ends
+        recStack[v] = False
+        return False
+
+    # Returns true if graph is cyclic else false
+    def is_cyclic(self):
+        """
+        inputs : none
+        outputs : boolean (bool)
+        return if a graph is cyclic or not
+        """
+        visited = [False] * (len(self.get_nodes()) + 1)
+        recStack = [False] * (len(self.get_nodes()) + 1)
+        for n in self.get_nodes():
+            if not visited[n.get_id()]:
+                if self.cyclic(n.get_id(), visited, recStack):
+                    return True
+        return False
+
+    def list(self):
+        """
+        inputs : none
+        outputs : list of open_digraph
+        return a list of open_digraph
+        divide an open_digraph in part of node that are not connected together
+        """
+        n, data = self.connected_components()
+        dic = []
+        for i in range(n):
+            p = [self.get_node_by_id(key) for key in data.keys() if data[key] == i]
+            dic.append(open_digraph.open_digraph(nodes=p))
+        return dic

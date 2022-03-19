@@ -63,5 +63,5 @@ class OpenDigraphTest(unittest.TestCase):
         self.assertEqual(d7.tri_topologique(), [[7, 8, 9], [5, 6], [3, 4], [0, 1, 2]])
 
 
-if __name__ == '__main__':  # the following code is called only when
-    unittest.main()  # precisely this file is run
+if __name__ == '__main__':
+    unittest.main()

@@ -94,12 +94,11 @@ def main():
     d7 = digraph.from_dot_file('d7.dot')
     print(f'{d7.common_ancestor(5, 8) = }\n')
     print(f'{d7.tri_topologique() = }\n')
-
-    print(d7.noeuds_profondeur(5))
-    print(d7.prof_OpD())
-    print(d7.max_dist(1, 5))
-    print(d7.max_dist(5, 1))
-    print(d7.max_dist(9, 1))
+    print(f'{d7.noeuds_profondeur(5) = }\n')
+    print(f'{d7.prof_OpD() = }\n')
+    print(f'{d7.max_dist(1, 5) = }\n')
+    print(f'{d7.max_dist(5, 1) = }\n')
+    print(f'{d7.max_dist(9, 1) = }\n')
 
 
 if __name__ == '__main__':
