@@ -3,122 +3,130 @@ class open_digraph_paths_mx:
 
     def dijkstra(self, src, direction=None, tgt=None):
         """
-        inputs : src(int), direction({None , 1 ,-1}) tgt(int)
-        outputs : dist(dict of int), prev(dict of int)
-        return a dict of distance compared with src and a dict with the previous one as key
+        :param src: id of source node
+        :param direction: None by default (for both ways),
+        1 (descending only), -1 (ascending only)
+        :param tgt: optional id of target node
+        :return: dict of distance to source node,
+        and dict with previous node as key
         """
         if self.get_node_by_id(src) == 0:
             raise Exception('not in digraph')
+
         Q = [src]
         dist = {src: 0}
         prev = {}
+
         while Q:
             u = min(Q, key=lambda x: dist[x])
             Q.remove(u)
+
             if u == tgt:
                 return dist, prev
+
             v = []
+
             if direction is None:
                 v = v + list(self.get_node_by_id(u).get_children_ids().keys()) + list(self.get_node_by_id(
                     u).get_parent_ids().keys())
+
             elif direction == 1:
                 v = v + list(self.get_node_by_id(u).get_children_ids().keys())
-            else:
+
+            else:  # direction == -1
                 v = v + list(self.get_node_by_id(u).get_parent_ids().keys())
+
             for i in v:
                 if i not in dist:
                     Q.append(i)
+
                 if i not in dist or dist[i] > dist[u] == 1:
                     dist[i] = dist[u] + 1
                     prev[i] = u
+
         return dist, prev
 
     def shortest_path(self, src, tgt):
         """
-        inputs : src(int), tgt(int)
-        outputs : int
-        return the distance between src and tgt
-
+        :param src: id of the source node
+        :param tgt: id of the target node
+        :return: distance between the source node and target node
         """
+        return self.dijkstra(src, tgt=tgt)[0][tgt]
 
-        dist, prev = self.dijkstra(src, tgt=tgt)
-        return dist[tgt]
-
-    def common_ancestor(self, src1, src2):
+    def common_ancestors(self, src1, src2):
         """
-        inputs : src1(int), src2(int)
-        outputs : dict of tuple of int
-        return  a dictionary of the distance of the of src and tgt
-
+        :param src1: id of the first source node
+        :param src2: id of the second source node
+        :return: dictionary of every common ancestor of the source nodes,
+        and their distance to both source nodes
         """
-        dist1, prev1 = self.dijkstra(src1, direction=-1)
-        dist2, prev2 = self.dijkstra(src2, direction=-1)
-
-        p = list(set(dist1) & set(dist2))
-        m = {}
-        for a in p:
-            m[a] = (dist1[a], dist2[a])
-        return m
+        dist1 = self.dijkstra(src1, direction=-1)[0]
+        dist2 = self.dijkstra(src2, direction=-1)[0]
+        return {a: (dist1[a], dist2[a]) for a in dist1.keys() & dist2.keys()}
 
     def tri_topologique(self):
         """
-        inputs : None
-        outputs : list of list of int
-        return  a list of id_node layer by layer
-
+        :return: list of node ids for every layer in the graph
         """
         k = self.copy()
         old = []
         visited = []
         nb = 0
+
         while nb != len(k.get_nodes()):
             new = []
+
             for i in k.get_node_ids():
                 if len(k.get_node_by_id(i).get_children_ids()) == 0 and len(k.get_node_by_id(i).get_parent_ids()) != 0:
                     new.append(i)
+
             if not new:
                 raise Exception("Digraph cyclic")
+
             for i in new:
                 for a in list(k.get_node_by_id(i).get_parent_ids()):
                     k.remove_parallel_edges((a, i))
+
             old.append(new)
             for i in k.get_node_ids():
-                if i not in visited and len(k.get_node_by_id(i).get_children_ids()) == 0 and len(
-                        k.get_node_by_id(i).get_parent_ids()) == 0:
+                if i not in visited \
+                        and len(k.get_node_by_id(i).get_children_ids()) == 0 \
+                        and len(k.get_node_by_id(i).get_parent_ids()) == 0:
                     nb += 1
                     visited.append(i)
-        # C'est pour ajoute la derniere ligne
+
+        # C'est pour ajouter la derniere ligne
         flat_old = [item for t in old for item in t]
         p = [i for i in k.get_node_ids() if i not in flat_old]
         old.append(p)
         return old
 
-    def noeuds_profondeur(self, i):
+    def node_depth(self, i):
         """
-        inputs : id(int)
-        outputs : int
-        return  the depth of the node of id
+        :param i: node id
+        :return: depth of the node in the graph
         """
         a = self.tri_topologique()
+
         for depth in range(len(a)):
             if i in a[depth]:
                 return depth
-        # Return -1 si le noeud n'est pas dans le digraph
-        return -1
+
+        return -1  # node not in graph
 
     def prof_OpD(self):
         """
-        inputs : None
-        outputs : int
-        return  max layer of digraph
+        :return: max depth of digraph
         """
-        a = self.tri_topologique()
-        if a:
-            return len(a) - 1
-        else:
-            return 0
+        return len(self.tri_topologique())
 
     def max_dist(self, src, tgt):
+        """
+        :param src: id of the source node
+        :param tgt: id of the target node
+        :return: maximum distance between source and target nodes
+        """
         a = list(self.get_node_ids())
         if src not in a or tgt not in a:
             raise Exception("Noeud qui ne sont pas dans le graph")

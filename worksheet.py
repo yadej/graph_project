@@ -1,12 +1,13 @@
-import os
-from modules import open_digraph
-from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
+# import os
+from modules.open_digraph import open_digraph
+# from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
 
 
 def main():
+    """
     root_dir = os.path.dirname(os.path.abspath(__file__))
 
-    graph = open_digraph.open_digraph()
+    graph = open_digraph()
     graph.add_node('Aya')
     graph.add_node(parents={1: 3})
     graph.add_node('Pour', children={2: 4})
@@ -48,7 +49,7 @@ def main():
     print()
     print(graph_from_adjacency_matrix(matrix))
 
-    digraph = open_digraph.open_digraph.random(n, 1, 1, 2, form='loop-free')
+    digraph = open_digraph.random(n, 1, 1, 2, form='loop-free')
     print(f'{digraph = }\n')
 
     b = digraph.adjacency_matrix()
@@ -88,13 +89,14 @@ def main():
     for i in p:
         print(i)
     print()
+    """
 
-    print(f'{digraph.dijkstra(1) = }\n')
-
-    d7 = digraph.from_dot_file('d7.dot')
-    print(f'{d7.common_ancestor(5, 8) = }\n')
+    d7 = open_digraph.from_dot_file('d7.dot')
+    print(f'{d7.dijkstra(1) = }\n')
+    print(f'{d7.shortest_path(1, 9) = }\n')
+    print(f'{d7.common_ancestors(5, 8) = }\n')
     print(f'{d7.tri_topologique() = }\n')
-    print(f'{d7.noeuds_profondeur(5) = }\n')
+    print(f'{d7.node_depth(5) = }\n')
     print(f'{d7.prof_OpD() = }\n')
     print(f'{d7.max_dist(1, 5) = }\n')
     print(f'{d7.max_dist(5, 1) = }\n')

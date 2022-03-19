@@ -76,29 +76,31 @@ class open_digraph_dot_mx:
         return un digraph lu dans un fichier .dot
         """
         graph = open_digraph.open_digraph()
-        for line in open(path, 'r').readlines():
-            if line[0] == 'v':
-                if line[3] == "[":
-                    if verbose:
-                        newlabel = line[4]
-                        a = 5
-                        while len(graph.get_node_ids()) < int(line[1]):
-                            graph.add_node()
-                        while line[a] != "]":
-                            newlabel = newlabel + line[a]
-                            a = a + 1
-                        graph.add_node(label=newlabel)
-                else:
-                    c = 1
-                    while line[c] != ';':
-                        if c % 6 == 1 and c > 6:
-                            while (graph.new_id()) < int(line[c]) + 1:
-                                graph.add_node()
 
-                        c += 1
-                    while c > 2:
-                        graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
-                        c = c - 6
+        with open(path, 'r') as f:
+            for line in f.readlines():
+                if line[0] == 'v':
+                    if line[3] == "[":
+                        if verbose:
+                            newlabel = line[4]
+                            a = 5
+                            while len(graph.get_node_ids()) < int(line[1]):
+                                graph.add_node()
+                            while line[a] != "]":
+                                newlabel = newlabel + line[a]
+                                a = a + 1
+                            graph.add_node(label=newlabel)
+                    else:
+                        c = 1
+                        while line[c] != ';':
+                            if c % 6 == 1 and c > 6:
+                                while (graph.new_id()) < int(line[c]) + 1:
+                                    graph.add_node()
+
+                            c += 1
+                        while c > 2:
+                            graph.add_edge((int(line[(c - 6) - 1]), int(line[c - 1])))
+                            c = c - 6
         return graph
 
     def display(self, verbose=False):

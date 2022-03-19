@@ -26,6 +26,7 @@ class NodeTest(unittest.TestCase):
 
 class OpenDigraphTest(unittest.TestCase):
     def test_open_digraph(self):
+        """
         digraph = open_digraph()
         digraph.add_node('Aya')
         self.assertEqual(digraph.get_id_node_map().get(0).get_id(), 0)
@@ -42,10 +43,10 @@ class OpenDigraphTest(unittest.TestCase):
         digraph.remove_parallel_edges((1, 2))
         digraph.remove_edge((1, 2))
         self.assertTrue(digraph.is_well_formed())
-        # digraph.remove_edge((6, 2))
-        # self.assertFalse(digraph.is_well_formed())
-        # digraph.add_edge((6, 2))
-        # self.assertTrue(digraph.is_well_formed())
+        digraph.remove_edge((6, 2))
+        self.assertFalse(digraph.is_well_formed())
+        digraph.add_edge((6, 2))
+        self.assertTrue(digraph.is_well_formed())
         digraph.remove_node_by_id(5)
         self.assertTrue(digraph.is_well_formed())
         digraph.remove_node_by_id(6)
@@ -58,8 +59,9 @@ class OpenDigraphTest(unittest.TestCase):
         digraph.parallel(open_digraph.random(5, 10))
         self.assertTrue(digraph.is_well_formed())
         self.assertTrue(digraph.dijkstra(1)[1].get(0) in digraph.dijkstra(1)[0])
-        d7 = digraph.from_dot_file('d7')
-        self.assertEqual(d7.common_ancestor(), {0: (2, 3), 1: (1, 1), 3: (1, 2)})
+        """
+        d7 = open_digraph.from_dot_file('d7.dot')
+        self.assertEqual(d7.common_ancestors(5, 8), {0: (2, 3), 1: (1, 1), 3: (1, 2)})
         self.assertEqual(d7.tri_topologique(), [[7, 8, 9], [5, 6], [3, 4], [0, 1, 2]])
 
 
