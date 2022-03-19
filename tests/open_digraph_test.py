@@ -58,9 +58,9 @@ class OpenDigraphTest(unittest.TestCase):
         digraph3 = digraph2.parallel(open_digraph.random(5, 10))
         self.assertTrue(digraph3.is_well_formed())
         self.assertTrue(digraph2.dijkstra(1)[1].get(0) in digraph2.dijkstra(1)[0])
-        d7 = digraph.from_dot_file('d7.dot')
-        self.assertEqual(d7.common_ancestor(5, 8), {0: (2, 3), 1: (1, 1), 3: (1, 2)})
-        self.assertEqual(d7.tri_topologique(), [[0, 1, 2], [3, 4], [5, 6], [7, 8, 9] ])
+        d7 = open_digraph.from_dot_file('d7.dot')
+        self.assertEqual(d7.common_ancestors(5, 8), {0: (2, 3), 1: (1, 1), 3: (1, 2)})
+        self.assertEqual(d7.tri_topologique(), [[0, 1, 2], [3, 4], [5, 6], [7, 8, 9]])
 
 
 if __name__ == '__main__':
