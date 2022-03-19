@@ -99,6 +99,8 @@ def main():
     print(d7.prof_OpD())
     print(d7.max_dist(1, 5))
     print(d7.max_dist(5, 1))
+    print(d7.max_dist(9, 1))
+
 
 if __name__ == '__main__':
     main()
