@@ -725,9 +725,9 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx):
         return  the depth of the node of id
         """
         a = self.tri_topologique()
-        for i in range(len(a)):
-            if id in a[i]:
-                return i
+        for depth in range(len(a)):
+            if i in a[depth]:
+                return depth
         #Return -1 si le noeud n'est pas dans le digraph
         return -1
 

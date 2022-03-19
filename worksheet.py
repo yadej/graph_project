@@ -95,9 +95,6 @@ def main():
     print(f'{d7.common_ancestor(5, 8) = }\n')
     print(f'{d7.tri_topologique() = }\n')
 
-
-    print(d7.common_ancestor(5, 8))
-    print(d7.tri_topologique())
     print(d7.noeuds_profondeur(5))
     print(d7.prof_OpD())
     print(d7.max_dist(1, 5))
