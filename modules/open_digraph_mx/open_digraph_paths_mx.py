@@ -130,6 +130,7 @@ class open_digraph_paths_mx:
 
         if u_depth == -1:
             raise Exception('u is not in the graph')
+
         if v_depth == -1:
             raise Exception('v is not in the graph')
 
