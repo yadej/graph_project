@@ -1,10 +1,10 @@
-# import os
+import os
 from modules.open_digraph import open_digraph
-# from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
+from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
 
 
 def main():
-    """
+
     root_dir = os.path.dirname(os.path.abspath(__file__))
 
     graph = open_digraph()
@@ -41,6 +41,7 @@ def main():
     graph.shift_indices(3)
     print(f'{graph = }')
     print(f'{graph.is_well_formed() = }\n')
+
     def printMat(mat):
         for j in range(len(mat)):
             print(matrix[j])
@@ -92,8 +93,6 @@ def main():
     for i in p:
         print(i)
     print()
-    """
-
     d7 = open_digraph.from_dot_file('d7.dot')
     print(f'{d7.dijkstra(1) = }\n')
     print(f'{d7.shortest_path(1, 9) = }\n')
