@@ -59,8 +59,15 @@ class OpenDigraphTest(unittest.TestCase):
         self.assertTrue(digraph3.is_well_formed())
         self.assertTrue(digraph2.dijkstra(1)[1].get(0) in digraph2.dijkstra(1)[0])
         d7 = open_digraph.from_dot_file('d7.dot')
+        self.assertEqual(d7.dijkstra(1), ({1: 0, 4: 1, 5: 1, 8: 1, 6: 2, 2: 2, 7: 2, 3: 2, 9: 3, 0: 3},
+                                          {4: 1, 5: 1, 8: 1, 6: 8, 2: 4, 7: 5, 3: 5, 9: 6, 0: 3}))
+        self.assertEqual(d7.shortest_path(1, 9), 3)
+        self.assertEqual(d7.shortest_path(1, 3), 2)
         self.assertEqual(d7.common_ancestors(5, 8), {0: (2, 3), 1: (1, 1), 3: (1, 2)})
         self.assertEqual(d7.tri_topologique(), [[0, 1, 2], [3, 4], [5, 6], [7, 8, 9]])
+        self.assertEqual(d7.node_depth(6), 2)
+        self.assertEqual(d7.depth(), 4)
+        self.assertEqual(d7.max_dist(9, 1), (3, {9: 6, 6: 4, 4: 1}))
 
 
 if __name__ == '__main__':
