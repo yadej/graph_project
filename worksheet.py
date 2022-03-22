@@ -1,4 +1,6 @@
 import os
+
+from modules.bool_circ import bool_circ
 from modules.open_digraph import open_digraph
 from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
 
@@ -103,10 +105,13 @@ def main():
     print(f'{d7.max_dist(1, 5) = }\n')
     print(f'{d7.max_dist(5, 1) = }\n')
     print(f'{d7.max_dist(9, 1) = }\n')
-    print(f'{d7} = \n')
+
     tmp = d7.copy()
     tmp.fusion(1, 4)
     tmp.save_as_dot_file('tmp.dot')
+
+    tmp2 = bool_circ.parse_parentheses('((x0)&((x1)&(x2)))|((x1)&(~(x2)))')
+    tmp2.save_as_dot_file('tmp2.dot')
 
 
 if __name__ == '__main__':

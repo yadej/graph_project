@@ -5,6 +5,8 @@ from modules.open_digraph import open_digraph
 class bool_circ(open_digraph):
 
     def __init__(self, g=None):
+        if g is None:
+            super.__init__()
         if isinstance(g, open_digraph):
             super().__init__(g.get_input_ids(), g.get_output_ids(), g.get_nodes())
         if not g.is_well_formed():
