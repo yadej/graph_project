@@ -44,8 +44,8 @@ class bool_circ(open_digraph):
             if c == '(':
                 g.get_node_by_id(current_node).set_label(s2)
                 # creer un parent a current node et faire en sorte que ce parent soit desormais current node
-                current_node = g.new_id()
-                g.get_node_by_id(current_node).set_parent_ids()
+                g.get_node_by_id(current_node).set_parent_ids({2: 1})
+                current_node = 2
                 s2 = ''
             elif c == ')':
                 g.get_node_by_id(current_node).set_label(s2)
