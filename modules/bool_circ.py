@@ -53,7 +53,7 @@ class bool_circ(open_digraph):
             elif c == ')':
                 g.get_node_by_id(current_node).set_label(s2)
                 # changer current_node pour qu'il prenne l'id de son fils
-                current_node = g.get_node_by_id(current_node).get_children().keys()[0]
+                current_node = list(g.get_node_by_id(current_node).get_children_ids().keys())[0]
                 s2 = ''
             else:
                 s2 += c
@@ -61,7 +61,7 @@ class bool_circ(open_digraph):
         while k != len(g.get_nodes()):
             lab = g.get_node_by_id(k).get_label()
             new = -1
-            for i in len(k ,g.get_nodes()):
+            for i in range(k, len(g.get_nodes())):
                 if g.get_node_by_id(i).get_label() == lab:
                     new = i
                     break
