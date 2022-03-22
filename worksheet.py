@@ -103,6 +103,10 @@ def main():
     print(f'{d7.max_dist(1, 5) = }\n')
     print(f'{d7.max_dist(5, 1) = }\n')
     print(f'{d7.max_dist(9, 1) = }\n')
+    print(f'{d7} = \n')
+    tmp = d7.copy()
+    tmp.fusion(1, 4)
+    tmp.save_as_dot_file('tmp.dot')
 
 
 if __name__ == '__main__':
