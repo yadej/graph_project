@@ -283,22 +283,22 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digra
         self.add_output_id(self.new_id())
         self.add_node(label, {nodeId: 1}, {})
 
-    def fusion(self, nodeId1, nodeId2, newLabel=False):
-        # label c'est nodeId1 par default
+    def fusion(self, nodeId1, nodeId2, label=''):
         newNode = self.get_node_by_id(nodeId1)
         newNode2 = self.get_node_by_id(nodeId2)
         newNode.set_children_ids({**newNode.get_children_ids(), **newNode2.get_children_ids()})
         newNode.set_parent_ids({**newNode.get_parent_ids(), **newNode2.get_parent_ids()})
-        if newLabel:
-            newNode.set_label(nodeId2.get_label())
+
+        # label c'est nodeId1 par default
+        if label != '':
+            newNode.set_label(label)
+
         for i, j in newNode2.get_children_ids().items():
             for _ in range(j):
-                self.add_edge((newNode.get_id() ,i))
+                self.add_edge((newNode.get_id(), i))
+
         for i, j in newNode2.get_parent_ids().items():
             for _ in range(j):
-                self.add_edge((i ,newNode.get_id()))
+                self.add_edge((i, newNode.get_id()))
+
         self.remove_node_by_id(newNode2.get_id())
-
-
-
-
