@@ -1,3 +1,4 @@
+from modules.node import node
 from modules.open_digraph import open_digraph
 
 
@@ -32,3 +33,23 @@ class bool_circ(open_digraph):
                 if len(n.get_parent_ids()) != 1 or len(n.get_children_ids()) != 1:
                     return False
         return True
+
+    @classmethod
+    def parse_parentheses(cls, s):
+        g = bool_circ(open_digraph(outputs=[1], nodes={0: node(0, '', {}, {1: 1}), 1: node(1, '', {0: 1}, {})}))
+        current_node = 0
+        s2 = ''
+
+        for c in s:
+            if c == '(':
+                # rajouter s2 au label de current_node
+                # creer un parent a current node et faire en sorte que ce parent soit desormais current node
+                s2 = ''
+            elif c == ')':
+                # rajouter s2 au label de current_node
+                # changer current_node pour qu'il prenne l'id de son fils
+                s2 = ''
+            else:
+                s2 += c
+
+        return g
