@@ -108,6 +108,7 @@ def main():
 
     tmp = d7.copy()
     tmp.fusion(1, 4)
+    tmp.get_node_by_id(1).set_label('1, 4')
     tmp.save_as_dot_file('tmp.dot')
 
     tmp2 = bool_circ.parse_parentheses('((x0)&((x1)&(x2)))|((x1)&(~(x2)))')

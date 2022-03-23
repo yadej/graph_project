@@ -283,22 +283,25 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digra
         self.add_output_id(self.new_id())
         self.add_node(label, {nodeId: 1}, {})
 
-    def fusion(self, nodeId1, nodeId2, label=''):
-        newNode = self.get_node_by_id(nodeId1)
-        newNode2 = self.get_node_by_id(nodeId2)
-        newNode.set_children_ids({**newNode.get_children_ids(), **newNode2.get_children_ids()})
-        newNode.set_parent_ids({**newNode.get_parent_ids(), **newNode2.get_parent_ids()})
+    def fusion(self, id1, id2, label=''):
+        node1 = self.get_node_by_id(id1)
+        node2 = self.get_node_by_id(id2)
 
-        # label c'est nodeId1 par default
+        self.remove_parallel_edges((id1, id2))  # enleve les fleches reflexives
+
+        node1.set_children_ids({**node1.get_children_ids(), **node2.get_children_ids()})
+        node1.set_parent_ids({**node1.get_parent_ids(), **node2.get_parent_ids()})
+
+        # label = n1 par defaut
         if label != '':
-            newNode.set_label(label)
+            node1.set_label(label)
 
-        for i, j in newNode2.get_children_ids().items():
-            for _ in range(j):
-                self.add_edge((newNode.get_id(), i))
+        for child, mult in node2.get_children_ids().items():
+            for _ in range(mult):
+                self.add_edge((node1.get_id(), child))
 
-        for i, j in newNode2.get_parent_ids().items():
-            for _ in range(j):
-                self.add_edge((i, newNode.get_id()))
+        for parent, mult in node2.get_parent_ids().items():
+            for _ in range(mult):
+                self.add_edge((parent, node1.get_id()))
 
-        self.remove_node_by_id(newNode2.get_id())
+        self.remove_node_by_id(node2.get_id())
