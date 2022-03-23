@@ -44,19 +44,20 @@ class bool_circ(open_digraph):
 
         for c in s:
             if c == '(':
-                # creer un parent a current node et faire en sorte que ce parent soit desormais current node
-                g.get_node_by_id(current_node).set_label(s2)
+                g.get_node_by_id(current_node).set_label(g.get_node_by_id(current_node).get_label() + s2)
+
                 newId = g.new_id()
-                g.add_node(children={current_node:1})
+                g.add_node(children={current_node: 1})
                 current_node = newId
+
                 s2 = ''
             elif c == ')':
-                g.get_node_by_id(current_node).set_label(s2)
-                # changer current_node pour qu'il prenne l'id de son fils
+                g.get_node_by_id(current_node).set_label(g.get_node_by_id(current_node).get_label() + s2)
                 current_node = list(g.get_node_by_id(current_node).get_children_ids().keys())[0]
                 s2 = ''
             else:
                 s2 += c
+        """ exo 3
         k = 0
         while k != len(g.get_nodes()):
             lab = g.get_node_by_id(k).get_label()
@@ -66,8 +67,9 @@ class bool_circ(open_digraph):
                     new = i
                     break
             if new != -1:
-                g.fusion(k,new)
+                g.fusion(k, new)
             else:
                 k += 1
+        """
 
         return g

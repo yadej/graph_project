@@ -54,19 +54,20 @@ class open_digraph_dot_mx:
         }
         """
         newOp = self.copy()
-        f = open(path, 'w+')
-        p = 'digraph G { \n'
-        if verbose:
+        with open(path, 'w+') as f:
+            p = 'digraph G { \n'
             for i in newOp.get_nodes():
                 if i.get_label() != '':
-                    p = p + f'v{i.get_id()}[{i.get_label()}]; \n'
-        for n in newOp.get_nodes():
-            for i in list(n.get_children_ids().keys()):
-                for j in range(n.get_children_ids().get(i)):
-                    p = p + newOp.digraph_to_string(n, newOp.get_node_by_id(i))
-        p = p + '}'
-        f.write(p)
-        f.close()
+                    p += f'v{i.get_id()} [label="'
+                    if verbose:
+                        p += f'v{i.get_id()}: '
+                    p += f'{i.get_label()}"]; \n'
+            for n in newOp.get_nodes():
+                for i in list(n.get_children_ids().keys()):
+                    for j in range(n.get_children_ids().get(i)):
+                        p += newOp.digraph_to_string(n, newOp.get_node_by_id(i))
+            p += '}'
+            f.write(p)
 
     @classmethod
     def from_dot_file(cls, path, verbose=False):
