@@ -114,6 +114,10 @@ def main():
     tmp2 = bool_circ.parse_parentheses('((x0)&((x1)&(x2)))|((x1)&(~(x2)))')
     tmp2.save_as_dot_file('tmp2.dot')
 
+    tmp3 = bool_circ.parse_parentheses("((x0)&((x1)&(x2)))|((x1)&(~(x2)))", "((x0)&(~(x1)))|(x2)")
+    tmp3.save_as_dot_file('tmp3.dot')
+
+
 
 if __name__ == '__main__':
     main()
