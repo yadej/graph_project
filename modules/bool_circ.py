@@ -86,11 +86,15 @@ class bool_circ(open_digraph):
 
         k = 0
         while k != len(g.get_nodes()):
-            if g.get_node_by_id(k).get_label().__contains__("&") or g.get_node_by_id(k).get_label().__contains__("~") \
-                 or g.get_node_by_id(k).get_label().__contains__("|") or g.get_node_by_id(k).get_label() == '':
+            lab = g.get_node_by_id(k).get_label()
+            if lab == "":
                 k += 1
                 continue
-            lab = g.get_node_by_id(k).get_label()
+            if lab.__contains__("&") or lab.__contains__("~") \
+                 or lab.__contains__("|"):
+                g.get_node_by_id(k).set_label(lab[0])
+                k += 1
+                continue
             new = -1
             for i in range(k+1, len(g.get_nodes())):
                 if g.get_node_by_id(i).get_label() == lab and g.get_node_by_id(i).get_label() != "":
