@@ -40,8 +40,9 @@ class bool_circ(open_digraph):
     def parse_parentheses(cls, *args):
         g = bool_circ(open_digraph(outputs=[1], nodes=[node(0, '', {}, {1: 1}), node(1, '', {0: 1}, {})]))
         current_node = 0
-        s2 = ''
         for s in args:
+            s = "(" + s + ")"
+            s2 = ''
             for c in s:
                 if c == '(':
                     g.get_node_by_id(current_node).set_label(g.get_node_by_id(current_node).get_label() + s2)
@@ -49,7 +50,6 @@ class bool_circ(open_digraph):
                     newId = g.new_id()
                     g.add_node(children={current_node: 1})
                     current_node = newId
-
                     s2 = ''
                 elif c == ')':
                     g.get_node_by_id(current_node).set_label(g.get_node_by_id(current_node).get_label() + s2)
@@ -60,7 +60,7 @@ class bool_circ(open_digraph):
         k = 0
         while k != len(g.get_nodes()):
             if g.get_node_by_id(k).get_label() == "&" or g.get_node_by_id(k).get_label() == "~" \
-                 or g.get_node_by_id(k).get_label() == "|" :
+                 or g.get_node_by_id(k).get_label() == "|":
                 k += 1
                 continue
             lab = g.get_node_by_id(k).get_label()

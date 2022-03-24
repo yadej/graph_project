@@ -118,6 +118,5 @@ def main():
     tmp3.save_as_dot_file('tmp3.dot')
 
 
-
 if __name__ == '__main__':
     main()
