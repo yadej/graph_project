@@ -117,6 +117,9 @@ def main():
     tmp3 = bool_circ.parse_parentheses("((x0)&((x1)&(x2)))|((x1)&(~(x2)))", "((x0)&(~(x1)))|(x2)")
     tmp3.save_as_dot_file('tmp3.dot')
 
+    tmp4 = bool_circ.parse_parentheses("((x0)&(x1)&(x2))|((x1)&(~(x2)))")
+    tmp4.save_as_dot_file('tmp4.dot')
+
 
 if __name__ == '__main__':
     main()
