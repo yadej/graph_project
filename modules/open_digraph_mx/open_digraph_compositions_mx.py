@@ -12,14 +12,14 @@ class open_digraph_compositions_mx:
         inputs : none
         outputs : min id of graph's nodes (int)
         """
-        return min(list(self.get_node_ids()))
+        return min(list(self.get_node_ids())) if self.get_nodes() else 0
 
     def max_id(self):
         """
         inputs : none
         outputs : max id of graph's nodes (int)
         """
-        return max(list(self.get_node_ids()))
+        return max(list(self.get_node_ids())) if self.get_nodes() else 0
 
     def shift_indices(self, n):
         """

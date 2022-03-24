@@ -38,7 +38,7 @@ class bool_circ(open_digraph):
 
     @classmethod
     def parse_parentheses(cls, *args):
-        g = bool_circ(open_digraph(outputs=[1], nodes=[node(0, '', {}, {1: 1}), node(1, '', {0: 1}, {})]))
+        """g = bool_circ(open_digraph(outputs=[1], nodes=[node(0, '', {}, {1: 1}), node(1, '', {0: 1}, {})]))
         current_node = 0
         for s in args:
             s = "(" + s + ")"
@@ -57,10 +57,37 @@ class bool_circ(open_digraph):
                     s2 = ''
                 else:
                     s2 += c
+        """
+
+        g = bool_circ(open_digraph())
+        num = 0
+        current_node = 0
+        for s in args:
+            # On va paralleliser g et par
+            newlabel = "sortie " + str(num)
+            num += 1
+            par = bool_circ(open_digraph(nodes=[node(0, newlabel, {}, {})]))
+            s = "(" + s + ")"
+            s2 = ''
+            for c in s:
+                if c == '(':
+                    par.get_node_by_id(current_node).set_label(par.get_node_by_id(current_node).get_label() + s2)
+                    newId = par.new_id()
+                    par.add_node(children={current_node: 1})
+                    current_node = newId
+                    s2 = ''
+                elif c == ')':
+                    par.get_node_by_id(current_node).set_label(par.get_node_by_id(current_node).get_label() + s2)
+                    current_node = list(par.get_node_by_id(current_node).get_children_ids().keys())[0]
+                    s2 = ''
+                else:
+                    s2 += c
+            g.iparallel(par)
+
         k = 0
         while k != len(g.get_nodes()):
             if g.get_node_by_id(k).get_label() == "&" or g.get_node_by_id(k).get_label() == "~" \
-                 or g.get_node_by_id(k).get_label() == "|":
+                 or g.get_node_by_id(k).get_label() == "|" or g.get_node_by_id(k).get_label() == '':
                 k += 1
                 continue
             lab = g.get_node_by_id(k).get_label()
