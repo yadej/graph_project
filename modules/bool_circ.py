@@ -93,6 +93,9 @@ class bool_circ(open_digraph):
             if lab.__contains__("&") or lab.__contains__("~") \
                  or lab.__contains__("|"):
                 g.get_node_by_id(k).set_label(lab[0])
+                for i in list(g.get_node_by_id(k).get_children_ids()):
+                    if lab[0] in g.get_node_by_id(i).get_label():
+                        g.fusion(k, i)
                 k += 1
                 continue
             new = -1

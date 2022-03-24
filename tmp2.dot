@@ -1,7 +1,6 @@
 digraph G { 
 v0 [label="sortie 0"]; 
 v1 [label="|"]; 
-v2 [label="&"]; 
 v3 [label="x0"]; 
 v4 [label="&"]; 
 v5 [label="x1"]; 
@@ -9,9 +8,7 @@ v6 [label="x2"];
 v7 [label="&"]; 
 v9 [label="~"]; 
 v1 -> v0;
-v2 -> v1;
-v3 -> v2;
-v4 -> v2;
+v3 -> v4 -> v1;
 v5 -> v4;
 v5 -> v7 -> v1;
 v6 -> v4;
