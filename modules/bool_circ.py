@@ -122,14 +122,20 @@ class bool_circ(open_digraph):
 
     @classmethod
     def from_binary_table(cls, table):
-        bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {}), node(1, '&', {}, {})]))
+        bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {}), node(1, '', {}, {})]))
 
         for x, char in enumerate(table):
-            for i in bin(x)[:2]:
-                if i == '0':
-                    bc.add_node('~', {0: 1}, {1: 1})
-                else:
-                    bc.add_edge((0, 1))
+
+            if char == "1":
+                p = bc.new_id()
+                bc.add_node(label="&", children={1: 1})
+
+                for i in bin(x[2:]):
+
+                    if i == '0':
+                        bc.add_node('~', {0: 1}, {p: 1})
+                    else:
+                        bc.add_edge((0, p))
 
         return bc
 
