@@ -120,45 +120,19 @@ class bool_circ(open_digraph):
 
         return g
 
-        @classmethod
-        def from_binary_table(cls, table):
-            graph = open_digraph()
-
-            # 0000 -> 1
-
-
-            # 0001 -> 1
+    @classmethod
+    def from_binary_table(cls, table):
+        bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {}), node(1, '', {}, {})]))
+        x = bin(table)
 
 
-            # 0010 -> 1
 
 
-            # 0110 -> 1
+        return bc
 
+    def gray_code(n):
+        code = ''
 
-            # 1010 -> 1
+        ...
 
-
-            # 1011 -> 1
-
-
-            # 1100 -> 1
-
-
-            # 1101 -> 1
-
-
-            # 1110 -> 1
-
-
-            # 1111 -> 1
-
-
-            return graph
-
-        def gray_code(n):
-            code = ''
-
-            ...
-
-            return code
+        return code
