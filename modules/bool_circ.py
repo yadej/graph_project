@@ -107,5 +107,16 @@ class bool_circ(open_digraph):
                 g.fusion(k, new)
             else:
                 k += 1
+        p = 0
+        for m in list(g.get_nodes()):
+
+            label = m.get_label()
+            if "sortie" not in label and "&" not in label \
+                    and '~' not in label and '|' not in label\
+                    and label != '':
+                g.add_input_id(g.new_id())
+                g.add_node(label="entree" + str(p), children={m.get_id(): 1})
+                p += 1
 
         return g
+

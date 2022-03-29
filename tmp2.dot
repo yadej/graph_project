@@ -7,10 +7,16 @@ v5 [label="x1"];
 v6 [label="x2"]; 
 v7 [label="&"]; 
 v9 [label="~"]; 
+v11 [label="entree0"]; 
+v12 [label="entree1"]; 
+v13 [label="entree2"]; 
 v1 -> v0;
 v3 -> v4 -> v1;
 v5 -> v4;
 v5 -> v7 -> v1;
 v6 -> v4;
 v6 -> v9 -> v7;
+v11 -> v3;
+v12 -> v5;
+v13 -> v6;
 }
