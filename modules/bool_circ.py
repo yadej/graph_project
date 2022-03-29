@@ -129,8 +129,8 @@ class bool_circ(open_digraph):
             if char == "1":
                 p = bc.new_id()
                 bc.add_node(label="&", children={1: 1})
-
-                for i in bin(x[2:]):
+                m = '0' * (4 - len(bin(x))[2:]) + bin(x)[2:]
+                for i in m:
 
                     if i == '0':
                         bc.add_node('~', {0: 1}, {p: 1})
