@@ -121,9 +121,15 @@ class bool_circ(open_digraph):
         return g
 
     @classmethod
-    def from_binary_table(cls, table):
+    def from_binary_table(cls, x):
         bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {}), node(1, '', {}, {})]))
-        x = bin(table)
+        table = bin(x)[2:]
+        for i in table:
+            if i == "0":
+                bc.add_node("~", {0:1}, {1:1})
+            else:
+                bc.add_edge((0, 1))
+
 
 
 
