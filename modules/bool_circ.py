@@ -91,7 +91,7 @@ class bool_circ(open_digraph):
                 k += 1
                 continue
             if lab.__contains__("&") or lab.__contains__("~") \
-                 or lab.__contains__("|"):
+                    or lab.__contains__("|"):
                 g.get_node_by_id(k).set_label(lab[0])
                 for i in list(g.get_node_by_id(k).get_children_ids()):
                     if lab[0] in g.get_node_by_id(i).get_label():
@@ -99,7 +99,7 @@ class bool_circ(open_digraph):
                 k += 1
                 continue
             new = -1
-            for i in range(k+1, len(g.get_nodes())):
+            for i in range(k + 1, len(g.get_nodes())):
                 if g.get_node_by_id(i).get_label() == lab and g.get_node_by_id(i).get_label() != "":
                     new = i
                     break
@@ -120,3 +120,45 @@ class bool_circ(open_digraph):
 
         return g
 
+        @classmethod
+        def from_binary_table(cls, table):
+            graph = open_digraph()
+
+            # 0000 -> 1
+
+
+            # 0001 -> 1
+
+
+            # 0010 -> 1
+
+
+            # 0110 -> 1
+
+
+            # 1010 -> 1
+
+
+            # 1011 -> 1
+
+
+            # 1100 -> 1
+
+
+            # 1101 -> 1
+
+
+            # 1110 -> 1
+
+
+            # 1111 -> 1
+
+
+            return graph
+
+        def gray_code(n):
+            code = ''
+
+            ...
+
+            return code

@@ -289,13 +289,15 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digra
 
         self.remove_parallel_edges((id1, id2))  # enleve les fleches reflexives
 
-        #node1.set_children_ids({**node1.get_children_ids(), **node2.get_children_ids()})
-        #node1.set_parent_ids({**node1.get_parent_ids(), **node2.get_parent_ids()})
+        # node1.set_children_ids({**node1.get_children_ids(), **node2.get_children_ids()})
+        # node1.set_parent_ids({**node1.get_parent_ids(), **node2.get_parent_ids()})
 
         # label = n1 par defaut
         if label != '':
             node1.set_label(label)
+
         node2.set_label('')
+
         for child, mult in node2.get_children_ids().items():
             for _ in range(mult):
                 self.add_edge((node1.get_id(), child))

@@ -2,9 +2,6 @@ digraph G {
 v0 [label="sortie 0"]; 
 v1 [label="|"]; 
 v3 [label="x0"]; 
-v4 [label="&"]; 
-v5 [label="x1"]; 
-v6 [label="x2"]; 
 v7 [label="&"]; 
 v9 [label="~"]; 
 v11 [label="entree0"]; 

@@ -120,6 +120,9 @@ def main():
     tmp4 = bool_circ.parse_parentheses("((x0)&(x1)&(x2))|((x1)&(~(x2)))")
     tmp4.save_as_dot_file('tmp4.dot')
 
+    tmp5 = bool_circ.from_binary_table('1110001000111111')
+    tmp5.save_as_dot_file('tmp5.dot')
+
 
 
 if __name__ == '__main__':
