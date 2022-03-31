@@ -120,16 +120,17 @@ class bool_circ(open_digraph):
 
         return g
 
+
     @classmethod
     def from_binary_table(cls, table):
+        # We have at least 3 on depth and max 4 on depth
         bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {})]))
-        w = len(table) - 1 if len(table) > 4 else len(table)
+        w = len(table) - 1 if len(table) > 5 else len(table)
         k = 0
         while w > 0:
             w = w // 2
             bc.add_node()
             k += 1
-        print(k)
         for x, char in enumerate(table):
             if char == "1":
                 p = bc.new_id()
@@ -144,9 +145,12 @@ class bool_circ(open_digraph):
 
         return bc
 
-    def gray_code(n):
-        code = ''
-
-        ...
-
-        return code
+    def gray_code(self, n):
+        g = ['0', '1']
+        if n < 0:
+            return []
+        for i in range(n-1):
+            g1 = ['1' + i for i in g][::-1]
+            g0 = ['0' + i for i in g]
+            g = g0 + g1
+        return g

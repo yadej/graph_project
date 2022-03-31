@@ -123,5 +123,8 @@ def main():
     tmp5 = bool_circ.from_binary_table('1110001000111111')
     tmp5.save_as_dot_file('tmp5.dot')
 
+    print(tmp5.gray_code(3))
+
+
 if __name__ == '__main__':
     main()
