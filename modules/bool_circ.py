@@ -161,6 +161,8 @@ class bool_circ(open_digraph):
         while w > 0:
             w = w // 2
             k += 1
+        if len(s1) != 2 ** k:
+            assert False
         if k % 2 == 1:
             t1 = self.gray_code(k // 2 + 1)
             t2 = self.gray_code(k // 2)
