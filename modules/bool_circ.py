@@ -147,10 +147,35 @@ class bool_circ(open_digraph):
 
     def gray_code(self, n):
         g = ['0', '1']
-        if n < 0:
+        if n <= 0:
             return []
         for i in range(n-1):
             g1 = ['1' + i for i in g][::-1]
             g0 = ['0' + i for i in g]
             g = g0 + g1
         return g
+
+    def K_map(self, s1):
+        w = len(s1) - 1 if len(s1) > 5 else len(s1)
+        k = 0
+        while w > 0:
+            w = w // 2
+            k += 1
+        if k % 2 == 1:
+            t1 = self.gray_code(k // 2 + 1)
+            t2 = self.gray_code(k // 2)
+        else:
+            t1 = self.gray_code(k // 2)
+            t2 = self.gray_code(k // 2)
+        k1 = len(t1)
+        k2 = len(t2)
+        t = [[0 for _ in range(k2)] for _ in range(k1)]
+
+        for i in range(k1):
+            for j in range(k2):
+                p = int(t1[i] + t2[j], 2)
+                if s1[p] == '1':
+                    t[i][j] = 1
+                else:
+                    t[i][j] = 0
+        return t

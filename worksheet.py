@@ -123,8 +123,10 @@ def main():
     tmp5 = bool_circ.from_binary_table('1110001000111111')
     tmp5.save_as_dot_file('tmp5.dot')
 
-    print(tmp5.gray_code(3))
-
+    print(tmp5.gray_code(2))
+    pr = tmp5.K_map('1110001000111111')
+    for i in range(len(pr)):
+        print(pr[i])
 
 if __name__ == '__main__':
     main()
