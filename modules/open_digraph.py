@@ -4,6 +4,7 @@ from modules.open_digraph_mx.open_digraph_dot_mx import open_digraph_dot_mx
 from modules.open_digraph_mx.open_digraph_compositions_mx import open_digraph_compositions_mx
 from modules.open_digraph_mx.open_digraph_matrix_mx import open_digraph_matrix_mx
 from modules.open_digraph_mx.open_digraph_paths_mx import open_digraph_paths_mx
+from modules.binaire import *
 
 
 class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digraph_matrix_mx, open_digraph_paths_mx):
