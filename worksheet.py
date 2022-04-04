@@ -132,5 +132,6 @@ def main():
     a = gray_tp_propositionnell('1110001000111111')
     print(a)
 
+
 if __name__ == '__main__':
     main()

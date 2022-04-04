@@ -54,12 +54,12 @@ def recherchebloc(n, table, comp):
 
 def recherche_ligne(n, table, comp):
     t = []
-    p = [[all(table[i][j:n+j]) for j in range(len(table[i])-n)] for i in range(len(table))]
+    p = [[all(table[i][j:n+j]) for j in range(len(table[i])-n+1)] for i in range(len(table))]
     for a in range(len(p)):
         for b in range(len(p[a])-n):
-            if p[a][b] and not all(comp[a][0][b:n+b]):
-                comp[a][0][b:n+b] = 1
-                t.append([a, a, b-n, b])
+            if p[a][b] and not all(comp[a][b:n+b]):
+                comp[a][b:n+b] = [1 for i in range(n)]
+                t.append([a, a, b, b+n])
     return t, comp
 
 
@@ -84,26 +84,37 @@ def gray_tp_propositionnell(s1):
         p1, passe_par = recherchebloc(k, m, passe_par)
         p2, passe_par = recherche_ligne(k, m, passe_par)
         p3, passe_par = recherche_colonne(k, m, passe_par)
-        newt.append(p1)
-        newt.append(p2)
-        newt.append(p3)
+        if p1:
+            newt.append(p1)
+        if p2:
+            newt.append(p2)
+        if p3:
+            newt.append(p3)
         k //= 2
+    print(newt)
+    newt = [x for i in newt for x in i]
     print(newt)
     for i in newt:
         if i[-1] == i[-2]:
             l = [m[a] + m[-1] for a in range(i[0], i[1])]
         elif i[0] == i[1]:
-            l = [m[0] + m[i] for a in range(i[2], i[3])]
+            l = [m[0] + m[a] for a in range(i[2], i[3])]
         else:
-            c = [[m[a] + m[b] for a in range(i[0], [1])] for b in range(i[-2],i[-1])]
+            c = [[m[a] + m[b] for a in range(i[0], i[1])] for b in range(i[-2],i[-1])]
             l = [item for sublist in c for item in sublist]
         t = zip(l)
+        print(list(t))
         newstr = [p[0] if p[:-1] == p[1:] else -1 for p in t]
         s += '('
-        for i, j in enumerate(newstr):
-            if j == 1:
-                s += f'x{i}'
-            elif j == 0:
-                s += f'~x{i}'
-            s = s + "&" if 1 in newstr[j:] or 0 in newstr[j:] else s
+        print(newstr)
+        for a in newstr:
+            for w, j in enumerate(a):
+                if j == 1:
+                    s += f'x{w}'
+                elif j == 0:
+                    s += f'~x{w}'
+                s = s + "&"
+            s = s[:-1]
+        s += ')|'
+    s = s[:-1]
     return s
