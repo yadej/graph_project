@@ -41,13 +41,13 @@ def K_map(s1):
 
 def recherchebloc(n, table, comp):
     t = []
-
-    p = [[all(table[i:n-i][x][j:n-j] for x in range(n)) for j in range(len(table[i])-n-1)] for i in range(len(table)-n-1)]
+    p = [[all(table[i:n+i][x][j:n+j] for x in range(n)) for j in range(len(table[i])-n+1)] for i in range(len(table)-n+1)]
+    print(p)
     for a in range(len(p)-n-1):
         for b in range(len(p[a])-n-1):
             if p[a][b] and not all(comp[a:n-a][b:n-b]):
                 for x in range(n):
-                    comp[a:n-a][x][b:n-b] = 1
+                    comp[a:n-a][x][b:n-b] = [1 for _ in range(n)]
                 t.append([a, a+n, b, b+n])
     return t, comp
 
@@ -58,18 +58,24 @@ def recherche_ligne(n, table, comp):
     for a in range(len(p)):
         for b in range(len(p[a])-n):
             if p[a][b] and not all(comp[a][b:n+b]):
-                comp[a][b:n+b] = [1 for i in range(n)]
+                comp[a][b:n+b] = [1 for _ in range(n)]
                 t.append([a, a, b, b+n])
     return t, comp
 
 
 def recherche_colonne(n, table, comp):
     t = []
-    p = [[all(table[i:n+i][x][j] for x in range(n)) for j in range(len(table[0]))] for i in range(len(table)-n-1)]
+    p = [[all(table[i:n+i][x][j] for x in range(n)) for j in range(len(table[0]))] for i in range(len(table)-n+1)]
+    print("d")
+    print(p)
+    print(len(p)-n)
     for a in range(len(p)-n):
         for b in range(len(p[a])):
-            if p[a][b] and not all(comp[a:n+a-1][:][b]):
-                comp[a:n+a-1][:][b] = 1
+            print("c")
+            print(comp[a:n+a][0:n][b])
+            if p[a][b] and not all(comp[a:n+a][0:n][b]):
+                for x in range(n):
+                    comp[a:n+a][x][b] = 1
                 t.append([a, a + n-1, b, b])
     return t, comp
 
@@ -92,6 +98,8 @@ def gray_tp_propositionnell(s1):
             newt.append(p3)
         k //= 2
     print(newt)
+    print("a")
+    print(passe_par)
     newt = [x for i in newt for x in i]
     print(newt)
     for i in newt:
@@ -106,6 +114,7 @@ def gray_tp_propositionnell(s1):
         print(list(t))
         newstr = [p[0] if p[:-1] == p[1:] else -1 for p in t]
         s += '('
+        print("b")
         print(newstr)
         for a in newstr:
             for w, j in enumerate(a):
