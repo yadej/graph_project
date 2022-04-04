@@ -128,8 +128,9 @@ def main():
     pr = K_map('1110001000111111')
     for i in range(len(pr)):
         print(pr[i])
-    #a = gray_tp_propositionnell('1110001000111111')
-    #print(a)
+    print(pr[3][0])
+    a = gray_tp_propositionnell('1110001000111111')
+    print(a)
 
 if __name__ == '__main__':
     main()

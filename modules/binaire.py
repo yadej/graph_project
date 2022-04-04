@@ -41,53 +41,36 @@ def K_map(s1):
 
 def recherchebloc(n, table, comp):
     t = []
-    """if n == len(tab):
-        p = zip(*tab)
-        for i in range(len(tab[0])-n + 1):
-            tout = True
-            for j in range(n):
-                if p[j-1] != p[j] or not all(p[j]):
-                    tout = False
-                    break
-            if tout:
-                test = False
-                for a in range(i+n):
-                    for b in range(n):
-                        if comp[b][a] == 0:
-                            comp[b][a] = 1
-                            test = True
-                if test:
-                    a.append([i-n,0-n,i,n])
-    else:"""
-    p = [[any(table[i:n-i][j:n-j]) for j in range(len(table[i]))] for i in range(len(table))]
-    print(p)
-    for a in range(len(p)):
-        for b in range(len(p[a])):
+
+    p = [[all(table[i:n-i][x][j:n-j] for x in range(n)) for j in range(len(table[i])-n-1)] for i in range(len(table)-n-1)]
+    for a in range(len(p)-n-1):
+        for b in range(len(p[a])-n-1):
             if p[a][b] and not all(comp[a:n-a][b:n-b]):
-                comp[a::n-a][b::n-b] = 1
-                t.append([a-n, a, b-n, b])
+                for x in range(n):
+                    comp[a:n-a][x][b:n-b] = 1
+                t.append([a, a+n, b, b+n])
     return t, comp
 
 
 def recherche_ligne(n, table, comp):
     t = []
-    p = [[all(table[i][j:n-j])for j in range(len(table[i]))] for i in range(len(table))]
+    p = [[all(table[i][j:n+j]) for j in range(len(table[i])-n)] for i in range(len(table))]
     for a in range(len(p)):
-        for b in range(len(p[a])):
-            if p[a][b] and not all(comp[a][b:n-b]):
-                comp[a][b:n-b] = 1
+        for b in range(len(p[a])-n):
+            if p[a][b] and not all(comp[a][0][b:n+b]):
+                comp[a][0][b:n+b] = 1
                 t.append([a, a, b-n, b])
     return t, comp
 
 
 def recherche_colonne(n, table, comp):
     t = []
-    p = [[all(table[i:n-i][j]) for j in range(len(table[0]))] for i in range(len(table))]
-    for a in range(len(p)):
+    p = [[all(table[i:n+i][x][j] for x in range(n)) for j in range(len(table[0]))] for i in range(len(table)-n-1)]
+    for a in range(len(p)-n):
         for b in range(len(p[a])):
-            if p[a][b] and not all(comp[a:n-a][b]):
-                comp[a:n-a][b] = 1
-                t.append([a - n, a, b, b])
+            if p[a][b] and not all(comp[a:n+a-1][:][b]):
+                comp[a:n+a-1][:][b] = 1
+                t.append([a, a + n-1, b, b])
     return t, comp
 
 
@@ -97,7 +80,7 @@ def gray_tp_propositionnell(s1):
     m = K_map(s1)
     k = min(len(m), len(m[0]))
     passe_par = [[0 for _ in range(len(m[i]))] for i in range(len(m))]
-    while k > 0:
+    while k > 1:
         p1, passe_par = recherchebloc(k, m, passe_par)
         p2, passe_par = recherche_ligne(k, m, passe_par)
         p3, passe_par = recherche_colonne(k, m, passe_par)
@@ -105,7 +88,7 @@ def gray_tp_propositionnell(s1):
         newt.append(p2)
         newt.append(p3)
         k //= 2
-
+    print(newt)
     for i in newt:
         if i[-1] == i[-2]:
             l = [m[a] + m[-1] for a in range(i[0], i[1])]
