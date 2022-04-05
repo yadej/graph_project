@@ -285,6 +285,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digra
         self.add_node(label, {nodeId: 1}, {})
 
     def fusion(self, id1, id2, label=''):
+        '''
+        inputs: id1 (int), id2 (int), label (string)
+        output: none
+        '''
         node1 = self.get_node_by_id(id1)
         node2 = self.get_node_by_id(id2)
 
