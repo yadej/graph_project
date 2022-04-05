@@ -113,14 +113,13 @@ class bool_circ(open_digraph):
 
             label = m.get_label()
             if "sortie" not in label and "&" not in label \
-                    and '~' not in label and '|' not in label\
+                    and '~' not in label and '|' not in label \
                     and label != '':
                 g.add_input_id(g.new_id())
                 g.add_node(label="entree" + str(p), children={m.get_id(): 1})
                 p += 1
 
         return g
-
 
     @classmethod
     def from_binary_table(cls, table):
@@ -140,8 +139,8 @@ class bool_circ(open_digraph):
                 for e, i in enumerate(m):
 
                     if i == '0':
-                        bc.add_node('~', {k-e: 1}, {p: 1})
+                        bc.add_node('~', {k - e: 1}, {p: 1})
                     else:
-                        bc.add_edge((k-e, p))
+                        bc.add_edge((k - e, p))
 
         return bc

@@ -1,5 +1,3 @@
-
-
 def gray_code(n):
     g = ['0', '1']
     if n <= 0:
