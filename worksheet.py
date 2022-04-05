@@ -3,14 +3,13 @@ import os
 from modules.bool_circ import bool_circ
 from modules.open_digraph import open_digraph
 from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
-from modules import binaire
+from modules.binaire import *
 
 
 def main():
 
     root_dir = os.path.dirname(os.path.abspath(__file__))
 
-    """
     graph = open_digraph()
     graph.add_node('Aya')
     graph.add_node(parents={0: 3})
@@ -124,14 +123,13 @@ def main():
 
     tmp5 = bool_circ.from_binary_table('1110001000111111')
     tmp5.save_as_dot_file('tmp5.dot')
-    """
 
-    print(binaire.gray_code(2))
-    pr = binaire.K_map('1110001000111111')
+    print(gray_code(2))
+    pr = K_map('1110001000111111')
     for i in range(len(pr)):
         print(pr[i])
-    print(pr[3][0])
-    a = binaire.gray_tp_propositionnell('1110001000111111')
+    print([pr[0:2][0][0:2], pr[0:2][1][0:2]])
+    a = gray_tp_propositionnell('1110001000111111')
     print(a)
 
 

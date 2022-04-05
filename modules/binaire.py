@@ -59,10 +59,10 @@ def recherchebloc(n, table, comp):
     print(p)
     for a in range(len(p)-n+1):
         for b in range(len(p[a])-n+1):
-            if p[a][b] and not all(comp[a:n+a-1][x][b:n+b-1] for x in range(n)):
-                for x in range(n):
-                    comp[a:n-a][x][b:n-b] = [1 for _ in range(n)]
-                t.append([a, a+n, b, b+n])
+            if p[a][b] and not all(comp[a:n+a-1][x-1][b:n+b-1] for x in range(n)):
+                for p in range(n):
+                    comp[a:n+a-1][p][b:n+b-1] = [1 for _ in range(n)]
+                t.append([a, a+n+1, b, b+n+1])
     return t, comp
 
 
@@ -101,6 +101,19 @@ def recherche_colonne(n, table, comp):
                 t.append([a, a + n-1, b, b])
     return t, comp
 
+def recherche_b(l, c, table, comp):
+    t = []
+    print(f"{l =}")
+    p = [[all(table[i:i+l][x][j:j+c][0] for x in range(l)) for j in range(len(table[0])-c+1)]
+         for i in range(len(table)-l+1)]
+    for i in range(len(table)-l+1):
+        for j in range(len(table[0])-c+1):
+            if p[i][j] and not all(comp[i:i+l][x][j:j+c][0] for x in range(l)):
+                for x in range(l):
+                    comp[i:i+l][x][j:j+c] = [1 for _ in range(l)]
+                    t.append([i, i+l, j, j+c])
+    return p, comp
+
 
 def gray_tp_propositionnell(s1):
     '''
@@ -110,19 +123,36 @@ def gray_tp_propositionnell(s1):
     s = ""
     newt = []
     m = K_map(s1)
-    k = min(len(m), len(m[0]))
+    lig , col= len(m), len(m[0])
     passe_par = [[0 for _ in range(len(m[i]))] for i in range(len(m))]
-    while k > 1:
-        p1, passe_par = recherchebloc(k//2, m, passe_par)
+    while lig > 0:
+        if lig == col:
+            p, passe_par = recherche_b(lig, col, m, passe_par)
+            newt.append(p)
+            print(p)
+        else:
+            p1, passe_par = recherche_b(lig, col, m, passe_par)
+            p2, passe_par = recherche_b(col, lig, m, passe_par)
+            newt.append(p1)
+            newt.append(p2)
+        if col == 2:
+            lig = lig//2
+            col = lig
+        else:
+            col = col // 2
+        if passe_par == m:
+            break
+    """while k > 1:
         p2, passe_par = recherche_ligne(k, m, passe_par)
         p3, passe_par = recherche_colonne(k, m, passe_par)
+        p1, passe_par = recherchebloc(k, m, passe_par)
         if p1:
             newt.append(p1)
         if p2:
             newt.append(p2)
         if p3:
             newt.append(p3)
-        k //= 2
+        k //= 2"""
     print(newt)
     print("a")
     print(passe_par)
