@@ -37,6 +37,7 @@ class bool_circ(open_digraph):
                     return False
         return True
 
+
     @classmethod
     def parse_parentheses(cls, *args):
         """g = bool_circ(open_digraph(outputs=[1], nodes=[node(0, '', {}, {1: 1}), node(1, '', {0: 1}, {})]))

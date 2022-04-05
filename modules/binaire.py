@@ -1,4 +1,10 @@
 def gray_code(n):
+    '''
+
+    input: n (int)
+    output: g (list of char)
+    returns n bits gray code in a list of char
+    '''
     g = ['0', '1']
     if n <= 0:
         return []
@@ -10,6 +16,11 @@ def gray_code(n):
 
 
 def K_map(s1):
+    '''
+    input: s1 (string)
+    output: t (2D vector)
+    returns the Karnaugh table associated with the bit string.
+    '''
     w = len(s1) - 1 if len(s1) > 5 else len(s1)
     a = len(s1)
     k = 0
@@ -38,6 +49,10 @@ def K_map(s1):
 
 
 def recherchebloc(n, table, comp):
+    '''
+    inputs: n (int), table (list), comp: (list)
+    outputs: t (list), comp (list)
+    '''
     t = []
     p = [[all(table[i:n+i-1][x][j:n+j-1] for x in range(n))
          for j in range(len(table[i])-n+1)] for i in range(len(table)-n+1)]
@@ -52,6 +67,10 @@ def recherchebloc(n, table, comp):
 
 
 def recherche_ligne(n, table, comp):
+    '''
+    inputs: n (int), table (list), comp (list),
+    outputs: t (list), comp (list)
+    '''
     t = []
     p = [[all(table[i][j:n+j]) for j in range(len(table[i])-n+1)] for i in range(len(table))]
     for a in range(len(p)):
@@ -63,6 +82,10 @@ def recherche_ligne(n, table, comp):
 
 
 def recherche_colonne(n, table, comp):
+    '''
+    inputs: n (int), table (list), comp (list)
+    outputs: t (list), comp (list)
+    '''
     t = []
     p = [[all(table[i:n+i][x][j] for x in range(n)) for j in range(len(table[0]))] for i in range(len(table)-n+1)]
     print("d")
@@ -80,6 +103,10 @@ def recherche_colonne(n, table, comp):
 
 
 def gray_tp_propositionnell(s1):
+    '''
+    input: s1 (string)
+    output: s (string)
+    '''
     s = ""
     newt = []
     m = K_map(s1)
