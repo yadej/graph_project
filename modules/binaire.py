@@ -154,11 +154,11 @@ def gray_tp_propositionnell(s1):
         if p3:
             newt.append(p3)
         k //= 2"""
-    print(newt)
+    print(f'{newt =}')
     print("a")
     print(passe_par)
     newt = [x for i in newt for x in i]
-    print(newt)
+    print(f'{newt=}')
     for i in newt:
         if i[-1] == i[-2]:
             l = [m[a] + m[-1] for a in range(i[0], i[1])]
