@@ -41,11 +41,12 @@ def K_map(s1):
 
 def recherchebloc(n, table, comp):
     t = []
-    p = [[all(table[i:n+i][x][j:n+j] for x in range(n)) for j in range(len(table[i])-n+1)] for i in range(len(table)-n+1)]
+    p = [[all(table[i:n+i-1][x][j:n+j-1] for x in range(n))
+         for j in range(len(table[i])-n+1)] for i in range(len(table)-n+1)]
     print(p)
-    for a in range(len(p)-n-1):
-        for b in range(len(p[a])-n-1):
-            if p[a][b] and not all(comp[a:n-a][b:n-b]):
+    for a in range(len(p)-n+1):
+        for b in range(len(p[a])-n+1):
+            if p[a][b] and not all(comp[a:n+a-1][x][b:n+b-1] for x in range(n)):
                 for x in range(n):
                     comp[a:n-a][x][b:n-b] = [1 for _ in range(n)]
                 t.append([a, a+n, b, b+n])
@@ -87,7 +88,7 @@ def gray_tp_propositionnell(s1):
     k = min(len(m), len(m[0]))
     passe_par = [[0 for _ in range(len(m[i]))] for i in range(len(m))]
     while k > 1:
-        p1, passe_par = recherchebloc(k, m, passe_par)
+        p1, passe_par = recherchebloc(k//2, m, passe_par)
         p2, passe_par = recherche_ligne(k, m, passe_par)
         p3, passe_par = recherche_colonne(k, m, passe_par)
         if p1:
