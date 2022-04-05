@@ -160,12 +160,12 @@ class bool_circ(open_digraph):
         g = open_digraph.random(n, bound, form='DAG')
 
         # 2-1 - ajouter un input vers chaque noeud sans parent
-        for u in g.get_nodes():
+        for u in list(g.get_nodes()):
             if not u.get_parent_ids():
                 g.add_input_node(u.get_id())
 
         # 2-2 - ajouter un output depuis chaque noeud sans enfant
-        for u in g.get_nodes():
+        for u in list(g.get_nodes()):
             if not u.get_children_ids():
                 g.add_output_node(u.get_id())
 

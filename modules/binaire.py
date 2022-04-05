@@ -159,28 +159,33 @@ def gray_tp_propositionnell(s1):
     print(passe_par)
     newt = [x for i in newt for x in i]
     print(f'{newt=}')
+    w , v = len(m), len(m[0])
+    k1, k2 = 0, 0
+    while w > 1:
+        w = w // 2
+        k1 += 1
+    while v > 1:
+        v = v // 2
+        k2 += 1
+    g1, g2 = gray_code(k1), gray_code(k2)
     for i in newt:
-        if i[-1] == i[-2]:
-            l = [m[a] + m[-1] for a in range(i[0], i[1])]
-        elif i[0] == i[1]:
-            l = [m[0] + m[a] for a in range(i[2], i[3])]
-        else:
-            c = [[m[a] + m[b] for a in range(i[0], i[1])] for b in range(i[-2], i[-1])]
-            l = [item for sublist in c for item in sublist]
+        c = [[g1[a] + g2[b] for a in range(i[0], i[1])] for b in range(i[-2], i[-1])]
+        l = [item for sublist in c for item in sublist]
         t = zip(l)
+        print(f'{l =}')
         print(list(t))
-        newstr = [p[0] if p[:-1] == p[1:] else -1 for p in t]
+        newstr = [p[0] if p[:-1] == p[1:] else "-1" for p in l]
         s += '('
         print("b")
-        print(newstr)
-        for a in newstr:
-            for w, j in enumerate(a):
-                if j == 1:
-                    s += f'x{w}'
-                elif j == 0:
-                    s += f'~x{w}'
-                s = s + "&"
-            s = s[:-1]
+        print(f'{newstr =}')
+
+        for w, j in enumerate(newstr):
+            if j == "1":
+                s += f'x{w}'
+            elif j == "0":
+                s += f'~x{w}'
+            s = s + "&"
+        s = s[:-1]
         s += ')|'
     s = s[:-1]
     return s
