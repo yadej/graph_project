@@ -60,7 +60,10 @@ class bool_circ(open_digraph):
                 else:
                     s2 += c
         """
-
+        '''
+        input: *args (tuple)
+        output; g (bool_circ)
+        '''
         g = bool_circ(open_digraph())
         num = 0
         current_node = 0
@@ -124,6 +127,10 @@ class bool_circ(open_digraph):
 
     @classmethod
     def from_binary_table(cls, table):
+        '''
+        input: table (list)
+        output; bc (boolean circuit)
+        '''
         # We have at least 3 on depth and max 4 on depth
         bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {})]))
         w = len(table) - 1 if len(table) > 5 else len(table)
