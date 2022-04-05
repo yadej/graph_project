@@ -130,7 +130,10 @@ def main():
         print(pr[i])
     print([pr[0:2][0][0:2], pr[0:2][1][0:2]])
     a = gray_tp_propositionnell('1110001000111111')
-    print(a)
+    print(f'{a = }')
+
+    rg = bool_circ.random(5, 20)
+    rg.save_as_dot_file('random_bool_circ.dot')
 
 
 if __name__ == '__main__':

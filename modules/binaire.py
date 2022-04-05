@@ -54,15 +54,15 @@ def recherchebloc(n, table, comp):
     outputs: t (list), comp (list)
     '''
     t = []
-    p = [[all(table[i:n+i-1][x][j:n+j-1] for x in range(n))
-         for j in range(len(table[i])-n+1)] for i in range(len(table)-n+1)]
+    p = [[all(table[i:n + i - 1][x][j:n + j - 1] for x in range(n))
+          for j in range(len(table[i]) - n + 1)] for i in range(len(table) - n + 1)]
     print(p)
-    for a in range(len(p)-n+1):
-        for b in range(len(p[a])-n+1):
-            if p[a][b] and not all(comp[a:n+a-1][x-1][b:n+b-1] for x in range(n)):
+    for a in range(len(p) - n + 1):
+        for b in range(len(p[a]) - n + 1):
+            if p[a][b] and not all(comp[a:n + a - 1][x - 1][b:n + b - 1] for x in range(n)):
                 for p in range(n):
-                    comp[a:n+a-1][p][b:n+b-1] = [1 for _ in range(n)]
-                t.append([a, a+n+1, b, b+n+1])
+                    comp[a:n + a - 1][p][b:n + b - 1] = [1 for _ in range(n)]
+                t.append([a, a + n + 1, b, b + n + 1])
     return t, comp
 
 
@@ -72,12 +72,12 @@ def recherche_ligne(n, table, comp):
     outputs: t (list), comp (list)
     '''
     t = []
-    p = [[all(table[i][j:n+j]) for j in range(len(table[i])-n+1)] for i in range(len(table))]
+    p = [[all(table[i][j:n + j]) for j in range(len(table[i]) - n + 1)] for i in range(len(table))]
     for a in range(len(p)):
-        for b in range(len(p[a])-n):
-            if p[a][b] and not all(comp[a][b:n+b]):
-                comp[a][b:n+b] = [1 for _ in range(n)]
-                t.append([a, a, b, b+n])
+        for b in range(len(p[a]) - n):
+            if p[a][b] and not all(comp[a][b:n + b]):
+                comp[a][b:n + b] = [1 for _ in range(n)]
+                t.append([a, a, b, b + n])
     return t, comp
 
 
@@ -87,32 +87,33 @@ def recherche_colonne(n, table, comp):
     outputs: t (list), comp (list)
     '''
     t = []
-    p = [[all(table[i:n+i][x][j] for x in range(n)) for j in range(len(table[0]))] for i in range(len(table)-n+1)]
+    p = [[all(table[i:n + i][x][j] for x in range(n)) for j in range(len(table[0]))] for i in range(len(table) - n + 1)]
     print("d")
     print(p)
-    print(len(p)-n)
-    for a in range(len(p)-n):
+    print(len(p) - n)
+    for a in range(len(p) - n):
         for b in range(len(p[a])):
             print("c")
-            print(comp[a:n+a][0:n][b])
-            if p[a][b] and not all(comp[a:n+a][0:n][b]):
+            print(comp[a:n + a][0:n][b])
+            if p[a][b] and not all(comp[a:n + a][0:n][b]):
                 for x in range(n):
-                    comp[a:n+a][x][b] = 1
-                t.append([a, a + n-1, b, b])
+                    comp[a:n + a][x][b] = 1
+                t.append([a, a + n - 1, b, b])
     return t, comp
+
 
 def recherche_b(l, c, table, comp):
     t = []
     print(f"{l =}")
-    p = [[all(table[i:i+l][x][j:j+c][0] for x in range(l)) for j in range(len(table[0])-c+1)]
-         for i in range(len(table)-l+1)]
-    for i in range(len(table)-l+1):
-        for j in range(len(table[0])-c+1):
-            if p[i][j] and not all(comp[i:i+l][x][j:j+c][0] for x in range(l)):
+    p = [[all(table[i:i + l][x][j:j + c][0] for x in range(l)) for j in range(len(table[0]) - c + 1)]
+         for i in range(len(table) - l + 1)]
+    for i in range(len(table) - l + 1):
+        for j in range(len(table[0]) - c + 1):
+            if p[i][j] and not all(comp[i:i + l][x][j:j + c][0] for x in range(l)):
                 for x in range(l):
-                    comp[i:i+l][x][j:j+c] = [1 for _ in range(l)]
-                    t.append([i, i+l, j, j+c])
-    return p, comp
+                    comp[i:i + l][x][j:j + c] = [1 for _ in range(l)]
+                    t.append([i, i + l, j, j + c])
+    return t, comp
 
 
 def gray_tp_propositionnell(s1):
@@ -123,7 +124,7 @@ def gray_tp_propositionnell(s1):
     s = ""
     newt = []
     m = K_map(s1)
-    lig , col= len(m), len(m[0])
+    lig, col = len(m), len(m[0])
     passe_par = [[0 for _ in range(len(m[i]))] for i in range(len(m))]
     while lig > 0:
         if lig == col:
@@ -136,7 +137,7 @@ def gray_tp_propositionnell(s1):
             newt.append(p1)
             newt.append(p2)
         if col == 2:
-            lig = lig//2
+            lig = lig // 2
             col = lig
         else:
             col = col // 2
@@ -164,7 +165,7 @@ def gray_tp_propositionnell(s1):
         elif i[0] == i[1]:
             l = [m[0] + m[a] for a in range(i[2], i[3])]
         else:
-            c = [[m[a] + m[b] for a in range(i[0], i[1])] for b in range(i[-2],i[-1])]
+            c = [[m[a] + m[b] for a in range(i[0], i[1])] for b in range(i[-2], i[-1])]
             l = [item for sublist in c for item in sublist]
         t = zip(l)
         print(list(t))

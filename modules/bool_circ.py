@@ -1,6 +1,7 @@
+import random
+
 from modules.node import node
 from modules.open_digraph import open_digraph
-from modules.binaire import *
 
 
 class bool_circ(open_digraph):
@@ -152,3 +153,40 @@ class bool_circ(open_digraph):
                         bc.add_edge((k - e, p))
 
         return bc
+
+    @classmethod
+    def random(cls, n, bound):
+        # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
+        g = open_digraph.random(n, bound, form='DAG')
+
+        # 2-1 - ajouter un input vers chaque noeud sans parent
+        for u in g.get_nodes():
+            if not u.get_parent_ids():
+                g.add_input_node(u.get_id())
+
+        # 2-2 - ajouter un output depuis chaque noeud sans enfant
+        for u in g.get_nodes():
+            if not u.get_children_ids():
+                g.add_output_node(u.get_id())
+
+        # TODO 2bis
+
+        # 3
+        for u in list(g.get_nodes()):
+            degP, degM = u.indegree(), u.outdegree()
+
+            if degP == degM == 1:
+                u.set_label('~')  # operateur unaire
+
+            if degP == 1 and degM > 1:
+                u.set_label('')  # copie
+
+            if degP > 1 and degM == 1:
+                u.set_label('op')  # operateur binaire (& ou |)
+
+            if degP > 1 and degM > 1:
+                uOp = g.new_id()
+                g.add_node('op', parents=u.get_parent_ids())
+                g.add_node('', parents={uOp: 1}, children=u.get_children_ids())
+                g.remove_node_by_id(u.get_id())
+        return g
