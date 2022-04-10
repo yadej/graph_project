@@ -171,20 +171,21 @@ def gray_tp_propositionnell(s1):
     for i in newt:
         c = [[g1[a] + g2[b] for a in range(i[0], i[1])] for b in range(i[-2], i[-1])]
         l = [item for sublist in c for item in sublist]
-        t = zip(l)
         print(f'{l =}')
-        print(list(t))
-        newstr = [p[0] if p[:-1] == p[1:] else "-1" for p in l]
+        tab_divise = [[a for a in a1] for a1 in l]
+        print(tab_divise)
+        print(f"{list(zip(tab_divise))[0] =}")
+        newstr = [p[0] if p[:-1] == p[1:] else "-1" for p in zip(*tab_divise)]
         s += '('
-        print("b")
         print(f'{newstr =}')
 
         for w, j in enumerate(newstr):
             if j == "1":
                 s += f'x{w}'
+                s = s + "&"
             elif j == "0":
                 s += f'~x{w}'
-            s = s + "&"
+                s = s + "&"
         s = s[:-1]
         s += ')|'
     s = s[:-1]
