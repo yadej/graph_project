@@ -104,7 +104,6 @@ def recherche_colonne(n, table, comp):
 
 def recherche_b(l, c, table, comp):
     t = []
-    print(f"{l =}")
     p = [[all(table[i:i + l][x][j:j + c][0] for x in range(l)) for j in range(len(table[0]) - c + 1)]
          for i in range(len(table) - l + 1)]
     for i in range(len(table) - l + 1):
@@ -143,22 +142,7 @@ def gray_tp_propositionnell(s1):
             col = col // 2
         if passe_par == m:
             break
-    """while k > 1:
-        p2, passe_par = recherche_ligne(k, m, passe_par)
-        p3, passe_par = recherche_colonne(k, m, passe_par)
-        p1, passe_par = recherchebloc(k, m, passe_par)
-        if p1:
-            newt.append(p1)
-        if p2:
-            newt.append(p2)
-        if p3:
-            newt.append(p3)
-        k //= 2"""
-    print(f'{newt =}')
-    print("a")
-    print(passe_par)
     newt = [x for i in newt for x in i]
-    print(f'{newt=}')
     w , v = len(m), len(m[0])
     k1, k2 = 0, 0
     while w > 1:
@@ -171,14 +155,9 @@ def gray_tp_propositionnell(s1):
     for i in newt:
         c = [[g1[a] + g2[b] for a in range(i[0], i[1])] for b in range(i[-2], i[-1])]
         l = [item for sublist in c for item in sublist]
-        print(f'{l =}')
         tab_divise = [[a for a in a1] for a1 in l]
-        print(tab_divise)
-        print(f"{list(zip(tab_divise))[0] =}")
         newstr = [p[0] if p[:-1] == p[1:] else "-1" for p in zip(*tab_divise)]
         s += '('
-        print(f'{newstr =}')
-
         for w, j in enumerate(newstr):
             if j == "1":
                 s += f'x{w}'

@@ -155,7 +155,7 @@ class bool_circ(open_digraph):
         return bc
 
     @classmethod
-    def random(cls, n, bound):
+    def circrandom(cls, n, bound):
         # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
         g = open_digraph.random(n, bound, form='DAG')
 

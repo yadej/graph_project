@@ -15,7 +15,7 @@ class open_digraph_matrix_mx:
             matrix = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=False)
 
         elif form == 'DAG':
-            matrix = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=False, triangular=True)
+            matrix = random_int_matrix(n, bound, null_diag=True, symetric=False, oriented=False, triangular=True)
 
         elif form == 'oriented':
             matrix = random_int_matrix(n, bound, null_diag=False, symetric=False, oriented=True, triangular=False)

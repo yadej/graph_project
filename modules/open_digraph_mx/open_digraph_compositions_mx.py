@@ -152,37 +152,6 @@ class open_digraph_compositions_mx:
             nb += 1
         return nb, dic
 
-    """def cyclic(self, visited=None):
-        # pas de noeud -> acyclique
-        if visited is None:
-            visited = []
-        if len(visited) == len(self.get_nodes()):
-            return False
-        # cherchons une feuille
-        for n in self.get_nodes():
-            if not n.get_id() in visited:
-                if any(True for e in n.get_children_ids().keys() if e in visited):
-                    return True
-                else:
-                    # on la retire et on recommence
-                    self.remove_node_by_id(n.get_id())
-                    visited.append(n.get_id())
-                    return self.cyclic(visited)
-                # if not list(n.get_children_ids().values()):  # si c'est une feuille
-                # on la retire et on recommence
-                # self.remove_node_by_id(n.get_id())
-                # self.get_id_node_map().pop(n.get_id())
-                # return self.cyclic()
-        # si il n'y a pas de feuille -> cyclique
-        return True """
-    """
-    def is_cyclic(self):
-        if not self.get_nodes():
-            return False
-        k = self.copy()
-        return k.cyclic()
-    """
-
     def cyclic(self, v, visited, recStack):
         # Mark current node as visited and
         # adds to recursion stack
