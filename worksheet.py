@@ -132,7 +132,7 @@ def main():
     a = gray_tp_propositionnell('1110001000111111')
     print(f'{a = }')
 
-    rg = bool_circ.circrandom(8, 2)
+    rg = bool_circ.circrandom(8, 2, input=2,output=1)
     rg.save_as_dot_file('random_bool_circ.dot',verbose=True)
 
 

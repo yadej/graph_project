@@ -141,7 +141,7 @@ class bool_circ(open_digraph):
         return self.parse_parentheses(s)
 
     @classmethod
-    def circrandom(cls, n, bound):
+    def circrandom(cls, n, bound, input=-1, output=-1):
         # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
         g = open_digraph.random(n, bound, form='DAG')
 
@@ -157,8 +157,46 @@ class bool_circ(open_digraph):
 
         # TODO 2bis
 
+        AllNodesId = list(g.get_node_ids())
+        AllNodes = g.get_nodes()
+        if input > 0:
+            while  input < len(g.get_input_ids()):
+                TabInput = list(g.get_input_ids())
+                p = random.sample(TabInput, 2)
+                k = g.new_id()
+                for rem in p:
+                    TabInput.remove(rem)
+                g.set_input_ids(TabInput)
+                g.add_node(label='', children={newParent: 1 for newParent in p})
+                g.add_output_node(k)
+            while input > len(g.get_input_ids()):
+                p = AllNodesId
+                newInput = random.choice(p)
+                k = g.new_id()
+                g.add_node(label='', children={newInput:1})
+                g.add_input_id(k)
+
+        if output > 0:
+            while output > len(g.get_output_ids()):
+                p = AllNodesId
+                newInput = random.choice(p)
+                k = g.new_id()
+                g.add_node(label="", parents={newInput:1})
+                g.add_output_node(k)
+
+            while output < len(g.get_output_ids()):
+                TabOutput = list(g.get_output_ids())
+                p = random.sample(TabOutput, 2)
+                for rem in p:
+                    TabOutput.remove(rem)
+                g.set_output_ids(TabOutput)
+                k = g.new_id()
+                g.add_node(label='', parents={newParent:1 for newParent in p})
+                g.add_output_node(k)
+
+
         # 3
-        for u in list(g.get_nodes()):
+        for u in list(AllNodes):
             degP, degM = u.indegree(), u.outdegree()
 
             if degP == degM == 1:
