@@ -150,7 +150,7 @@ class bool_circ(open_digraph):
         return self.parse_parentheses(s)
 
     @classmethod
-    def circrandom(cls, n, bound, input=-1, output=-1):
+    def circrandom(cls, n, bound, input=0, output=0):
         # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
         g = open_digraph.random(n, bound, form='DAG')
         AllNodes = list(g.get_nodes())
@@ -233,3 +233,11 @@ class bool_circ(open_digraph):
         print(f"{g.get_input_ids() = }")
         print(f"{g.get_output_ids() = }")
         return g
+
+    @classmethod
+    def adder(cls, n):
+        size = 2**n
+
+    @classmethod
+    def half_adder(cls, n):
+        size = 2**n
