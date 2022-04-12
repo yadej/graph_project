@@ -1,5 +1,5 @@
 import random
-
+from modules.binaire import *
 from modules.node import node
 from modules.open_digraph import open_digraph
 
@@ -41,30 +41,10 @@ class bool_circ(open_digraph):
 
     @classmethod
     def parse_parentheses(cls, *args):
-        """g = bool_circ(open_digraph(outputs=[1], nodes=[node(0, '', {}, {1: 1}), node(1, '', {0: 1}, {})]))
-        current_node = 0
-        for s in args:
-            s = "(" + s + ")"
-            s2 = ''
-            for c in s:
-                if c == '(':
-                    g.get_node_by_id(current_node).set_label(g.get_node_by_id(current_node).get_label() + s2)
-
-                    newId = g.new_id()
-                    g.add_node(children={current_node: 1})
-                    current_node = newId
-                    s2 = ''
-                elif c == ')':
-                    g.get_node_by_id(current_node).set_label(g.get_node_by_id(current_node).get_label() + s2)
-                    current_node = list(g.get_node_by_id(current_node).get_children_ids().keys())[0]
-                    s2 = ''
-                else:
-                    s2 += c
         """
-        '''
         input: *args (tuple)
         output; g (bool_circ)
-        '''
+        """
         g = bool_circ(open_digraph())
         num = 0
         current_node = 0
@@ -128,10 +108,12 @@ class bool_circ(open_digraph):
 
     @classmethod
     def from_binary_table(cls, table):
-        '''
+
+        """
         input: table (list)
         output; bc (boolean circuit)
-        '''
+        """
+
         # We have at least 3 on depth and max 4 on depth
         bc = bool_circ(open_digraph(nodes=[node(0, '', {}, {})]))
         w = len(table) - 1 if len(table) > 5 else len(table)
@@ -153,6 +135,10 @@ class bool_circ(open_digraph):
                         bc.add_edge((k - e, p))
 
         return bc
+
+    def table_to_boolcirc_by_propo(self, table):
+        s = gray_tp_propositionnell(table)
+        return self.parse_parentheses(s)
 
     @classmethod
     def circrandom(cls, n, bound):
