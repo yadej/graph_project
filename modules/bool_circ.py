@@ -36,7 +36,6 @@ class bool_circ(open_digraph):
                     return False
         return True
 
-
     @classmethod
     def parse_parentheses(cls, *args):
         """
@@ -46,6 +45,7 @@ class bool_circ(open_digraph):
         g = bool_circ(open_digraph())
         num = 0
         current_node = 0
+
         for s in args:
             # On va paralleliser g et par
             newlabel = "sortie " + str(num)
@@ -66,35 +66,46 @@ class bool_circ(open_digraph):
                     s2 = ''
                 else:
                     s2 += c
+
             g.iparallel(par)
 
         k = 0
+
         while k != len(g.get_nodes()):
             lab = g.get_node_by_id(k).get_label()
+
             if lab == "":
                 k += 1
                 continue
+
             if lab.__contains__("&") or lab.__contains__("~") \
                     or lab.__contains__("|"):
                 g.get_node_by_id(k).set_label(lab[0])
+
                 for i in list(g.get_node_by_id(k).get_children_ids()):
                     if lab[0] in g.get_node_by_id(i).get_label():
                         g.fusion(k, i)
+
                 k += 1
                 continue
+
             new = -1
+
             for i in range(k + 1, len(g.get_nodes())):
                 if g.get_node_by_id(i).get_label() == lab and g.get_node_by_id(i).get_label() != "":
                     new = i
                     break
+
             if new != -1:
                 g.fusion(k, new)
             else:
                 k += 1
-        p = 0
-        for m in list(g.get_nodes()):
 
+        p = 0
+
+        for m in list(g.get_nodes()):
             label = m.get_label()
+
             if "sortie" not in label and "&" not in label \
                     and '~' not in label and '|' not in label \
                     and label != '':
@@ -143,28 +154,32 @@ class bool_circ(open_digraph):
         # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
         g = open_digraph.random(n, bound, form='DAG')
         AllNodes = list(g.get_nodes())
+        AllNodesId = list(g.get_node_ids())
+
         # 2-1 - ajouter un input vers chaque noeud sans parent
-        for u in list(g.get_nodes()):
-            if not u.get_parent_ids() and u.get_children_ids():
+        for u in AllNodes:
+            if not u.get_parent_ids():
                 g.add_input_node(u.get_id())
 
         # 2-2 - ajouter un output depuis chaque noeud sans enfant
-        for u in list(g.get_nodes()):
-            if not u.get_children_ids() and u.get_parent_ids():
+        for u in AllNodes:
+            if not u.get_children_ids():
                 g.add_output_node(u.get_id())
 
-        AllNodesId = list(g.get_node_ids())
-
+        # 2bis
         if input > 0:
             while input < len(g.get_input_ids()):
                 TabInput = list(g.get_input_ids())
                 p = random.sample(TabInput, 2)
+
                 for rem in p:
                     TabInput.remove(rem)
+
                 g.set_input_ids(TabInput)
                 k = g.new_id()
                 g.add_node(label='', children={newParent: 1 for newParent in p})
                 g.add_input_id(k)
+
             while input >= len(g.get_input_ids()):
                 p = AllNodesId
                 newInput = random.choice(p)
@@ -179,13 +194,14 @@ class bool_circ(open_digraph):
             while output < len(g.get_output_ids()):
                 TabOutput = list(g.get_output_ids())
                 p = random.sample(TabOutput, 2)
+
                 for rem in p:
                     TabOutput.remove(rem)
+
                 g.set_output_ids(TabOutput)
                 k = g.new_id()
-                g.add_node(label='', parents={newParent:1 for newParent in p})
+                g.add_node(label='', parents={newParent: 1 for newParent in p})
                 g.add_output_id(k)
-
 
         # 3
         for u in AllNodes:
@@ -198,13 +214,17 @@ class bool_circ(open_digraph):
                 u.set_label('')  # copie
 
             if degP > 1 and degM == 1:
-                u.set_label('op')  # operateur binaire (& ou |)
+                if random.getrandbits(1):
+                    u.set_label('&')
+                else:
+                    u.set_label('|')
 
             if degP > 1 and degM > 1:
                 uOp = g.new_id()
                 g.add_node('op', parents=u.get_parent_ids())
                 g.add_node('', parents={uOp: 1}, children=u.get_children_ids())
                 g.remove_node_by_id(u.get_id())
+
         print(f"{g.get_input_ids() =}")
         print(f"{g.get_output_ids() =}")
         return g
