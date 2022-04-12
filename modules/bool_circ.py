@@ -216,6 +216,7 @@ class bool_circ(open_digraph):
                 k = g.new_id()
                 g.add_node(label='', parents={newParent: 1 for newParent in outputsToRemove})
                 g.add_output_id(k)
+                print(g.get_node_by_id(k))
 
         # 3
         for u in AllNodes:
