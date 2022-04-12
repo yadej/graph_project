@@ -207,4 +207,6 @@ class bool_circ(open_digraph):
                 g.add_node('op', parents=u.get_parent_ids())
                 g.add_node('', parents={uOp: 1}, children=u.get_children_ids())
                 g.remove_node_by_id(u.get_id())
+        print(f"{g.get_input_ids() =}")
+        print(f"{g.get_output_ids() =}")
         return g
