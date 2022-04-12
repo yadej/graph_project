@@ -1,0 +1,23 @@
+digraph G { 
+v0 [label="sortie 0"]; 
+v1 [label="|"]; 
+v2 [label="&"]; 
+v3 [label="x0"]; 
+v4 [label="x1"]; 
+v5 [label="x2"]; 
+v6 [label="&"]; 
+v8 [label="~"]; 
+v10 [label="entree0"]; 
+v11 [label="entree1"]; 
+v12 [label="entree2"]; 
+v1 -> v0;
+v2 -> v1;
+v3 -> v2;
+v4 -> v2;
+v4 -> v6 -> v1;
+v5 -> v2;
+v5 -> v8 -> v6;
+v10 -> v3;
+v11 -> v4;
+v12 -> v5;
+}

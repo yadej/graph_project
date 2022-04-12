@@ -5,11 +5,17 @@ from modules.open_digraph import open_digraph
 from modules.adjacency_matrix import random_int_matrix, graph_from_adjacency_matrix
 from modules.binaire import *
 
+dotFolder = os.path.dirname(os.path.abspath(__file__)) + r'/dot_files/'
+
+
+def printMat(mat):
+    for j in range(len(mat)):
+        print(mat[j])
+    print()
+
 
 def main():
-
-    root_dir = os.path.dirname(os.path.abspath(__file__))
-
+    """
     graph = open_digraph()
     graph.add_node('Aya')
     graph.add_node(parents={0: 3})
@@ -45,26 +51,27 @@ def main():
     print(f'{graph = }')
     print(f'{graph.is_well_formed() = }\n')
 
-    def printMat(mat):
-        for j in range(len(mat)):
-            print(matrix[j])
-
     n = 7
 
     matrix = random_int_matrix(n, n, oriented=True)
+
+    print('matrix = ')
     printMat(matrix)
-    print()
+
     print(graph_from_adjacency_matrix(matrix))
 
     digraph = open_digraph.random(n, 1, 1, 2, form='loop-free')
     print(f'{digraph = }\n')
 
     b = digraph.adjacency_matrix()
+
+    print('b = ')
     printMat(b)
+
     print(f'{digraph.dict_unique_id() = }\n')
     # p = random_int_matrix(10, 3, number_gen=(lambda: random.betavariate(1, 5)))
 
-    gdot = root_dir + r'/digraph.dot'
+    gdot = dotFolder + r'digraph.dot'
     assert os.path.isfile(gdot)
 
     digraph.save_as_dot_file(gdot, verbose=False)
@@ -72,13 +79,13 @@ def main():
     print(f'{digraph.is_cyclic() = }\n')
 
     c = digraph.adjacency_matrix()
+    print('c = ')
     printMat(c)
-    print()
 
     abc = digraph.from_dot_file(gdot)
     print(f'{abc = }')
 
-    test = root_dir + '/test_bool.dot'
+    test = dotFolder + 'test_bool.dot'
 
     testDis = digraph.from_dot_file(test, verbose=True)
     print(f'{testDis = }')
@@ -93,10 +100,12 @@ def main():
     print(f'nb de composants connexes: {x}\n')
     print(f'{y = }\n')
     p = digraph.list()
+
     for i in p:
         print(i)
     print()
-    d7 = open_digraph.from_dot_file('d7.dot')
+
+    d7 = open_digraph.from_dot_file(dotFolder + r'd7.dot')
     print(f'{d7.dijkstra(1) = }\n')
     print(f'{d7.shortest_path(1, 9) = }\n')
     print(f'{d7.common_ancestors(5, 8) = }\n')
@@ -110,30 +119,33 @@ def main():
     tmp = d7.copy()
     tmp.fusion(1, 4)
     tmp.get_node_by_id(1).set_label('1, 4')
-    tmp.save_as_dot_file('tmp.dot')
+    tmp.save_as_dot_file(dotFolder + r'tmp.dot')
 
     tmp2 = bool_circ.parse_parentheses('((x0)&((x1)&(x2)))|((x1)&(~(x2)))')
-    tmp2.save_as_dot_file('tmp2.dot')
+    tmp2.save_as_dot_file(dotFolder + r'tmp2.dot')
 
     tmp3 = bool_circ.parse_parentheses("((x0)&((x1)&(x2)))|((x1)&(~(x2)))", "((x0)&(~(x1)))|(x2)")
-    tmp3.save_as_dot_file('tmp3.dot')
+    tmp3.save_as_dot_file(dotFolder + r'tmp3.dot')
 
     tmp4 = bool_circ.parse_parentheses("((x0)&(x1)&(x2))|((x1)&(~(x2)))")
-    tmp4.save_as_dot_file('tmp4.dot')
+    tmp4.save_as_dot_file(dotFolder + r'tmp4.dot')
 
     tmp5 = bool_circ.from_binary_table('1110001000111111')
-    tmp5.save_as_dot_file('tmp5.dot')
+    tmp5.save_as_dot_file(dotFolder + r'tmp5.dot')
+    """
+    print(f'{gray_code(2) = }\n')
 
-    print(gray_code(2))
     pr = K_map('1110001000111111')
-    for i in range(len(pr)):
-        print(pr[i])
-    print([pr[0:2][0][0:2], pr[0:2][1][0:2]])
-    a = gray_tp_propositionnell('1110001000111111')
-    print(f'{a = }')
 
-    rg = bool_circ.circrandom(8, 2, input=2,output=2)
-    rg.save_as_dot_file('random_bool_circ.dot',verbose=True)
+    print('K_map(\'1110001000111111\') = ')
+    printMat(pr)
+
+    print(f'{[pr[0:2][0][0:2], pr[0:2][1][0:2]] = }\n')
+
+    print(f"{gray_tp_propositionnell('1110001000111111') = }\n")
+
+    rg = bool_circ.circrandom(8, 2, inputs=2, outputs=2)
+    rg.save_as_dot_file(dotFolder + r'random_bool_circ.dot', verbose=True)
 
 
 if __name__ == '__main__':

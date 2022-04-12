@@ -46,18 +46,23 @@ class open_digraph_matrix_mx:
             p.append(r)
 
         lastNode = list(range(n))
-        print(k + p)
+
+        print(f'{k + p = }\n')
+
         for a in (p + k):
             for b in range(n):
                 matrix[a][b] = 0
                 matrix[b][a] = 0
             lastNode.remove(a)
+
         for i in k:
             newChild = random.randrange(len(lastNode))
             matrix[i][lastNode[newChild]] = 1
+
         for i in p:
             newParent = random.randrange(len(lastNode))
             matrix[lastNode[newParent]][i] = 1
+
         graph = graph_from_adjacency_matrix(matrix)
         graph.set_input_ids(k)
         graph.set_output_ids(p)
@@ -71,8 +76,10 @@ class open_digraph_matrix_mx:
         """
         p = max(self.get_node_ids())
         dico = {}
+
         for i in range(p):
             dico[i] = random.randrange(p)
+
         return dico
 
     def adjacency_matrix(self):
@@ -83,9 +90,12 @@ class open_digraph_matrix_mx:
         """
         p = len(self.get_node_ids())
         matrix = [[0 for _ in range(p)] for _ in range(p)]
+
         for i in self.get_nodes():
             for x, y in i.get_parent_ids().items():
                 matrix[x][i.get_id()] = y
+
             for x, y in i.get_children_ids().items():
                 matrix[i.get_id()][x] = y
+
         return matrix

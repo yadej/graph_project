@@ -1,0 +1,35 @@
+digraph G { 
+v7 [label="sortie 0"]; 
+v8 [label="|"]; 
+v11 [label="&"]; 
+v14 [label="&"]; 
+v16 [label="~"]; 
+v0 [label="sortie 1"]; 
+v1 [label="|"]; 
+v2 [label="&"]; 
+v3 [label="x0"]; 
+v4 [label="~"]; 
+v5 [label="x1"]; 
+v6 [label="x2"]; 
+v18 [label="entree0"]; 
+v19 [label="entree1"]; 
+v20 [label="entree2"]; 
+v8 -> v7;
+v11 -> v8;
+v14 -> v8;
+v16 -> v14;
+v1 -> v0;
+v2 -> v1;
+v3 -> v2;
+v3 -> v11;
+v4 -> v2;
+v5 -> v4;
+v5 -> v11;
+v5 -> v14;
+v6 -> v1;
+v6 -> v11;
+v6 -> v16;
+v18 -> v3;
+v19 -> v5;
+v20 -> v6;
+}
