@@ -147,7 +147,7 @@ class bool_circ(open_digraph):
         AllNodes = list(g.get_nodes())
         # 2-1 - ajouter un input vers chaque noeud sans parent
         for u in list(g.get_nodes()):
-            if not u.get_parent_ids():
+            if not u.get_parent_ids() and u.get_children_ids():
                 g.add_input_node(u.get_id())
 
         # 2-2 - ajouter un output depuis chaque noeud sans enfant
