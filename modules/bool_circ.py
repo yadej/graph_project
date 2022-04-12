@@ -149,13 +149,11 @@ class bool_circ(open_digraph):
         for u in list(g.get_nodes()):
             if not u.get_parent_ids():
                 g.add_input_node(u.get_id())
-                AllNodes.remove(g.get_node_by_id(u.get_id()))
 
         # 2-2 - ajouter un output depuis chaque noeud sans enfant
         for u in list(g.get_nodes()):
             if not u.get_children_ids() and u.get_parent_ids():
                 g.add_output_node(u.get_id())
-                AllNodes.remove(g.get_node_by_id(u.get_id()))
 
         AllNodesId = list(g.get_node_ids())
 
@@ -169,7 +167,7 @@ class bool_circ(open_digraph):
                 k = g.new_id()
                 g.add_node(label='', children={newParent: 1 for newParent in p})
                 g.add_input_id(k)
-            while input > len(g.get_input_ids()):
+            while input >= len(g.get_input_ids()):
                 p = AllNodesId
                 newInput = random.choice(p)
                 g.add_input_id(newInput)
