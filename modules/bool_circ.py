@@ -144,45 +144,41 @@ class bool_circ(open_digraph):
     def circrandom(cls, n, bound, input=-1, output=-1):
         # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
         g = open_digraph.random(n, bound, form='DAG')
-
+        AllNodes = list(g.get_nodes())
         # 2-1 - ajouter un input vers chaque noeud sans parent
         for u in list(g.get_nodes()):
             if not u.get_parent_ids():
                 g.add_input_node(u.get_id())
+                AllNodes.remove(g.get_node_by_id(u.get_id()))
 
         # 2-2 - ajouter un output depuis chaque noeud sans enfant
         for u in list(g.get_nodes()):
-            if not u.get_children_ids():
+            if not u.get_children_ids() and u.get_parent_ids():
                 g.add_output_node(u.get_id())
-
-        # TODO 2bis
+                AllNodes.remove(g.get_node_by_id(u.get_id()))
 
         AllNodesId = list(g.get_node_ids())
-        AllNodes = g.get_nodes()
+
         if input > 0:
-            while  input < len(g.get_input_ids()):
+            while input < len(g.get_input_ids()):
                 TabInput = list(g.get_input_ids())
                 p = random.sample(TabInput, 2)
-                k = g.new_id()
                 for rem in p:
                     TabInput.remove(rem)
                 g.set_input_ids(TabInput)
+                k = g.new_id()
                 g.add_node(label='', children={newParent: 1 for newParent in p})
-                g.add_output_node(k)
+                g.add_input_id(k)
             while input > len(g.get_input_ids()):
                 p = AllNodesId
                 newInput = random.choice(p)
-                k = g.new_id()
-                g.add_node(label='', children={newInput:1})
-                g.add_input_id(k)
+                g.add_input_id(newInput)
 
         if output > 0:
             while output > len(g.get_output_ids()):
                 p = AllNodesId
                 newInput = random.choice(p)
-                k = g.new_id()
-                g.add_node(label="", parents={newInput:1})
-                g.add_output_node(k)
+                g.add_output_node(label="", nodeId=newInput)
 
             while output < len(g.get_output_ids()):
                 TabOutput = list(g.get_output_ids())
@@ -192,11 +188,11 @@ class bool_circ(open_digraph):
                 g.set_output_ids(TabOutput)
                 k = g.new_id()
                 g.add_node(label='', parents={newParent:1 for newParent in p})
-                g.add_output_node(k)
+                g.add_output_id(k)
 
 
         # 3
-        for u in list(AllNodes):
+        for u in AllNodes:
             degP, degM = u.indegree(), u.outdegree()
 
             if degP == degM == 1:
