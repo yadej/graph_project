@@ -256,9 +256,8 @@ class bool_circ(open_digraph):
         :return: bit de retenue, registre de taille 2**n
         """
         n = len(a) >> 1  # log2(len(a))
-        g = bool_circ()
+        rSum = bool_circ()
         newCarry = 0
-        rSum = 0
 
         if n == 0:
             ...
