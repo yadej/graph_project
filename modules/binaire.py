@@ -155,7 +155,7 @@ def gray_tp_propositionnell(s1):
 
     while lig > 0:
         if lig == col:
-            p, passe_par = recherche_b(lig, col, m, passe_par)
+            p, passe_par = recherche_b(col, col, m, passe_par)
             newt.append(p)
             print(f'{p = }\n')
         else:
@@ -164,7 +164,7 @@ def gray_tp_propositionnell(s1):
             newt.append(p1)
             newt.append(p2)
 
-        if col == 2:
+        if col == 1:
             lig = lig // 2
             col = lig
         else:
