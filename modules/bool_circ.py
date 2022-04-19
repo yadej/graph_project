@@ -249,9 +249,26 @@ class bool_circ(open_digraph):
         return g
 
     @classmethod
-    def adder(cls, n):
-        size = 2**n
+    def adder(cls, a, b, carry):
+        """
+        :param a, b: registre de taille 2**n
+        :param carry: bit de retenue
+        :return: bit de retenue, registre de taille 2**n
+        """
+        n = len(a) >> 1  # log2(len(a))
+        g = bool_circ()
+        newCarry = 0
+        rSum = 0
+
+        if n == 0:
+            ...
+
+        return newCarry, rSum
 
     @classmethod
-    def half_adder(cls, n):
-        size = 2**n
+    def half_adder(cls, a, b):
+        """
+        :param a, b: registre de taille 2**n
+        :return: bit de retenue, registre de taille 2**n qui contient la somme de a et b modulo 2**n
+        """
+        return cls.adder(a, b, 0)
