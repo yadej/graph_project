@@ -26,14 +26,15 @@ class bool_circ(open_digraph):
             # les noeuds copie ie label='' doivent avoir un input
             if n.get_label() == '' and len(n.get_children_ids()) != 1:
                 return False
-            # les noeuds ET/OU ie label='&'ou'|' doivent avoir un output
-            if n.get_label() == '&' or n.get_label() == '|':
+            # les noeuds ET/OU/OU-EXCLUSIF ie label='&'ou'|'ou'^' doivent avoir un output
+            if n.get_label() == '&' or n.get_label() == '|' or n.get_label() == '^':
                 if len(n.get_parent_ids()) != 1:
                     return False
             # les noeuds NON ie label='~' doivent avoir un input et un output
             if n.get_label() == '~':
                 if len(n.get_parent_ids()) != 1 or len(n.get_children_ids()) != 1:
                     return False
+
         return True
 
     @classmethod
@@ -173,6 +174,8 @@ class bool_circ(open_digraph):
             if not u.get_children_ids():
                 g.add_output_node(u.get_id())
 
+        print(f"{g.get_input_ids() = }")
+        print(f"{g.get_output_ids() = }")
         # 2bis
         if inputs > 0:
             while inputs < len(g.get_input_ids()):  # trop d'inputs
@@ -211,7 +214,7 @@ class bool_circ(open_digraph):
 
                 g.set_output_ids(outputIds)
                 k = g.new_id()
-                g.add_node(label='', parents={newParent: 1 for newParent in inputsToRemove})
+                g.add_node(label='', parents={newParent: 1 for newParent in outputsToRemove})
                 g.add_output_id(k)
 
         # 3
