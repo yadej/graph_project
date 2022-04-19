@@ -166,12 +166,12 @@ class bool_circ(open_digraph):
 
         # 2-1 - ajouter un input vers chaque noeud sans parent
         for u in AllNodes:
-            if not u.get_parent_ids():
+            if not u.get_parent_ids() and u.get_children_ids():
                 g.add_input_node(u.get_id())
 
         # 2-2 - ajouter un output depuis chaque noeud sans enfant
         for u in AllNodes:
-            if not u.get_children_ids():
+            if not u.get_children_ids() and u.get_parent_ids():
                 g.add_output_node(u.get_id())
 
         print(f"{g.get_input_ids() = }")
@@ -191,31 +191,35 @@ class bool_circ(open_digraph):
                 # on rejoint ces 2 noeuds par un nouvel input
                 k = g.new_id()
                 g.add_node(label='', children={newParent: 1 for newParent in inputsToRemove})
-                g.add_input_id(k)
+                g.add_input_node(k)
+                AllNodes.append(g.get_node_by_id(k))
 
             while inputs > len(g.get_input_ids()):  # si il y a pas assez
                 # on ajoute un nouveau node en input
                 k = g.new_id()
                 g.add_node(label='', children={random.choice(AllNodeIds): 1})
-                g.add_input_id(k)
+                g.add_input_node(k)
 
         if outputs > 0:
             while outputs > len(g.get_output_ids()):  # si il y a pas assez d'output
                 k = g.new_id()
                 g.add_node(label='', parents={random.choice(AllNodeIds): 1})
-                g.add_output_id(k)
+                g.add_output_node(k)
 
             while outputs < len(g.get_output_ids()):  # trop
                 outputIds = list(g.get_output_ids())
                 outputsToRemove = random.sample(outputIds, 2)
-
+                """ newOutput = list(g.get_node_by_id(outputsToRemove[0]).get_parent_ids().keys()) \
+                            + list(g.get_node_by_id(outputsToRemove[0]).get_parent_ids().keys())
+                g.remove_node_by_id(outputsToRemove[0], outputsToRemove[1])"""
                 for i in outputsToRemove:
                     outputIds.remove(i)
 
                 g.set_output_ids(outputIds)
                 k = g.new_id()
                 g.add_node(label='', parents={newParent: 1 for newParent in outputsToRemove})
-                g.add_output_id(k)
+                g.add_output_node(k)
+                AllNodes.append(g.get_node_by_id(k))
                 print(g.get_node_by_id(k))
 
         # 3
