@@ -256,13 +256,13 @@ class bool_circ(open_digraph):
         :return: bit de retenue, registre de taille 2**n
         """
         n = len(a) >> 1  # log2(len(a))
-        rSum = bool_circ()
+        r = bool_circ()
         newCarry = 0
 
         if n == 0:
-            ...
+            r.add_node(...)
 
-        return newCarry, rSum
+        return newCarry, r
 
     @classmethod
     def half_adder(cls, a, b):
