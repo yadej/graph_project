@@ -150,7 +150,7 @@ class bool_circ(open_digraph):
         return self.parse_parentheses(s)
 
     @classmethod
-    def circrandom(cls, n, bound, input=0, output=0):
+    def circrandom(cls, n, bound, inputs=0, outputs=0):
         """
         :param n: int
         :param bound: int
@@ -161,7 +161,7 @@ class bool_circ(open_digraph):
         # 1 - générer un graphe dirigé acyclique sans inputs ni outputs
         g = open_digraph.random(n, bound, form='DAG')
         AllNodes = list(g.get_nodes())
-        AllNodesId = list(g.get_node_ids())
+        AllNodeIds = list(g.get_node_ids())
 
         # 2-1 - ajouter un input vers chaque noeud sans parent
         for u in AllNodes:
@@ -174,40 +174,44 @@ class bool_circ(open_digraph):
                 g.add_output_node(u.get_id())
 
         # 2bis
-        if input > 0:
-            while input < len(g.get_input_ids()):
-                TabInput = list(g.get_input_ids())
-                p = random.sample(TabInput, 2)
+        if inputs > 0:
+            while inputs < len(g.get_input_ids()):  # trop d'inputs
+                # on enleve deux input
+                inputIds = list(g.get_input_ids())
+                inputsToRemove = random.sample(inputIds, 2)
 
-                for rem in p:
-                    TabInput.remove(rem)
+                for i in inputsToRemove:
+                    inputIds.remove(i)
 
-                g.set_input_ids(TabInput)
+                g.set_input_ids(inputIds)
+
+                # on rejoint ces 2 noeuds par un nouvel input
                 k = g.new_id()
-                g.add_node(label='', children={newParent: 1 for newParent in p})
+                g.add_node(label='', children={newParent: 1 for newParent in inputsToRemove})
                 g.add_input_id(k)
 
-            while input > len(g.get_input_ids()):
-                p = AllNodesId
-                newInput = random.choice(p)
-                g.add_input_id(newInput)
-
-        if output > 0:
-            while output > len(g.get_output_ids()):
-                p = AllNodesId
-                newInput = random.choice(p)
-                g.add_output_node(label="", nodeId=newInput)
-
-            while output < len(g.get_output_ids()):
-                TabOutput = list(g.get_output_ids())
-                p = random.sample(TabOutput, 2)
-
-                for rem in p:
-                    TabOutput.remove(rem)
-
-                g.set_output_ids(TabOutput)
+            while inputs > len(g.get_input_ids()):  # si il y a pas assez
+                # on ajoute un nouveau node en input
                 k = g.new_id()
-                g.add_node(label='', parents={newParent: 1 for newParent in p})
+                g.add_node(label='', children={random.choice(AllNodeIds): 1})
+                g.add_input_id(k)
+
+        if outputs > 0:
+            while outputs > len(g.get_output_ids()):  # si il y a pas assez d'output
+                k = g.new_id()
+                g.add_node(label='', parents={random.choice(AllNodeIds): 1})
+                g.add_output_id(k)
+
+            while outputs < len(g.get_output_ids()):  # trop
+                outputIds = list(g.get_output_ids())
+                outputsToRemove = random.sample(outputIds, 2)
+
+                for i in outputsToRemove:
+                    outputIds.remove(i)
+
+                g.set_output_ids(outputIds)
+                k = g.new_id()
+                g.add_node(label='', parents={newParent: 1 for newParent in inputsToRemove})
                 g.add_output_id(k)
 
         # 3
