@@ -121,6 +121,13 @@ def recherche_colonne(n, table, comp):
 
 
 def recherche_b(l, c, table, comp):
+    """
+    :param l: int
+    :param c: inr
+    :param table: list
+    :param comp:
+    :return: list
+    """
     t = []
     p = [[all(table[i:i + l][x][j:j + c][0] for x in range(l)) for j in range(len(table[0]) - c + 1)]
          for i in range(len(table) - l + 1)]
