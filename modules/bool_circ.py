@@ -252,35 +252,68 @@ class bool_circ(open_digraph):
         :param carry: bit de retenue
         :return: bit de retenue, registre de taille 2**n
         """
-        n = len(a) >> 1  # log2(len(a))
+        n = 0
+        tailleRegistre = len(a)
+        if tailleRegistre < len(b):
+            tailleRegistre = len(b)
+        while tailleRegistre > 1:
+            tailleRegistre //= 2
+            n += 1
+        a = "0" * (2**n - len(a)) + a
+        b = "0" * (2**n - len(b)) + b
+        # Calcul Somme binaire de a et b modulo 2**n
+
+        # rajout des 0 manquant pour que cela rentre dans 2**n
+        sommeBinaire = ''.join(["1" if i == j == "1" else "0" for i, j in zip(a, b)])
+        print(sommeBinaire)
         r = bool_circ(open_digraph(nodes=[node(0, '|', {}, {})]))
         newCarry = 0
 
-        if n == 0:
-            # Node 0
-            # r.add_node(label="|")
-            # Node 1
-            r.add_node(label="&", children={0: 1})
-            # Node 2
-            r.add_node(label="&", children={0: 1})
-            # Node 3
-            r.add_node(label="^")
-            # Node 4
-            r.add_node(label="", children={3: 1, 1: 1})
-            # Node 5
-            r.add_node(label="", children={3: 1, 1: 1})
-            # Node 6
-            r.add_node(label="^", children={5: 1})
-            # Node 7
-            r.add_node(label="", children={6: 1, 2: 1})
-            # Node 8
-            r.add_node(label="", children={6: 1, 2: 1})
-            r.add_input_node(4)
-            r.add_input_node(7)
-            r.add_input_node(8)
-            r.add_output_node(0)
-            r.add_output_node(3)
 
+        # Node 0
+        # r.add_node(label="|")
+        # Node 1
+        r.add_node(label="&", children={0: 1})
+        # Node 2
+        r.add_node(label="&", children={0: 1})
+        # Node 3
+        r.add_node(label="^")
+        # Node 4
+        r.add_node(label="", children={3: 1, 1: 1})
+        # Node 5
+        r.add_node(label="", children={3: 1, 1: 1})
+        # Node 6
+        r.add_node(label="^", children={5: 1})
+        # Node 7
+        r.add_node(label="", children={6: 1, 2: 1})
+        # Node 8
+        r.add_node(label="", children={6: 1, 2: 1})
+        # C 9
+        r.add_input_node(4, label=sommeBinaire[-1])
+        # A 10
+        r.add_input_node(7, label=a[-1])
+        # B 11
+        r.add_input_node(8, label=b[-1])
+        # carry 12
+        r.add_output_node(0, label="carry")
+        # r 13
+        r.add_output_node(3, label="r")
+        while n > 1:
+            n -= 1
+            # carry
+            newAdder = r.copy()
+            r.shift_indices(r.max_id() - r.min_id())
+            attacheOutput = min(newAdder.get_output_ids())
+            # C
+            attacheInput = min(r.get_input_ids()) + 1
+            r.iparallel(newAdder)
+            print(f"{attacheOutput =}")
+            print(f"{r.get_output_ids() =}")
+            print(f"{attacheInput =}")
+            print(f"{r.get_input_ids() =}")
+            r.get_input_ids().remove(attacheInput)
+            r.get_output_ids().remove(attacheOutput)
+            r.add_edge((attacheOutput, attacheInput))
 
 
         return newCarry, r
