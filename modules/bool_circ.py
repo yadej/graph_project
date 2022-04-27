@@ -174,8 +174,6 @@ class bool_circ(open_digraph):
             if not u.get_children_ids() and u.get_parent_ids():
                 g.add_output_node(u.get_id())
 
-        print(f"{g.get_input_ids() = }")
-        print(f"{g.get_output_ids() = }")
         # 2bis
         if inputs > 0:
             while inputs < len(g.get_input_ids()):  # trop d'inputs
@@ -209,9 +207,6 @@ class bool_circ(open_digraph):
             while outputs < len(g.get_output_ids()):  # trop
                 outputIds = list(g.get_output_ids())
                 outputsToRemove = random.sample(outputIds, 2)
-                """ newOutput = list(g.get_node_by_id(outputsToRemove[0]).get_parent_ids().keys()) \
-                            + list(g.get_node_by_id(outputsToRemove[0]).get_parent_ids().keys())
-                g.remove_node_by_id(outputsToRemove[0], outputsToRemove[1])"""
                 for i in outputsToRemove:
                     outputIds.remove(i)
 
@@ -220,8 +215,6 @@ class bool_circ(open_digraph):
                 g.add_node(label='', parents={newParent: 1 for newParent in outputsToRemove})
                 g.add_output_node(k)
                 AllNodes.append(g.get_node_by_id(k))
-                print(g.get_node_by_id(k))
-        print(AllNodes)
 
         # 3
         for u in AllNodes:
@@ -250,8 +243,6 @@ class bool_circ(open_digraph):
 
                 g.add_node('', parents={uOp: 1}, children={x: y for x, y in uChildren.items()})
                 g.remove_node_by_id(u.get_id())
-        print(f"{g.get_input_ids() = }")
-        print(f"{g.get_output_ids() = }")
         return g
 
     @classmethod
@@ -262,11 +253,35 @@ class bool_circ(open_digraph):
         :return: bit de retenue, registre de taille 2**n
         """
         n = len(a) >> 1  # log2(len(a))
-        r = bool_circ()
+        r = bool_circ(open_digraph(nodes=[node(0, '|', {}, {})]))
         newCarry = 0
 
         if n == 0:
-            r.add_node(...)
+            # Node 0
+            # r.add_node(label="|")
+            # Node 1
+            r.add_node(label="&", children={0: 1})
+            # Node 2
+            r.add_node(label="&", children={0: 1})
+            # Node 3
+            r.add_node(label="^")
+            # Node 4
+            r.add_node(label="", children={3: 1, 1: 1})
+            # Node 5
+            r.add_node(label="", children={3: 1, 1: 1})
+            # Node 6
+            r.add_node(label="^", children={5: 1})
+            # Node 7
+            r.add_node(label="", children={6: 1, 2: 1})
+            # Node 8
+            r.add_node(label="", children={6: 1, 2: 1})
+            r.add_input_node(4)
+            r.add_input_node(7)
+            r.add_input_node(8)
+            r.add_output_node(0)
+            r.add_output_node(3)
+
+
 
         return newCarry, r
 
