@@ -1,5 +1,5 @@
 import random
-from modules.binaire import *
+from modules.binaire import gray_tp_propositionnell
 from modules.node import node
 from modules.open_digraph import open_digraph
 
@@ -221,6 +221,7 @@ class bool_circ(open_digraph):
                 g.add_output_node(k)
                 AllNodes.append(g.get_node_by_id(k))
                 print(g.get_node_by_id(k))
+        print(AllNodes)
 
         # 3
         for u in AllNodes:
@@ -240,15 +241,15 @@ class bool_circ(open_digraph):
 
             if degP > 1 and degM > 1:
                 uOp = g.new_id()
-
+                uParent = u.get_parent_ids()
+                uChildren = u.get_children_ids()
                 if random.getrandbits(1):
-                    g.add_node('&', parents=u.get_parent_ids())
+                    g.add_node('&', parents={x: y for x, y in uParent.items()})
                 else:
-                    g.add_node('|', parents=u.get_parent_ids())
+                    g.add_node('|', parents={x: y for x, y in uParent.items()})
 
-                g.add_node('', parents={uOp: 1}, children=u.get_children_ids())
+                g.add_node('', parents={uOp: 1}, children={x: y for x, y in uChildren.items()})
                 g.remove_node_by_id(u.get_id())
-
         print(f"{g.get_input_ids() = }")
         print(f"{g.get_output_ids() = }")
         return g

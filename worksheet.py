@@ -144,7 +144,7 @@ def main():
 
     print(f"{gray_tp_propositionnell('1110001000111111') = }\n")
 
-    rg = bool_circ.circrandom(8, 2, inputs=2, outputs=2)
+    rg = bool_circ.circrandom(8, 2, inputs=3, outputs=2)
     rg.save_as_dot_file(dotFolder + r'random_bool_circ.dot')
 
 
