@@ -267,7 +267,7 @@ class bool_circ(open_digraph):
         sommeBinaire = ''.join(["1" if i == j == "1" else "0" for i, j in zip(a, b)])
         print(sommeBinaire)
         r = bool_circ(open_digraph(nodes=[node(0, '|', {}, {})]))
-        newCarry = 0
+        newCarry = 0 if int(a,2) + int(b, 2) < 2** (2**n) else 1
 
 
         # Node 0
@@ -298,7 +298,7 @@ class bool_circ(open_digraph):
         r.add_output_node(0, label="carry")
         # r 13
         r.add_output_node(3, label="r")
-        while n > 1:
+        while n > 0:
             n -= 1
             # carry
             newAdder = r.copy()
@@ -307,6 +307,7 @@ class bool_circ(open_digraph):
             # C
             attacheInput = min(r.get_input_ids()) + 1
             r.iparallel(newAdder)
+            # attacheInput = max(r.get_input_ids())
             print(f"{attacheOutput =}")
             print(f"{r.get_output_ids() =}")
             print(f"{attacheInput =}")
@@ -314,7 +315,19 @@ class bool_circ(open_digraph):
             r.get_input_ids().remove(attacheInput)
             r.get_output_ids().remove(attacheOutput)
             r.add_edge((attacheOutput, attacheInput))
-
+        j = 0
+        turn = True
+        for i in r.get_input_ids():
+            if i == 9:
+                continue
+            if turn:
+                r.get_node_by_id(i).set_label(a[j])
+                turn = False
+            else:
+                r.get_node_by_id(i).set_label(b[j])
+                turn = True
+            if turn:
+                j += 1
 
         return newCarry, r
 
