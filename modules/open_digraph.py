@@ -210,6 +210,7 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digra
         """
         for i in ids:
             # enleve tout les parents de i
+            self.get_node_by_id(i).set_label("")
             for k in self.get_node_by_id(i).get_parent_ids():
                 self.get_node_by_id(k).remove_child_id(i)
             self.get_node_by_id(i).get_parent_ids().clear()

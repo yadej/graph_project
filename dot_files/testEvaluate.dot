@@ -1,0 +1,8 @@
+digraph G { 
+v14 [label="0"]; 
+v17 [label="0"]; 
+v40 [label="0"]; 
+v14 -> v26;
+v17 -> v27;
+v40 -> v13;
+}

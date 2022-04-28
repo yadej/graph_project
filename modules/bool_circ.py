@@ -368,7 +368,7 @@ class bool_circ(open_digraph):
             node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
             for keys in node_children_id.get_children_ids():
                 self.add_node(label=node_i.get_label(),children={keys: 1})
-            self.remove_node_by_id(node_i.get_id(),node_children_id.get_id())
+            self.remove_node_by_id(node_i.get_id(), node_children_id.get_id())
 
     def porte_Non(self, *ids):
         for i in ids:
@@ -386,35 +386,28 @@ class bool_circ(open_digraph):
     def porte_Et(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-            if len(node_i.get_children_ids()) == 0:
-                self.remove_node_by_id(i)
-                continue
             if node_i.get_label() != "1":
                 for keys in node_i.get_parent_ids():
-                    self.add_node("", parents={keys: 1})
-                for keys in node_i.get_children_ids():
-                    self.add_node(label="0", children={keys: 1})
-            self.remove_node_by_id(node_i.get_id())
+                    self.add_node(label="", parents={keys: 1})
+                # On le fait dans element neutre
+                # for keys in node_i.get_children_ids():
+                #     self.add_node(label="0", children={keys: 1})
+            self.remove_node_by_id(i)
 
     def porte_Ou(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-            if len(node_i.get_children_ids()) == 0:
-                self.remove_node_by_id(i)
-                continue
             if node_i.get_label() != "0":
                 for keys in node_i.get_parent_ids():
                     self.add_node("", parents={keys: 1})
-                for keys in node_i.get_children_ids():
-                    self.add_node(label="1", children={keys: 1})
-            self.remove_node_by_id(node_i.get_id())
+                # On le fait dans element neutre
+                # for keys in node_i.get_children_ids():
+                #     self.add_node(label="1", children={keys: 1})
+            self.remove_node_by_id(i)
 
     def porte_Ou_Exculsif(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-            if len(node_i.get_children_ids()) == 0:
-                self.remove_node_by_id(i)
-                continue
             if node_i.get_label() != "0":
                 for keys in node_i.get_children_ids():
                     for keys2 in list(self.get_node_by_id(keys).get_children_ids()):
@@ -436,12 +429,12 @@ class bool_circ(open_digraph):
             # Je sais pas si c'est plus clair comme ca car on peut combiner les 2
             inputNode = [node for node in self.get_nodes()
                          if len(node.get_parent_ids()) == 0
-                         and len(node.get_children_ids()) != 0 ]
+                         and len(node.get_children_ids()) != 0]
             condition = [all(x in self.get_output_ids()
                           for x in node.get_children_ids())
                       for node in inputNode]
             if all(condition):
-                return
+                break
             print(f"{inputNode =}")
             print(f"{self.get_output_ids()}")
             for i, currentNode in enumerate(inputNode):
@@ -450,7 +443,10 @@ class bool_circ(open_digraph):
                         self.remove_node_by_id(currentNode.get_id())
                         continue
                     currentNodeChildId = list(currentNode.get_children_ids().keys())[0]
+                    print(f'{currentNodeChildId =}')
+                    print(f"{self.get_node_by_id(currentNodeChildId) =}")
                     currentNodeChild = self.get_node_by_id(currentNodeChildId)
+                    print(f"{currentNodeChild.get_label()}")
                     # Si on les met tous dans des tableau et que on les transforme apres est ce que c plus efficace
                     if currentNode.get_label() != "0" and currentNode.get_label() != "1":
                         self.element_Neutre(currentNode.get_id())
@@ -464,3 +460,10 @@ class bool_circ(open_digraph):
                         self.porte_Ou(currentNode.get_id())
                     else:
                         self.copies(currentNode.get_id())
+        inputNode = [node for node in self.get_nodes()
+                     if len(node.get_parent_ids()) == 0
+                     and len(node.get_children_ids()) != 0]
+        print(inputNode)
+        for node in inputNode:
+            if node.get_label() != "1" and node.get_label() != "0":
+                self.element_Neutre(node.get_id())
