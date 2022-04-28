@@ -357,3 +357,59 @@ class bool_circ(open_digraph):
             r.add_node(new_node)
             r.add_node(label="", parents={new_node_id: 1})
         return r
+
+    def copies(self, *ids):
+        for i in ids:
+            node_i = self.get_node_by_id(i)
+            node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
+            for keys in node_children_id.get_children_ids():
+                self.add_node(label=node_i.get_label(),children={keys: 1})
+            self.remove_node_by_id(node_i.get_id(),node_children_id.get_id())
+
+    def porte_Non(self, *ids):
+        for i in ids:
+            node_i = self.get_node_by_id(i)
+            node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
+            s = "0" if node_i.get_label() == "1" else "1"
+            for keys in node_children_id.get_children_ids():
+                self.add_node(label=s, children={keys: 1})
+            self.remove_node_by_id(node_i.get_id(), node_children_id.get_id())
+
+    def porte_Et(self, *ids):
+        for i in ids:
+            node_i = self.get_node_by_id(i)
+            if node_i.get_label() != "1":
+                for keys in node_i.get_parent_ids():
+                    self.add_node("", parents={keys: 1})
+                for keys in node_i.get_children_ids():
+                    self.add_node(label="0", children={keys: 1})
+            self.remove_node_by_id(node_i.get_id())
+
+    def porte_Ou(self, *ids):
+        for i in ids:
+            node_i = self.get_node_by_id(i)
+            if node_i.get_label() != "0":
+                for keys in node_i.get_parent_ids():
+                    self.add_node("", parents={keys: 1})
+                for keys in node_i.get_children_ids():
+                    self.add_node(label="1", children={keys: 1})
+            self.remove_node_by_id(node_i.get_id())
+
+    def porte_Ou_Exculsif(self, *ids):
+        for i in ids:
+            node_i = self.get_node_by_id(i)
+            if node_i.get_label() != "0":
+                for keys in node_i.get_children_ids():
+                    for keys2 in list(self.get_node_by_id(keys).get_children_ids()):
+                        self.add_node(label="^", parents={keys: 1}, children={keys2: 1})
+                        self.remove_parallel_edges((keys, keys2))
+            self.remove_node_by_id(node_i.get_id())
+
+    def element_Neutre(self, *ids):
+        for i in ids:
+            node_i = self.get_node_by_id(i)
+            label = node_i.get_label()
+            if label == "|" or label == "^":
+                node_i.set_label("0")
+            else:
+                node_i.set_label("1")
