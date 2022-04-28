@@ -147,13 +147,17 @@ def main():
     rg = bool_circ.circrandom(8, 2, inputs=3, outputs=2)
     rg.save_as_dot_file(dotFolder + r'random_bool_circ.dot')
 
-    adderTest = bool_circ.adder("11001111", "1110111", 0)[1]
+    adderTest = bool_circ.adder("11", "01", 0)[1]
     print(adderTest)
     adderTest.save_as_dot_file(dotFolder + r'testAdder.dot')
 
     binaryTest = bool_circ.int_to_boolcirc(11)
     print(binaryTest)
     binaryTest.save_as_dot_file(dotFolder + r'testBinary.dot')
+
+    adderTest.evaluate()
+    print(adderTest)
+    adderTest.save_as_dot_file(dotFolder + r'testEvaluate.dot')
 
 
 if __name__ == '__main__':
