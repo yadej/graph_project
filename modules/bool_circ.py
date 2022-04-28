@@ -390,8 +390,9 @@ class bool_circ(open_digraph):
                 for keys in node_i.get_parent_ids():
                     self.add_node(label="", parents={keys: 1})
                 # On le fait dans element neutre
-                # for keys in node_i.get_children_ids():
-                #     self.add_node(label="0", children={keys: 1})
+                for keys in node_i.get_children_ids():
+                    self.get_node_by_id(keys).set_label("0")
+                    # self.add_node(label="0", children={keys: 1})
             self.remove_node_by_id(i)
 
     def porte_Ou(self, *ids):
@@ -401,8 +402,8 @@ class bool_circ(open_digraph):
                 for keys in node_i.get_parent_ids():
                     self.add_node("", parents={keys: 1})
                 # On le fait dans element neutre
-                # for keys in node_i.get_children_ids():
-                #     self.add_node(label="1", children={keys: 1})
+                for keys in node_i.get_children_ids():
+                    self.get_node_by_id(keys).set_label("1")
             self.remove_node_by_id(i)
 
     def porte_Ou_Exculsif(self, *ids):
