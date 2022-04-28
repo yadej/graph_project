@@ -151,6 +151,10 @@ def main():
     print(adderTest)
     adderTest.save_as_dot_file(dotFolder + r'testAdder.dot')
 
+    binaryTest = bool_circ.int_to_boolcirc(256)
+    print(binaryTest)
+    binaryTest.save_as_dot_file(dotFolder + r'testBinary.dot')
+
 
 if __name__ == '__main__':
     main()

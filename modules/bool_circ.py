@@ -23,8 +23,8 @@ class bool_circ(open_digraph):
             return False
 
         for n in self.get_nodes():
-            # les noeuds copie ie label='' doivent avoir un input
-            if n.get_label() == '' and len(n.get_children_ids()) != 1:
+            # les noeuds copie ie label='0' ou '1' doivent avoir un input
+            if n.get_label() == '' or n.get_label() == '1' or n.get_label() == '0' and len(n.get_children_ids()) != 1:
                 return False
             # les noeuds ET/OU/OU-EXCLUSIF ie label='&'ou'|'ou'^' doivent avoir un output
             if n.get_label() == '&' or n.get_label() == '|' or n.get_label() == '^':
@@ -267,8 +267,7 @@ class bool_circ(open_digraph):
         sommeBinaire = ''.join(["1" if i == j == "1" else "0" for i, j in zip(a, b)])
         print(sommeBinaire)
         r = bool_circ(open_digraph(nodes=[node(0, '|', {}, {})]))
-        newCarry = 0 if int(a,2) + int(b, 2) < 2** (2**n) else 1
-
+        newCarry = 0 if int(a,2) + int(b, 2) < 2** (2**n) or carry == 0 else 1
 
         # Node 0
         # r.add_node(label="|")
@@ -319,6 +318,7 @@ class bool_circ(open_digraph):
         turn = True
         for i in r.get_input_ids():
             if i == 9:
+                r.get_node_by_id(i).set_label(newCarry)
                 continue
             if turn:
                 r.get_node_by_id(i).set_label(a[j])
@@ -338,3 +338,22 @@ class bool_circ(open_digraph):
         :return: bit de retenue, registre de taille 2**n qui contient la somme de a et b modulo 2**n
         """
         return cls.adder(a, b, 0)
+
+    @classmethod
+    def int_to_boolcirc(cls, n):
+        taille = 0
+        p = n
+        if n > 255:
+            while p > 1:
+                p //= 2
+                taille += 1
+        else:
+            taille = 8
+        binary = bin(n)[2:]
+        binary = "0" * (taille - len(binary)) + binary
+        r = bool_circ(open_digraph())
+        for new_node in binary:
+            new_node_id = r.new_id()
+            r.add_node(new_node)
+            r.add_node(label="", parents={new_node_id: 1})
+        return r
