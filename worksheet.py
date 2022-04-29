@@ -147,7 +147,7 @@ def main():
     rg = bool_circ.circrandom(8, 2, inputs=3, outputs=2)
     rg.save_as_dot_file(dotFolder + r'random_bool_circ.dot')
 
-    adderTest = bool_circ.adder("11", "01", 1)[1]
+    adderTest = bool_circ.adder("11", "10", 1)[1]
     print(adderTest)
     adderTest.save_as_dot_file(dotFolder + r'testAdder.dot')
 
@@ -158,6 +158,7 @@ def main():
     TestPorteEt = bool_circ(open_digraph())
     TestPorteOu = bool_circ(open_digraph())
     TestPorteOuExclusif = bool_circ(open_digraph())
+    TestPorteNon = bool_circ(open_digraph())
     parentN = 0
     for label in ["0", "1"]:
         TestPorteEt.add_node(label=label)
@@ -178,15 +179,24 @@ def main():
         TestPorteOuExclusif.add_node(label=label)
         TestPorteOuExclusif.add_node(label="^", parents={parentN + 3: 1})
         TestPorteOuExclusif.add_node(label="", parents={parentN + 4: 1})
+        TestPorteNon.add_node(label=label)
+        TestPorteNon.add_node(label="~", parents={parentN: 1})
+        TestPorteNon.add_node(label="", parents={parentN + 1: 1})
+        TestPorteNon.add_node(label=label)
+        TestPorteNon.add_node(label="~", parents={parentN + 3: 1})
+        TestPorteNon.add_node(label="", parents={parentN + 4: 1})
         parentN += 6
+
     TestPorteEt.porte_Et(0, 6)
     TestPorteOu.porte_Ou(0, 6)
     TestPorteOuExclusif.porte_Ou_Exculsif(0, 6)
+    TestPorteNon.porte_Non(0, 6)
     adderTest.evaluate()
     print(TestPorteEt)
     TestPorteEt.save_as_dot_file(dotFolder + r'testPorteEt.dot')
     TestPorteOu.save_as_dot_file(dotFolder + r'testPorteOu.dot')
     TestPorteOuExclusif.save_as_dot_file(dotFolder + r'TestPorteOuExclusif.dot')
+    TestPorteNon.save_as_dot_file(dotFolder + r'testPorteNon.dot')
     adderTest.save_as_dot_file(dotFolder + r'testEvaluate.dot')
 
 

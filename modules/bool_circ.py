@@ -306,11 +306,6 @@ class bool_circ(open_digraph):
             # C
             attacheInput = min(r.get_input_ids()) + 1
             r.iparallel(newAdder)
-            # attacheInput = max(r.get_input_ids())
-            print(f"{attacheOutput =}")
-            print(f"{r.get_output_ids() =}")
-            print(f"{attacheInput =}")
-            print(f"{r.get_input_ids() =}")
             r.get_input_ids().remove(attacheInput)
             r.get_output_ids().remove(attacheOutput)
             r.add_edge((attacheOutput, attacheInput))
@@ -361,10 +356,6 @@ class bool_circ(open_digraph):
     def copies(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-            print(node_i.get_children_ids())
-            if len(node_i.get_children_ids()) == 0:
-                self.remove_node_by_id(i)
-                continue
             node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
             for keys in node_children_id.get_children_ids():
                 self.add_node(label=node_i.get_label(),children={keys: 1})
@@ -373,10 +364,6 @@ class bool_circ(open_digraph):
     def porte_Non(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-
-            if len(node_i.get_children_ids()) == 0:
-                self.remove_node_by_id(i)
-                continue
             node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
             s = "0" if node_i.get_label() == "1" else "1"
             for keys in node_children_id.get_children_ids():
@@ -436,8 +423,6 @@ class bool_circ(open_digraph):
                       for node in inputNode]
             if all(condition):
                 break
-            print(f"{inputNode =}")
-            print(f"{self.get_output_ids()}")
             for i, currentNode in enumerate(inputNode):
                 if not condition[i]:
                     if len(currentNode.get_children_ids()) == 0:
@@ -464,7 +449,6 @@ class bool_circ(open_digraph):
         inputNode = [node for node in self.get_nodes()
                      if len(node.get_parent_ids()) == 0
                      and len(node.get_children_ids()) != 0]
-        print(inputNode)
         for node in inputNode:
             if node.get_label() != "1" and node.get_label() != "0":
                 self.element_Neutre(node.get_id())
