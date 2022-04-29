@@ -412,7 +412,7 @@ class bool_circ(open_digraph):
             if node_i.get_label() != "0":
                 for keys in node_i.get_children_ids():
                     for keys2 in list(self.get_node_by_id(keys).get_children_ids()):
-                        self.add_node(label="^", parents={keys: 1}, children={keys2: 1})
+                        self.add_node(label="~", parents={keys: 1}, children={keys2: 1})
                         self.remove_parallel_edges((keys, keys2))
             self.remove_node_by_id(node_i.get_id())
 
