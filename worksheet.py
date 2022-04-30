@@ -147,7 +147,7 @@ def main():
     rg = bool_circ.circrandom(8, 2, inputs=3, outputs=2)
     rg.save_as_dot_file(dotFolder + r'random_bool_circ.dot')
 
-    adderTest = bool_circ.adder("11", "10", 1)[1]
+    adderTest = bool_circ.adder("11", "101", 1)[1]
     print(adderTest)
     adderTest.save_as_dot_file(dotFolder + r'testAdder.dot')
 
