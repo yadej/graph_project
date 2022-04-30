@@ -455,6 +455,7 @@ class bool_circ(open_digraph):
 
     @classmethod
     def encodeur(cls):
+        # les nodes je les crée layer par layer
         encodeur = bool_circ(open_digraph())
         for i in range(4):
             encodeur.add_node()
@@ -471,6 +472,7 @@ class bool_circ(open_digraph):
     @classmethod
     def decodeur(cls):
         # les nodes c'est juste pour etre sur en commentaire
+        # les nodes je les crée layer par layer
         decodeur = bool_circ(open_digraph())
         for i in range(4):
             # node 0 1 2 3
@@ -501,4 +503,7 @@ class bool_circ(open_digraph):
         for i in range(4):
             decodeur.add_input_node(i)
             decodeur.add_output_node(i+17)
+        for i in range(3):
+            decodeur.add_input_node(i + 4)
         return decodeur
+
