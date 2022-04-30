@@ -79,8 +79,9 @@ class bool_circ(open_digraph):
                 k += 1
                 continue
 
+            # smt.contains(n) <=> n in smt
             if lab.__contains__("&") or lab.__contains__("~") \
-                    or lab.__contains__("|"):
+                    or lab.__contains__("|") or lab.__contains__("^"):
                 g.get_node_by_id(k).set_label(lab[0])
 
                 for i in list(g.get_node_by_id(k).get_children_ids()):
@@ -268,7 +269,7 @@ class bool_circ(open_digraph):
         print(sommeBinaire)
         r = bool_circ(open_digraph(nodes=[node(0, '|', {}, {})]))
         newCarry = 0 if int(a,2) + int(b, 2) < 2** (2**n) or carry == 0 else 1
-
+        # On fait le Adder 0
         # Node 0
         # r.add_node(label="|")
         # Node 1
@@ -297,6 +298,7 @@ class bool_circ(open_digraph):
         r.add_output_node(0)
         # r 13
         r.add_output_node(3)
+        # adder n + 1
         while n > 0:
             n -= 1
             # carry
@@ -311,6 +313,7 @@ class bool_circ(open_digraph):
             r.add_edge((attacheOutput, attacheInput))
         j = 0
         turn = True
+        # dernier tour pour bien vérifier que se sont tous des chiffres
         for i in r.get_input_ids():
             if i == 9:
                 r.get_node_by_id(i).set_label(newCarry)
@@ -429,10 +432,7 @@ class bool_circ(open_digraph):
                         self.remove_node_by_id(currentNode.get_id())
                         continue
                     currentNodeChildId = list(currentNode.get_children_ids().keys())[0]
-                    print(f'{currentNodeChildId =}')
-                    print(f"{self.get_node_by_id(currentNodeChildId) =}")
                     currentNodeChild = self.get_node_by_id(currentNodeChildId)
-                    print(f"{currentNodeChild.get_label()}")
                     # Si on les met tous dans des tableau et que on les transforme apres est ce que c plus efficace
                     if currentNode.get_label() != "0" and currentNode.get_label() != "1":
                         self.element_Neutre(currentNode.get_id())
@@ -452,3 +452,20 @@ class bool_circ(open_digraph):
         for node in inputNode:
             if node.get_label() != "1" and node.get_label() != "0":
                 self.element_Neutre(node.get_id())
+
+    @classmethod
+    def encodeur(cls):
+        bc = bool_circ(open_digraph())
+        bc.add_node()
+        bc.add_node()
+        bc.add_node()
+        bc.add_node()
+        # utiliser dict comprehension semble plus pratique
+        bc.add_node(label="^", parents={x: 1 for x in range(4) if x != 2})
+        bc.add_node(label="^", parents={x: 1 for x in range(4) if x != 1})
+        bc.add_node(label="^", parents={x: 1 for x in range(1, 4)})
+        for i in range(4):
+            bc.add_input_id(i)
+        for i in range(7):
+            bc.add_output_id(i)
+        return bc
