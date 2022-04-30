@@ -455,17 +455,50 @@ class bool_circ(open_digraph):
 
     @classmethod
     def encodeur(cls):
-        bc = bool_circ(open_digraph())
-        bc.add_node()
-        bc.add_node()
-        bc.add_node()
-        bc.add_node()
-        # utiliser dict comprehension semble plus pratique
-        bc.add_node(label="^", parents={x: 1 for x in range(4) if x != 2})
-        bc.add_node(label="^", parents={x: 1 for x in range(4) if x != 1})
-        bc.add_node(label="^", parents={x: 1 for x in range(1, 4)})
+        encodeur = bool_circ(open_digraph())
         for i in range(4):
-            bc.add_input_id(i)
+            encodeur.add_node()
+        # utiliser dict comprehension semble plus pratique
+        encodeur.add_node(label="^", parents={x: 1 for x in range(4) if x != 2})
+        encodeur.add_node(label="^", parents={x: 1 for x in range(4) if x != 1})
+        encodeur.add_node(label="^", parents={x: 1 for x in range(1, 4)})
+        for i in range(4):
+            encodeur.add_input_node(i)
         for i in range(7):
-            bc.add_output_id(i)
-        return bc
+            encodeur.add_output_node(i)
+        return encodeur
+
+    @classmethod
+    def decodeur(cls):
+        # les nodes c'est juste pour etre sur en commentaire
+        decodeur = bool_circ(open_digraph())
+        for i in range(4):
+            # node 0 1 2 3
+            decodeur.add_node()
+        # node 4
+        decodeur.add_node(label="^", parents={x: 1 for x in range(4) if x != 2})
+        # node 5
+        decodeur.add_node(label="^", parents={x: 1 for x in range(4) if x != 1})
+        # node 6
+        decodeur.add_node(label="^", parents={x: 1 for x in range(1, 4)})
+        for i in range(4, 7):
+            # node 7 8 9
+            decodeur.add_node(parents={i: 1})
+        for i in range(7, 10):
+            # node 10 11 12
+            decodeur.add_node(label="~", parents={i: 1})
+        # node 13
+        decodeur.add_node(label="&", parents={7: 1, 8: 1, 12: 1})
+        # node 14
+        decodeur.add_node(label="&", parents={7: 1, 9: 1, 11: 1})
+        # node 15
+        decodeur.add_node(label="&", parents={8: 1, 9: 1, 10: 1})
+        # node 16
+        decodeur.add_node(label="&", parents={7: 1, 8: 1, 9: 1})
+        for i in range(4):
+            # node 17 18 19 20
+            decodeur.add_node(label="^", parents={i: 1, i+13: 1})
+        for i in range(4):
+            decodeur.add_input_node(i)
+            decodeur.add_output_node(i+17)
+        return decodeur

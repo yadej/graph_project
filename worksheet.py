@@ -199,6 +199,11 @@ def main():
     TestPorteNon.save_as_dot_file(dotFolder + r'testPorteNon.dot')
     adderTest.save_as_dot_file(dotFolder + r'testEvaluate.dot')
 
+    encodeur = bool_circ.encodeur()
+    encodeur.save_as_dot_file(dotFolder + r'testEncodeur.dot')
+
+    decodeur = bool_circ.decodeur()
+    decodeur.save_as_dot_file(dotFolder + r'testDecodeur.dot')
 
 if __name__ == '__main__':
     main()
