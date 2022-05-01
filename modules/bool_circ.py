@@ -472,8 +472,8 @@ class bool_circ(open_digraph):
         return encodeur
 
     @classmethod
-    def decodeur(cls, ar1=0, ar2=0, ar3=0, ar4=0):
-        ListInt = [ar1, ar2, ar3, ar4]
+    def decodeur(cls, ar1=0, ar2=0, ar3=0, ar4=0, ar5=0, ar6=0, ar7=0):
+        ListInt = [ar1, ar2, ar3, ar4, ar5, ar6, ar7]
         ListOfNon = ["" if x == 0 else "~" for x in ListInt]
         # les nodes c'est juste pour etre sur en commentaire
         # les nodes je les crée layer par layer
@@ -505,10 +505,11 @@ class bool_circ(open_digraph):
             # node 17 18 19 20
             decodeur.add_node(label="^", parents={i: 1, i+13: 1})
         for i, label in enumerate(ListOfNon):
-            decodeur.add_input_node(i, label)
-            decodeur.add_output_node(i+17)
-        for i in range(3):
-            decodeur.add_input_node(i + 4)
+            if i > 3:
+                decodeur.add_input_node(i)
+            else:
+                decodeur.add_input_node(i, label=label)
+                decodeur.add_output_node(i+17)
         return decodeur
 
     def assosXOR(self, *ids):
