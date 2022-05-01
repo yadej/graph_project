@@ -199,11 +199,11 @@ def main():
     TestPorteNon.save_as_dot_file(dotFolder + r'testPorteNon.dot')
     adderTest.save_as_dot_file(dotFolder + r'testEvaluate.dot')
 
-    encodeur = bool_circ.encodeur()
+    encodeur = bool_circ.encodeur(ar3=1)
     print(encodeur)
     encodeur.save_as_dot_file(dotFolder + r'testEncodeur.dot')
 
-    decodeur = bool_circ.decodeur()
+    decodeur = bool_circ.decodeur(ar4=1)
     print(decodeur)
     decodeur.save_as_dot_file(dotFolder + r'testDecodeur.dot')
     # Test Association XOR
@@ -282,6 +282,14 @@ def main():
     TestInvolutionNon.add_node(label="", children={0: 1})
     TestInvolutionNon.involutionNon(0)
     TestInvolutionNon.save_as_dot_file(dotFolder + r'testInvolutionNon.dot')
+
+    # Test Autre
+    decodeur = bool_circ.decodeur()
+    encodeur = bool_circ.encodeur()
+    print(len(encodeur.get_output_ids()))
+    print(len(decodeur.get_input_ids()))
+    leTout = decodeur.compose(encodeur)
+    leTout.save_as_dot_file(dotFolder + r'Identite.dot')
 
 
 if __name__ == '__main__':

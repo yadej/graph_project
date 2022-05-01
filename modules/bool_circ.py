@@ -454,7 +454,8 @@ class bool_circ(open_digraph):
                 self.element_Neutre(node.get_id())
 
     @classmethod
-    def encodeur(cls):
+    def encodeur(cls, ar1=0, ar2=0, ar3=0, ar4=0):
+        labelNode = f"{ar1}{ar2}{ar3}{ar4}"
         # les nodes je les crée layer par layer
         encodeur = bool_circ(open_digraph())
         for i in range(4):
@@ -463,14 +464,16 @@ class bool_circ(open_digraph):
         encodeur.add_node(label="^", parents={x: 1 for x in range(4) if x != 2})
         encodeur.add_node(label="^", parents={x: 1 for x in range(4) if x != 1})
         encodeur.add_node(label="^", parents={x: 1 for x in range(1, 4)})
-        for i in range(4):
-            encodeur.add_input_node(i)
+        for i, label in enumerate(labelNode):
+            encodeur.add_input_node(i, label)
         for i in range(7):
             encodeur.add_output_node(i)
         return encodeur
 
     @classmethod
-    def decodeur(cls):
+    def decodeur(cls, ar1=0, ar2=0, ar3=0, ar4=0):
+        ListInt = [ar1, ar2, ar3, ar4]
+        ListOfNon = ["" if x == 0 else "~" for x in ListInt]
         # les nodes c'est juste pour etre sur en commentaire
         # les nodes je les crée layer par layer
         decodeur = bool_circ(open_digraph())
@@ -500,8 +503,8 @@ class bool_circ(open_digraph):
         for i in range(4):
             # node 17 18 19 20
             decodeur.add_node(label="^", parents={i: 1, i+13: 1})
-        for i in range(4):
-            decodeur.add_input_node(i)
+        for i, label in enumerate(ListOfNon):
+            decodeur.add_input_node(i, label)
             decodeur.add_output_node(i+17)
         for i in range(3):
             decodeur.add_input_node(i + 4)

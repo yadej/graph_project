@@ -75,7 +75,7 @@ class open_digraph_compositions_mx:
         outputs ; none
         makes the sequential composition of the two graphs.
         """
-        if self.get_input_ids() != g.get_output_ids():
+        if len(self.get_input_ids()) != len(g.get_output_ids()):
             raise Exception('inputs do not match g outputs')
         self.shift_indices(g.max_id() - self.min_id() + 1)
         b1 = self.get_input_ids()
@@ -95,7 +95,7 @@ class open_digraph_compositions_mx:
         inputs : g (open_digraph)
         outputs : k, composed of the two graphs
         """
-        if self.get_input_ids() != g.get_output_ids():
+        if len(self.get_input_ids()) != len(g.get_output_ids()):
             raise Exception('inputs do not match g outputs')
         k = self.copy()
         k.shift_indices(g.max_id() - k.min_id() + 1)
