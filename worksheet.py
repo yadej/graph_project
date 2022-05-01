@@ -154,7 +154,7 @@ def main():
     binaryTest = bool_circ.int_to_boolcirc(11)
     print(binaryTest)
     binaryTest.save_as_dot_file(dotFolder + r'testBinary.dot')
-
+    # Test des portes + copies
     TestPorteEt = bool_circ(open_digraph())
     TestPorteOu = bool_circ(open_digraph())
     TestPorteOuExclusif = bool_circ(open_digraph())
@@ -206,6 +206,83 @@ def main():
     decodeur = bool_circ.decodeur()
     print(decodeur)
     decodeur.save_as_dot_file(dotFolder + r'testDecodeur.dot')
+    # Test Association XOR
+    TestAssocXor = bool_circ(open_digraph())
+    TestAssocXor.add_node(label="^")
+    TestAssocXor.add_node(label="^", children={0: 1})
+    TestAssocXor.add_node(label="1", children={0: 1})
+    TestAssocXor.add_node(label="0", children={0: 1})
+    TestAssocXor.add_node(label="1", children={1: 1})
+    TestAssocXor.add_node(label="0", children={1: 1})
+    TestAssocXor.add_output_node(0)
+    TestAssocXor.assosXOR(1)
+    TestAssocXor.save_as_dot_file(dotFolder + r'testAssocXor.dot')
+
+    # Assoc Copies
+    TestAssocCopie = bool_circ(open_digraph())
+    TestAssocCopie.add_node(label="")
+    TestAssocCopie.add_node(label="", parents={0: 1})
+    TestAssocCopie.add_node(label="1", parents={0: 1})
+    TestAssocCopie.add_node(label="0", parents={0: 1})
+    TestAssocCopie.add_node(label="1", parents={1: 1})
+    TestAssocCopie.add_node(label="0", parents={1: 1})
+    TestAssocCopie.add_input_node(0)
+    TestAssocCopie.assosCopies(0)
+    TestAssocCopie.save_as_dot_file(dotFolder + r'testAssocCopies.dot')
+
+    # Test involution Xor
+    # Cela marche pour pair ou impaire
+    TestInvolutionXor = bool_circ(open_digraph())
+    TestInvolutionXor.add_node()
+    TestInvolutionXor.add_node(label="^", parents={0: 3})
+    TestInvolutionXor.add_node(label="1", children={0: 1})
+    TestInvolutionXor.add_node(label="1", children={1: 1})
+    TestInvolutionXor.add_node(label="0", children={1: 1})
+    TestInvolutionXor.add_node(parents={0: 1})
+    TestInvolutionXor.add_node(parents={0: 1})
+    TestInvolutionXor.add_node(parents={1: 1})
+    TestInvolutionXor.involutionXOR(0)
+    TestInvolutionXor.save_as_dot_file(dotFolder + r'testInvolutionXOR.dot')
+
+    # Test effacement
+    TestEffacement = bool_circ(open_digraph())
+    TestEffacement.add_node("&")
+    TestEffacement.add_node(label="1", children={0: 1})
+    TestEffacement.add_node(label="0", children={0: 1})
+    TestEffacement.add_node(label="", parents={0: 1})
+    TestEffacement.effacement(0)
+    TestEffacement.save_as_dot_file(dotFolder + r'testEffacement.dot')
+
+    #Test Non travers Xor
+    TestNonTraverXor = bool_circ(open_digraph())
+    TestNonTraverXor.add_node(label="^")
+    TestNonTraverXor.add_node(label="~", children={0: 1})
+    TestNonTraverXor.add_node(label="1", children={1: 1})
+    TestNonTraverXor.add_node(label="1", children={0: 1})
+    TestNonTraverXor.add_node(label="0", children={0: 1})
+    TestNonTraverXor.add_node(label="", parents={0: 1})
+    TestNonTraverXor.nonTraverXOR(1)
+    TestNonTraverXor.save_as_dot_file(dotFolder + r'testNonTraverXor.dot')
+
+    #Test Non travers Copies
+    TestNonTraverCopies = bool_circ(open_digraph())
+    TestNonTraverCopies.add_node(label="~")
+    TestNonTraverCopies.add_node(label="", parents={0: 1})
+    TestNonTraverCopies.add_node(parents={1: 1})
+    TestNonTraverCopies.add_node(parents={1: 1})
+    TestNonTraverCopies.add_node(label="1", children={0: 1})
+    TestNonTraverCopies.nonTraversCopies(0)
+    TestNonTraverCopies.save_as_dot_file(dotFolder + r'testNonTraverCopies.dot')
+
+    # Test Involution Non
+    TestInvolutionNon = bool_circ(open_digraph())
+    TestInvolutionNon.add_node(label="~")
+    TestInvolutionNon.add_node(label="~", parents={0: 1})
+    TestInvolutionNon.add_node(label="1", parents={1: 1})
+    TestInvolutionNon.add_node(label="", children={0: 1})
+    TestInvolutionNon.involutionNon(0)
+    TestInvolutionNon.save_as_dot_file(dotFolder + r'testInvolutionNon.dot')
+
 
 if __name__ == '__main__':
     main()

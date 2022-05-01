@@ -520,13 +520,13 @@ class bool_circ(open_digraph):
         for i in ids:
             node_i = self.get_node_by_id(i)
             # le for n'est pas nécessaire c juste au cas ou y en a plus de 1
-            for node_id in node_i.get_children_ids():
+            for node_id in list(node_i.get_children_ids()):
                 node_i_children = self.get_node_by_id(node_id)
                 if node_i_children.get_label() == "":
-                    node_i_children.get_children_ids().pop(i, None)
-                    for link in node_i.get_parents():
+                    node_i.get_children_ids().pop(node_id, None)
+                    for link in node_i.get_parent_ids():
                         self.add_edge((link, node_id))
-                    for link in node_i_children.get_children_ids():
+                    for link in node_i.get_children_ids():
                         self.add_edge((node_id, link))
                     self.remove_node_by_id(i)
 
@@ -537,56 +537,58 @@ class bool_circ(open_digraph):
             for node_id in node_i.get_children_ids():
                 node_i_children = self.get_node_by_id(node_id)
                 if node_i_children.get_label() == "^":
-                    newLink = node_i_children.get_children_ids().get(i) % 2
-                    self.remove_parallel_edges((node_id, i))
+                    newLink = node_i_children.get_parent_ids().get(i, 0) % 2
+                    self.remove_parallel_edges((i, node_id))
                     if newLink:
-                        self.add_edge((node_id, i))
+                        self.add_edge((i, node_id))
                     break
 
     def effacement(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
             # le for n'est pas nécessaire c juste au cas ou y en a plus de 1
-            for node_id in node_i.get_children_ids():
+            for node_id in list(node_i.get_children_ids()):
                 node_i_children = self.get_node_by_id(node_id)
-                if node_i_children.get_label() == "":
+                if node_i_children.get_label() == "" and not node_i_children.get_children_ids():
                     for node_par_id in node_i.get_parent_ids():
                         self.add_node(label="", parents={node_par_id: 1})
                     self.remove_node_by_id(node_id)
-            self.remove_node_by_id(i)
+                    self.remove_node_by_id(i)
 
     def nonTraverXOR(self, *ids):
+        # on le fait a partir du ~
         for i in ids:
             node_i = self.get_node_by_id(i)
-            for node_id in node_i.get_children_ids():
+            for node_id in list(node_i.get_children_ids()):
                 node_i_children = self.get_node_by_id(node_id)
                 if node_i_children.get_label() == "^":
                     for node_id_children in node_i.get_parent_ids():
-                        self.add_edge((node_id_children, node_i_children))
-                    self.remove_node_by_id(node_id)
-                    for node_id_children in node_i_children.get_children_ids():
+                        self.add_edge((node_id_children, node_id))
+                    self.remove_node_by_id(i)
+                    for node_id_children in list(node_i_children.get_children_ids()):
                         self.remove_parallel_edges((node_id, node_id_children))
                         self.add_node(label="~", parents={node_id: 1}, children={node_id_children: 1})
 
     def nonTraversCopies(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-            for node_id in node_i.get_children_ids():
+            for node_id in list(node_i.get_children_ids()):
                 node_i_children = self.get_node_by_id(node_id)
                 if node_i_children.get_label() == "":
                     for nodePar in node_i.get_parent_ids():
                         self.add_edge((nodePar, node_id))
                     self.remove_node_by_id(i)
-                    for nodeChild in node_i_children.get_children_ids():
+                    for nodeChild in list(node_i_children.get_children_ids()):
                         self.remove_parallel_edges((node_id, nodeChild))
                         self.add_node("~", parents={node_id: 1}, children={nodeChild: 1})
 
     def involutionNon(self, *ids):
         for i in ids:
             node_i = self.get_node_by_id(i)
-            for node_id in node_i.get_children_ids():
+            for node_id in list(node_i.get_children_ids()):
                 node_i_children = self.get_node_by_id(node_id)
                 if node_i_children.get_label() == "~":
-                    self.add_edge(zip(node_i_children.get_children_ids(), node_i.get_parent_ids()))
+                    for x, y in zip(list(node_i_children.get_children_ids()), list(node_i.get_parent_ids())):
+                        self.add_edge((x, y))
                     self.remove_node_by_id(i, node_id)
 
