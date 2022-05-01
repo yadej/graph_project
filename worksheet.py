@@ -292,6 +292,12 @@ def main():
     leTout.save_as_dot_file(dotFolder + r'Identite.dot')
     leTout.evaluatePlusPlus()
     leTout.save_as_dot_file(dotFolder + r'IdentiteEvalue.dot')
+    decodeur = bool_circ.decodeur(ar1=1)
+    encodeur = bool_circ.encodeur(ar1=1)
+    mixte = bool_circ(decodeur.compose(encodeur))
+    mixte.save_as_dot_file(dotFolder + r'IdentiteErreur1.dot')
+    mixte.evaluatePlusPlus()
+    mixte.save_as_dot_file(dotFolder + r'IdentiteErreur1Evalue.dot')
 
 
 

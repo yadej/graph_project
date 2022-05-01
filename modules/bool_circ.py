@@ -20,11 +20,12 @@ class bool_circ(open_digraph):
         """
         # doit etre acyclique
         if self.is_cyclic():
+            print(1)
             return False
 
         for n in self.get_nodes():
             # les noeuds copie ie label='0' ou '1' doivent avoir un input
-            if n.get_label() == '1' or n.get_label() == '0' and len(n.get_children_ids()) != 1:
+            if (n.get_label() == '1' or n.get_label() == '0') and len(n.get_children_ids()) != 1:
                 return False
             # les noeuds ET/OU/OU-EXCLUSIF ie label='&'ou'|'ou'^' doivent avoir un output
             if n.get_label() == '&' or n.get_label() == '|' or n.get_label() == '^':
