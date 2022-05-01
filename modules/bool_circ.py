@@ -24,11 +24,11 @@ class bool_circ(open_digraph):
 
         for n in self.get_nodes():
             # les noeuds copie ie label='0' ou '1' doivent avoir un input
-            if n.get_label() == '' or n.get_label() == '1' or n.get_label() == '0' and len(n.get_children_ids()) != 1:
+            if n.get_label() == '1' or n.get_label() == '0' and len(n.get_children_ids()) != 1:
                 return False
             # les noeuds ET/OU/OU-EXCLUSIF ie label='&'ou'|'ou'^' doivent avoir un output
             if n.get_label() == '&' or n.get_label() == '|' or n.get_label() == '^':
-                if len(n.get_parent_ids()) != 1:
+                if len(n.get_children_ids()) != 1:
                     return False
             # les noeuds NON ie label='~' doivent avoir un input et un output
             if n.get_label() == '~':
@@ -605,6 +605,8 @@ class bool_circ(open_digraph):
                 labelPnode = Pnode.get_label()
                 PnodeId = Pnode.get_id()
                 for Pnode_children_id in list(Pnode.get_children_ids()):
+                    if Pnode_children_id in self.get_output_ids():
+                        continue
                     Pnode_children_i = self.get_node_by_id(Pnode_children_id)
                     labelPnode_children_i = Pnode_children_i.get_label()
                     if labelPnode == labelPnode_children_i == "^":
@@ -664,4 +666,7 @@ class bool_circ(open_digraph):
         for node in inputNode:
             if node.get_label() != "1" and node.get_label() != "0":
                 self.element_Neutre(node.get_id())
+        for node in self.get_nodes():
+            if not node.get_children_ids() and not node.get_parent_ids():
+                node.set_label("")
 

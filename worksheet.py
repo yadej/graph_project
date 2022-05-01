@@ -288,8 +288,11 @@ def main():
     encodeur = bool_circ.encodeur()
     print(len(encodeur.get_output_ids()))
     print(len(decodeur.get_input_ids()))
-    leTout = decodeur.compose(encodeur)
+    leTout = bool_circ(decodeur.compose(encodeur))
     leTout.save_as_dot_file(dotFolder + r'Identite.dot')
+    leTout.evaluatePlusPlus()
+    leTout.save_as_dot_file(dotFolder + r'IdentiteEvalue.dot')
+
 
 
 if __name__ == '__main__':

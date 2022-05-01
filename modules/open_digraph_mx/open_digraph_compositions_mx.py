@@ -88,7 +88,7 @@ class open_digraph_compositions_mx:
         self.set_input_ids(g.get_input_ids())
         self.nodes = ns
         for i, j in zip(b1, b2):
-            self.add_edge((i, j))
+            self.add_edge((j, i))
 
     def compose(self, g):
         """
@@ -109,7 +109,7 @@ class open_digraph_compositions_mx:
         k.set_input_ids(g.get_input_ids())
         k.nodes = ns
         for i, j in zip(b1, b2):
-            k.add_edge((i, j))
+            k.add_edge((j, i))
         return k
 
     def is_connected(self, i, visited):
