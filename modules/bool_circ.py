@@ -268,7 +268,7 @@ class bool_circ(open_digraph):
         sommeBinaire = ''.join(["1" if i == j == "1" else "0" for i, j in zip(a, b)])
         print(sommeBinaire)
         r = bool_circ(open_digraph(nodes=[node(0, '|', {}, {})]))
-        newCarry = 0 if int(a,2) + int(b, 2) < 2** (2**n) or carry == 0 else 1
+        newCarry = 0 if int(a, 2) + int(b, 2) < 2 ** (2**n) or carry == 0 else 1
         # On fait le Adder 0
         # Node 0
         # r.add_node(label="|")
@@ -361,7 +361,7 @@ class bool_circ(open_digraph):
             node_i = self.get_node_by_id(i)
             node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
             for keys in node_children_id.get_children_ids():
-                self.add_node(label=node_i.get_label(),children={keys: 1})
+                self.add_node(label=node_i.get_label(), children={keys: 1})
             self.remove_node_by_id(node_i.get_id(), node_children_id.get_id())
 
     def porte_Non(self, *ids):
@@ -422,8 +422,8 @@ class bool_circ(open_digraph):
                          if len(node.get_parent_ids()) == 0
                          and len(node.get_children_ids()) != 0]
             condition = [all(x in self.get_output_ids()
-                          for x in node.get_children_ids())
-                      for node in inputNode]
+                         for x in nodeI.get_children_ids())
+                            for nodeI in inputNode]
             if all(condition):
                 break
             for i, currentNode in enumerate(inputNode):
@@ -591,4 +591,74 @@ class bool_circ(open_digraph):
                     for x, y in zip(list(node_i_children.get_children_ids()), list(node_i.get_parent_ids())):
                         self.add_edge((x, y))
                     self.remove_node_by_id(i, node_id)
+
+    def evaluatePlusPlus(self):
+        while True:
+            allNode = [node for node in self.get_nodes()
+                         if len(node.get_parent_ids()) != 0
+                         and len(node.get_children_ids()) != 0]
+            # y a peut etre plus efficace
+            for Pnode in allNode:
+                labelPnode = Pnode.get_label()
+                PnodeId = Pnode.get_id()
+                for Pnode_children_id in list(Pnode.get_children_ids()):
+                    Pnode_children_i = self.get_node_by_id(Pnode_children_id)
+                    labelPnode_children_i = Pnode_children_i.get_label()
+                    if labelPnode == labelPnode_children_i == "^":
+                        self.assosXOR(PnodeId)
+                        break
+                    elif labelPnode == labelPnode_children_i == "^":
+                        self.assosCopies(PnodeId)
+                        break
+                    elif labelPnode == "" and \
+                        Pnode_children_i.get_label() == "^":
+                        self.involutionXOR(PnodeId)
+                        break
+                    elif labelPnode == "~":
+                        if labelPnode_children_i == "~":
+                            self.involutionNon(PnodeId)
+                            break
+                        elif labelPnode_children_i == "^":
+                            self.nonTraverXOR(PnodeId)
+                            break
+                        elif labelPnode_children_i == "":
+                            self.nonTraversCopies(PnodeId)
+                            break
+                    elif Pnode_children_i.get_label() == "" \
+                        and not Pnode_children_i.get_children_ids():
+                        self.effacement(PnodeId)
+            inputNode = [node for node in self.get_nodes()
+                         if len(node.get_parent_ids()) == 0
+                         and len(node.get_children_ids()) != 0]
+            condition = [all(x in self.get_output_ids()
+                             for x in node.get_children_ids())
+                         for node in inputNode]
+            if all(condition):
+                break
+            for i, currentNode in enumerate(inputNode):
+                if not condition[i]:
+                    if len(currentNode.get_children_ids()) == 0:
+                        self.remove_node_by_id(currentNode.get_id())
+                        continue
+                    currentNodeChildId = list(currentNode.get_children_ids().keys())[0]
+                    currentNodeChild = self.get_node_by_id(currentNodeChildId)
+                    # Si on les met tous dans des tableau et que on les transforme apres est ce que c plus efficace
+                    if currentNode.get_label() != "0" and currentNode.get_label() != "1":
+                        self.element_Neutre(currentNode.get_id())
+                    elif currentNodeChild.get_label() == "^":
+                        self.porte_Ou_Exculsif(currentNode.get_id())
+                    elif currentNodeChild.get_label() == "~":
+                        self.porte_Non(currentNode.get_id())
+                    elif currentNodeChild.get_label() == "&":
+                        self.porte_Et(currentNode.get_id())
+                    elif currentNodeChild.get_label() == "|":
+                        self.porte_Ou(currentNode.get_id())
+                    else:
+                        self.copies(currentNode.get_id())
+        inputNode = [node for node in self.get_nodes()
+                     if len(node.get_parent_ids()) == 0
+                     and len(node.get_children_ids()) != 0]
+        for node in inputNode:
+            if node.get_label() != "1" and node.get_label() != "0":
+                self.element_Neutre(node.get_id())
 
