@@ -383,8 +383,8 @@ class bool_circ(open_digraph):
                 # On le fait dans element neutre
                 for keys in list(node_i.get_children_ids()):
                     self.get_node_by_id(keys).set_label("0")
-                    self.get_node_by_id(keys).set_parent_ids({})
-                    # self.remove_parallel_edges((i, keys))
+                    for removeParent in list(self.get_node_by_id(keys).get_parent_ids()):
+                        self.remove_parallel_edges((removeParent, keys))
             self.remove_node_by_id(i)
 
     def porte_Ou(self, *ids):
