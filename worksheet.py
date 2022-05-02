@@ -278,9 +278,11 @@ def main():
     TestInvolutionNon = bool_circ(open_digraph())
     TestInvolutionNon.add_node(label="~")
     TestInvolutionNon.add_node(label="~", parents={0: 1})
-    TestInvolutionNon.add_node(label="1", parents={1: 1})
-    TestInvolutionNon.add_node(label="", children={0: 1})
+    TestInvolutionNon.add_node(label="", parents={1: 1})
+    TestInvolutionNon.add_node(label="1", children={0: 1})
+    print(f"{TestInvolutionNon =}")
     TestInvolutionNon.involutionNon(0)
+    print(f"{TestInvolutionNon =}")
     TestInvolutionNon.save_as_dot_file(dotFolder + r'testInvolutionNon.dot')
 
     # Test Autre
@@ -293,7 +295,7 @@ def main():
     leTout.evaluatePlusPlus()
     leTout.save_as_dot_file(dotFolder + r'IdentiteEvalue.dot')
     decodeur = bool_circ.decodeur(ar1=1)
-    encodeur = bool_circ.encodeur(ar1=1)
+    encodeur = bool_circ.encodeur(ar1=0)
     mixte = bool_circ(decodeur.compose(encodeur))
     mixte.save_as_dot_file(dotFolder + r'IdentiteErreur1.dot')
     mixte.evaluatePlusPlus()

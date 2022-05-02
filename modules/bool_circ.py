@@ -508,7 +508,12 @@ class bool_circ(open_digraph):
             if i > 3:
                 decodeur.add_input_node(i)
             else:
-                decodeur.add_input_node(i, label=label)
+                newId = decodeur.new_id()
+                if label != "":
+                    decodeur.add_node(children={i: 1})
+                    decodeur.add_input_node(newId, label=label)
+                else:
+                    decodeur.add_input_node(i, label=label)
                 decodeur.add_output_node(i+17)
         return decodeur
 
@@ -591,21 +596,24 @@ class bool_circ(open_digraph):
         for i in ids:
             node_i = self.get_node_by_id(i)
             for node_id in list(node_i.get_children_ids()):
+                if node_id in self.get_output_ids():
+                    continue
                 node_i_children = self.get_node_by_id(node_id)
                 if node_i_children.get_label() == "~":
                     for x, y in zip(list(node_i_children.get_children_ids()), list(node_i.get_parent_ids())):
-                        self.add_edge((x, y))
+                        self.add_edge((y, x))
                     self.remove_node_by_id(i, node_id)
 
     def evaluatePlusPlus(self):
         while True:
             allNode = [node for node in self.get_nodes()
-                         if len(node.get_parent_ids()) != 0
-                         and len(node.get_children_ids()) != 0]
+                         if len(node.get_children_ids()) != 0]
             # y a peut etre plus efficace
-            for Pnode in allNode:
+
+            for Pnode in allNode[::-1]:
                 labelPnode = Pnode.get_label()
                 PnodeId = Pnode.get_id()
+
                 for Pnode_children_id in list(Pnode.get_children_ids()):
                     if Pnode_children_id in self.get_output_ids():
                         continue
@@ -662,12 +670,14 @@ class bool_circ(open_digraph):
                         self.porte_Ou(currentNode.get_id())
                     else:
                         self.copies(currentNode.get_id())
+            # self.display(verbose=True)
         inputNode = [node for node in self.get_nodes()
                      if len(node.get_parent_ids()) == 0
                      and len(node.get_children_ids()) != 0]
         for node in inputNode:
             if node.get_label() != "1" and node.get_label() != "0":
                 self.element_Neutre(node.get_id())
+        # Pour vérifier qu'il reste bien que des outputs + le binaire
         for node in self.get_nodes():
             if not node.get_children_ids() and not node.get_parent_ids():
                 node.set_label("")
