@@ -383,6 +383,7 @@ class bool_circ(open_digraph):
                 # On le fait dans element neutre
                 for keys in node_i.get_children_ids():
                     self.get_node_by_id(keys).set_label("0")
+                    self.get_node_by_id(keys).set_parent_ids({})
                     # self.add_node(label="0", children={keys: 1})
             self.remove_node_by_id(i)
 
@@ -670,6 +671,7 @@ class bool_circ(open_digraph):
                         self.porte_Ou(currentNode.get_id())
                     else:
                         self.copies(currentNode.get_id())
+            # pour voir ce qu'il fait a chaque étape
             # self.display(verbose=True)
         inputNode = [node for node in self.get_nodes()
                      if len(node.get_parent_ids()) == 0

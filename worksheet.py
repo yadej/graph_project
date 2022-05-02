@@ -287,7 +287,7 @@ def main():
 
     # Test Autre
     decodeur = bool_circ.decodeur()
-    encodeur = bool_circ.encodeur()
+    encodeur = bool_circ.encodeur(ar1=1, ar2=0, ar3=1, ar4=1)
     print(len(encodeur.get_output_ids()))
     print(len(decodeur.get_input_ids()))
     leTout = bool_circ(decodeur.compose(encodeur))
@@ -295,11 +295,17 @@ def main():
     leTout.evaluatePlusPlus()
     leTout.save_as_dot_file(dotFolder + r'IdentiteEvalue.dot')
     decodeur = bool_circ.decodeur(ar1=1)
-    encodeur = bool_circ.encodeur(ar1=0)
+    encodeur = bool_circ.encodeur(ar1=1, ar2=0, ar3=1, ar4=1)
     mixte = bool_circ(decodeur.compose(encodeur))
     mixte.save_as_dot_file(dotFolder + r'IdentiteErreur1.dot')
     mixte.evaluatePlusPlus()
     mixte.save_as_dot_file(dotFolder + r'IdentiteErreur1Evalue.dot')
+    decodeur = bool_circ.decodeur(ar1=1, ar4=1)
+    encodeur = bool_circ.encodeur(ar1=1, ar2=0, ar3=1, ar4=1)
+    identite2Erreur =  bool_circ(decodeur.compose(encodeur))
+    identite2Erreur.save_as_dot_file(dotFolder + r'identite2Erreur.dot')
+    identite2Erreur.evaluatePlusPlus()
+    identite2Erreur.save_as_dot_file(dotFolder + r'identite2ErreurEvalue.dot')
 
 
 
