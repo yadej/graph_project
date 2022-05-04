@@ -104,7 +104,7 @@ def main():
     for i in p:
         print(i)
     print()
-
+    """
     d7 = open_digraph.from_dot_file(dotFolder + r'd7.dot')
     print(f'{d7.dijkstra(1) = }\n')
     print(f'{d7.shortest_path(1, 9) = }\n')
@@ -115,7 +115,7 @@ def main():
     print(f'{d7.max_dist(1, 5) = }\n')
     print(f'{d7.max_dist(5, 1) = }\n')
     print(f'{d7.max_dist(9, 1) = }\n')
-
+    """
     tmp = d7.copy()
     tmp.fusion(1, 4)
     tmp.get_node_by_id(1).set_label('1, 4')
@@ -133,6 +133,7 @@ def main():
     tmp5 = bool_circ.from_binary_table('1110001000111111')
     tmp5.save_as_dot_file(dotFolder + r'tmp5.dot')
     """
+
     print(f'{gray_code(2) = }\n')
 
     pr = K_map('1110001000111111')
@@ -253,7 +254,7 @@ def main():
     TestEffacement.effacement(0)
     TestEffacement.save_as_dot_file(dotFolder + r'testEffacement.dot')
 
-    #Test Non travers Xor
+    # Test Non travers Xor
     TestNonTraverXor = bool_circ(open_digraph())
     TestNonTraverXor.add_node(label="^")
     TestNonTraverXor.add_node(label="~", children={0: 1})
@@ -264,7 +265,7 @@ def main():
     TestNonTraverXor.nonTraverXOR(1)
     TestNonTraverXor.save_as_dot_file(dotFolder + r'testNonTraverXor.dot')
 
-    #Test Non travers Copies
+    # Test Non travers Copies
     TestNonTraverCopies = bool_circ(open_digraph())
     TestNonTraverCopies.add_node(label="~")
     TestNonTraverCopies.add_node(label="", parents={0: 1})
@@ -302,11 +303,10 @@ def main():
     mixte.save_as_dot_file(dotFolder + r'IdentiteErreur1Evalue.dot')
     decodeur = bool_circ.decodeur(ar1=1, ar4=1)
     encodeur = bool_circ.encodeur(ar1=1, ar2=0, ar3=1, ar4=1)
-    identite2Erreur =  bool_circ(decodeur.compose(encodeur))
+    identite2Erreur = bool_circ(decodeur.compose(encodeur))
     identite2Erreur.save_as_dot_file(dotFolder + r'identite2Erreur.dot')
     identite2Erreur.evaluatePlusPlus()
     identite2Erreur.save_as_dot_file(dotFolder + r'identite2ErreurEvalue.dot')
-
 
 
 if __name__ == '__main__':

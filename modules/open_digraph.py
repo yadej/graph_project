@@ -1,10 +1,10 @@
 import copy
+
 from modules.node import node
-from modules.open_digraph_mx.open_digraph_dot_mx import open_digraph_dot_mx
 from modules.open_digraph_mx.open_digraph_compositions_mx import open_digraph_compositions_mx
+from modules.open_digraph_mx.open_digraph_dot_mx import open_digraph_dot_mx
 from modules.open_digraph_mx.open_digraph_matrix_mx import open_digraph_matrix_mx
 from modules.open_digraph_mx.open_digraph_paths_mx import open_digraph_paths_mx
-from modules.binaire import *
 
 
 class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digraph_matrix_mx, open_digraph_paths_mx):
@@ -286,10 +286,10 @@ class open_digraph(open_digraph_dot_mx, open_digraph_compositions_mx, open_digra
         self.add_node(label, {nodeId: 1}, {})
 
     def fusion(self, id1, id2, label=''):
-        '''
+        """
         inputs: id1 (int), id2 (int), label (string)
         output: none
-        '''
+        """
         node1 = self.get_node_by_id(id1)
         node2 = self.get_node_by_id(id2)
 

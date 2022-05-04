@@ -50,9 +50,17 @@ class open_digraph_paths_mx:
         """
         :param src: id of the source node
         :param tgt: id of the target node
-        :return: distance between the source node and target node
+        :return: list of node ids from src to tgt
         """
-        return self.dijkstra(src, tgt=tgt)[0][tgt]
+        d = self.dijkstra(src, tgt=tgt)
+        i = tgt
+        path = [i]
+
+        while i != src:
+            i = d[1][i]
+            path = [i] + path
+
+        return path
 
     def common_ancestors(self, src1, src2):
         """
@@ -150,10 +158,11 @@ class open_digraph_paths_mx:
                     dico[i] = dico[p] + 1
                     prev[i] = p
 
-        newprev = {}
+        i = last
+        path = [i]
 
-        while last != u:
-            newprev[last] = prev[last]
-            last = prev[last]
+        while i != u:
+            i = prev[i]
+            path = [i] + path
 
-        return max(dico[u], dico[v]), newprev
+        return max(dico[u], dico[v]), path

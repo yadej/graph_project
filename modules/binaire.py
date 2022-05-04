@@ -123,7 +123,7 @@ def recherche_colonne(n, table, comp):
 def recherche_b(l, c, table, comp):
     """
     :param l: int
-    :param c: inr
+    :param c: int
     :param table: list
     :param comp:
     :return: list
