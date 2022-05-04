@@ -75,41 +75,45 @@ class open_digraph_paths_mx:
 
     def tri_topologique(self):
         """
-        :return: list of node ids for every layer in the graph
+        :return: list of lists of node ids that correspond to every layer in the graph from top to bottom
         """
-        k = self.copy()
-        old = []
-        visited = []
+        g = self.copy()
+        layers = []
         nb = 0
 
-        while nb != len(k.get_nodes()):
+        while nb != len(g.get_nodes()):
             new = []
 
-            for i in k.get_node_ids():
-                if not k.get_node_by_id(i).get_parent_ids() \
-                        and k.get_node_by_id(i).get_children_ids():
+            # on met les les noeuds qui ont enfants mais pas parents dans new
+            for i in g.get_node_ids():
+                if not g.get_node_by_id(i).get_parent_ids() \
+                        and g.get_node_by_id(i).get_children_ids():
                     new.append(i)
 
             if not new:
                 raise Exception("the graph is cyclic")
 
+            # on enleve les enfants de ces noeuds
             for i in new:
-                for a in list(k.get_node_by_id(i).get_children_ids()):
-                    k.remove_parallel_edges((i, a))
+                for a in list(g.get_node_by_id(i).get_children_ids()):
+                    g.remove_parallel_edges((i, a))
 
-            old.append(new)
-            for i in k.get_node_ids():
+            # on a la couche qu'on cherchait
+            layers.append(new)
+
+            visited = []
+            for i in g.get_node_ids():
                 if i not in visited \
-                        and not k.get_node_by_id(i).get_parent_ids() \
-                        and not k.get_node_by_id(i).get_children_ids():
+                        and not g.get_node_by_id(i).get_parent_ids() \
+                        and not g.get_node_by_id(i).get_children_ids():
                     nb += 1
                     visited.append(i)
 
         # ajouter la derniere ligne
-        flat_old = [item for t in old for item in t]
-        p = [i for i in k.get_node_ids() if i not in flat_old]
-        old.append(p)
-        return old
+        flat_old = [n for layer in layers for n in layer]
+        p = [i for i in g.get_node_ids() if i not in flat_old]
+        layers.append(p)
+        return layers
 
     def node_depth(self, i):
         """
