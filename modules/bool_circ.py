@@ -340,6 +340,10 @@ class bool_circ(open_digraph):
 
 	@classmethod
 	def int_to_boolcirc(cls, n):
+		"""
+		:param n:
+		:return: r boolean circuit of open digraph
+		"""
 		taille = 0
 		p = n
 		if n > 255:
@@ -358,6 +362,10 @@ class bool_circ(open_digraph):
 		return r
 
 	def copies(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
@@ -366,6 +374,10 @@ class bool_circ(open_digraph):
 			self.remove_node_by_id(node_i.get_id(), node_children_id.get_id())
 
 	def porte_Non(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			node_children_id = self.get_node_by_id(list(node_i.get_children_ids().keys())[0])
@@ -375,6 +387,10 @@ class bool_circ(open_digraph):
 			self.remove_node_by_id(node_i.get_id(), node_children_id.get_id())
 
 	def porte_Et(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			if node_i.get_label() != "1":
@@ -388,6 +404,10 @@ class bool_circ(open_digraph):
 			self.remove_node_by_id(i)
 
 	def porte_Ou(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			if node_i.get_label() != "0":
@@ -399,6 +419,10 @@ class bool_circ(open_digraph):
 			self.remove_node_by_id(i)
 
 	def porte_Ou_Exculsif(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			if node_i.get_label() != "0":
@@ -409,6 +433,10 @@ class bool_circ(open_digraph):
 			self.remove_node_by_id(node_i.get_id())
 
 	def element_Neutre(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			label = node_i.get_label()
@@ -418,6 +446,9 @@ class bool_circ(open_digraph):
 				node_i.set_label("1")
 
 	def evaluate(self):
+		"""
+		:return: none
+		"""
 		while True:
 			# Je sais pas si c'est plus clair comme ca car on peut combiner les 2
 			inputNodes = [n for n in self.get_nodes() if not n.get_parent_ids() and n.get_children_ids()]
@@ -457,6 +488,13 @@ class bool_circ(open_digraph):
 
 	@classmethod
 	def encodeur(cls, ar1=0, ar2=0, ar3=0, ar4=0):
+		"""
+		:param ar1: int
+		:param ar2: int
+		:param ar3: int
+		:param ar4: int
+		:return: encodeur (boolean circuit)
+		"""
 		labelNode = f"{ar1}{ar2}{ar3}{ar4}"
 		# les nodes je les crée layer par layer
 		encodeur = bool_circ(open_digraph())
@@ -474,6 +512,16 @@ class bool_circ(open_digraph):
 
 	@classmethod
 	def decodeur(cls, ar1=0, ar2=0, ar3=0, ar4=0, ar5=0, ar6=0, ar7=0):
+		"""
+		:param ar1: int
+		:param ar2: int
+		:param ar3: int
+		:param ar4: int
+		:param ar5: int
+		:param ar6: int
+		:param ar7: int
+		:return: decodeur (boolean circuit)
+		"""
 		ListInt = [ar1, ar2, ar3, ar4, ar5, ar6, ar7]
 		ListOfNon = ["" if x == 0 else "~" for x in ListInt]
 		# les nodes c'est juste pour etre sur en commentaire
@@ -519,6 +567,10 @@ class bool_circ(open_digraph):
 		return decodeur
 
 	def assosXOR(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			# le for n'est pas nécessaire c juste au cas ou y en a plus de 1
@@ -528,6 +580,10 @@ class bool_circ(open_digraph):
 			self.remove_node_by_id(i)
 
 	def assosCopies(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			# le for n'est pas nécessaire c juste au cas ou y en a plus de 1
@@ -542,6 +598,10 @@ class bool_circ(open_digraph):
 					self.remove_node_by_id(i)
 
 	def involutionXOR(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			# le for n'est pas nécessaire c juste au cas ou y en a plus de 1
@@ -555,6 +615,10 @@ class bool_circ(open_digraph):
 					break
 
 	def effacement(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			# le for n'est pas nécessaire c juste au cas ou y en a plus de 1
@@ -567,6 +631,10 @@ class bool_circ(open_digraph):
 					self.remove_node_by_id(i)
 
 	def nonTraverXOR(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		# on le fait a partir du ~
 		for i in ids:
 			node_i = self.get_node_by_id(i)
@@ -581,6 +649,10 @@ class bool_circ(open_digraph):
 						self.add_node(label="~", parents={node_id: 1}, children={node_id_children: 1})
 
 	def nonTraversCopies(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			for node_id in list(node_i.get_children_ids()):
@@ -594,6 +666,10 @@ class bool_circ(open_digraph):
 						self.add_node("~", parents={node_id: 1}, children={nodeChild: 1})
 
 	def involutionNon(self, *ids):
+		"""
+		:param ids: tuple
+		:return: none
+		"""
 		for i in ids:
 			node_i = self.get_node_by_id(i)
 			for node_id in list(node_i.get_children_ids()):
