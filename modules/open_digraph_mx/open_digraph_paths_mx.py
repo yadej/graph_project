@@ -79,6 +79,7 @@ class open_digraph_paths_mx:
         """
         g = self.copy()
         layers = []
+        visited = []
         nb = 0
 
         while nb != len(g.get_nodes()):
@@ -89,7 +90,8 @@ class open_digraph_paths_mx:
                 if not g.get_node_by_id(i).get_parent_ids() \
                         and g.get_node_by_id(i).get_children_ids():
                     new.append(i)
-
+            print(new)
+            print(g)
             if not new:
                 raise Exception("the graph is cyclic")
 
@@ -101,7 +103,6 @@ class open_digraph_paths_mx:
             # on a la couche qu'on cherchait
             layers.append(new)
 
-            visited = []
             for i in g.get_node_ids():
                 if i not in visited \
                         and not g.get_node_by_id(i).get_parent_ids() \
