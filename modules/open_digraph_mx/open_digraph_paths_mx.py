@@ -90,8 +90,6 @@ class open_digraph_paths_mx:
                 if not g.get_node_by_id(i).get_parent_ids() \
                         and g.get_node_by_id(i).get_children_ids():
                     new.append(i)
-            print(new)
-            print(g)
             if not new:
                 raise Exception("the graph is cyclic")
 
